@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackathon CRI Marrakech-Safi — الذاكرة والتراث والابتكار</title>
+  <meta name="description" content="Hackathon organisé par le Centre Régional d'Investissement de la Région Marrakech-Safi en partenariat avec la Cité de l'Innovation de l'Université Cadi Ayyad.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* HACKATHON HERO */
+    .hack-hero {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, #0A0A0A 0%, #1A0505 40%, #0A0A0A 100%);
+    }
+
+    .hack-hero-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: 
+        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C8102E' fill-opacity='1'%3E%3Cpath d='M40 0L0 20v40l40 20 40-20V20L40 0zm0 10l30 15v30L40 70 10 55V25L40 10z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hack-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 140px 32px 80px;
+      text-align: center;
+    }
+
+    .hack-title-arabic {
+      font-family: 'Amiri', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      direction: rtl;
+      color: var(--secondary);
+      margin-bottom: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .hack-title-fr {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .hack-partners {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .partner-badge {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .partner-badge .partner-icon { font-size: 1.5rem; }
+    .partner-badge .partner-name { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; }
+    .partner-badge .partner-name strong { display: block; color: var(--secondary); font-size: 0.9rem; }
+
+    /* COUNTDOWN */
+    .countdown-section {
+      background: linear-gradient(135deg, rgba(200,16,46,0.08), rgba(212,175,55,0.04));
+      border: 1px solid rgba(200,16,46,0.2);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .countdown-title {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-item {
+      text-align: center;
+    }
+
+    .countdown-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      display: block;
+    }
+
+    .countdown-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 8px;
+    }
+
+    .countdown-sep {
+      font-size: 3rem;
+      color: var(--text-muted);
+      line-height: 1;
+      align-self: center;
+      opacity: 0.5;
+    }
+
+    /* OBJECTIVES */
+    .objective-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .objective-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .objective-card:hover::before { transform: scaleX(1); }
+
+    .objective-card:hover {
+      border-color: rgba(200,16,46,0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(200,16,46,0.1);
+    }
+
+    .obj-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(200,16,46,0.15);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .obj-icon {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .obj-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .obj-text {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    /* WHO CAN PARTICIPATE */
+    .participant-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .participant-card:hover {
+      border-color: rgba(212,175,55,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(212,175,55,0.1);
+    }
+
+    .participant-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .participant-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .participant-desc {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    /* PRIZES */
+    .prizes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 20px;
+      align-items: end;
+    }
+
+    .prize-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .prize-card.gold {
+      border-color: rgba(212,175,55,0.4);
+      background: linear-gradient(145deg, rgba(212,175,55,0.05), var(--bg-card));
+      box-shadow: 0 0 40px rgba(212,175,55,0.1);
+      transform: translateY(-20px);
+    }
+
+    .prize-medal {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .prize-rank {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .prize-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .prize-desc {
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    /* REGISTER SECTION */
+    .register-section {
+      background: linear-gradient(135deg, rgba(200,16,46,0.05) 0%, rgba(212,175,55,0.03) 100%);
+      border: 1px solid rgba(200,16,46,0.2);
+      border-radius: var(--radius-lg);
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* TIMELINE */
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary), var(--secondary));
+      opacity: 0.3;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 32px 24px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -34px;
+      top: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--gradient-red);
+      border: 3px solid var(--bg-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+    }
+
+    .timeline-date {
+      font-size: 0.75rem;
+      color: var(--secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .timeline-desc {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .prizes-grid { grid-template-columns: 1fr; }
+      .prize-card.gold { transform: none; }
+      .hack-hero-content { padding: 120px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="geo-bg">
+    <div class="geo-circle geo-circle-1"></div>
+    <div class="geo-circle geo-circle-2"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🌙</div>
+      <span class="logo-text">Maroc Découverte</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="culture.html">Culture</a></li>
+      <li><a href="learn.html">Apprendre</a></li>
+      <li><a href="chatbot.html">Chatbot</a></li>
+      <li><a href="hackathon.html" class="active">Hackathon</a></li>
+      <li><a href="login.html" class="nav-btn">Connexion</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hack-hero">
+    <div class="hack-hero-pattern"></div>
+    <div class="hack-hero-content">
+      <div class="hero-badge">🏆 Hackathon 2025</div>
+      <div class="hack-title-arabic">الذاكرة، التراث، الابتكار والاستثمار</div>
+      <div class="hack-title-fr">Mémoire, Patrimoine, Innovation & Investissement</div>
+      
+      <div class="hack-partners">
+        <div class="partner-badge">
+          <div class="partner-icon">🏛️</div>
+          <div class="partner-name">
+            <strong>CRI Marrakech-Safi</strong>
+            Centre Régional d'Investissement
+          </div>
+        </div>
+        <div class="partner-badge">
+          <div class="partner-icon">🎓</div>
+          <div class="partner-name">
+            <strong>Université Cadi Ayyad</strong>
+            Cité de l'Innovation
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-actions" style="justify-content:center;">
+        <a href="register.html" class="btn btn-gold btn-lg">🚀 S'inscrire au Hackathon</a>
+        <a href="#objectifs" class="btn btn-outline btn-lg">📋 En savoir plus</a>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width:1200px;margin:0 auto;padding:80px 32px;">
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-section animate-fade-up">
+      <div class="countdown-title">⏰ Compte à rebours — Clôture des inscriptions</div>
+      <div class="countdown-grid">
+        <div class="countdown-item">
+          <span class="countdown-number" id="cdDays">--</span>
+          <div class="countdown-label">Jours</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cdHours">--</span>
+          <div class="countdown-label">Heures</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cdMinutes">--</span>
+          <div class="countdown-label">Minutes</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <span class="countdown-number" id="cdSeconds">--</span>
+          <div class="countdown-label">Secondes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTICIPANTS -->
+    <div class="section-header animate-fade-up" id="objectifs">
+      <div class="section-badge">✦ Participants</div>
+      <h2 class="section-title">🔹 Ouvert <span class="gold">à Tous</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="grid-2 animate-fade-up" style="grid-template-columns:repeat(4,1fr);">
+      <div class="participant-card">
+        <span class="participant-icon">🎓</span>
+        <div class="participant-title">Étudiants</div>
+        <p class="participant-desc">Toutes filières, toutes universités. Amenez vos idées et votre créativité!</p>
+      </div>
+      <div class="participant-card">
+        <span class="participant-icon">🔬</span>
+        <div class="participant-title">Chercheurs</div>
+        <p class="participant-desc">Transformez vos recherches académiques en projets à impact concret.</p>
+      </div>
+      <div class="participant-card">
+        <span class="participant-icon">💡</span>
+        <div class="participant-title">Porteurs de Projets</div>
+        <p class="participant-desc">Affinez votre idée, pitchez devant des investisseurs et des experts.</p>
+      </div>
+      <div class="participant-card">
+        <span class="participant-icon">🚀</span>
+        <div class="participant-title">Entrepreneurs</div>
+        <p class="participant-desc">Startups early-stage, développez votre MVP et trouvez des partenaires.</p>
+      </div>
+    </div>
+
+    <!-- OBJECTIVES -->
+    <div class="section-header animate-fade-up" style="margin-top:80px;">
+      <div class="section-badge">✦ Thématiques</div>
+      <h2 class="section-title">🎯 Domaines <span class="gold">d'Innovation</span></h2>
+      <div class="divider"></div>
+      <p class="section-desc">Développez des projets innovants à l'intersection du patrimoine, de la technologie et de l'investissement.</p>
+    </div>
+
+    <div class="grid-3 animate-fade-up">
+      <div class="objective-card">
+        <span class="obj-icon">🏛️</span>
+        <div class="obj-number">01</div>
+        <div class="obj-title">Valorisation du Patrimoine Immatériel</div>
+        <p class="obj-text">Musique Gnawa, artisanat, gastronomie, contes berbères... Créez des solutions numériques pour préserver et valoriser ce trésor culturel.</p>
+      </div>
+      <div class="objective-card">
+        <span class="obj-icon">📜</span>
+        <div class="obj-number">02</div>
+        <div class="obj-title">Transmission de l'Histoire & Mémoire</div>
+        <p class="obj-text">Réalité augmentée, IA, applications éducatives... Rendez l'histoire du Maroc accessible et vivante pour les nouvelles générations.</p>
+      </div>
+      <div class="objective-card">
+        <span class="obj-icon">💰</span>
+        <div class="obj-number">03</div>
+        <div class="obj-title">Investissement & Identité Nationale</div>
+        <p class="obj-text">Tourisme culturel, économie créative, artisanat numérique... Développez des modèles économiques durables ancrés dans l'identité marocaine.</p>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:80px;" class="animate-fade-up">
+      <div>
+        <div class="section-header" style="text-align:left;margin-bottom:32px;">
+          <div class="section-badge">✦ Programme</div>
+          <h2 class="section-title">📅 Planning <span class="gold">Hackathon</span></h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot">✓</div>
+            <div class="timeline-date">Phase 1 — Mars 2025</div>
+            <div class="timeline-title">Appel à candidatures</div>
+            <p class="timeline-desc">Dépôt des dossiers en ligne. Constitution des équipes de 2 à 5 personnes.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">★</div>
+            <div class="timeline-date">Phase 2 — Avril 2025</div>
+            <div class="timeline-title">Sélection des équipes</div>
+            <p class="timeline-desc">Présélection par le jury. 30 équipes retenues pour la phase finale.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">🚀</div>
+            <div class="timeline-date">Phase 3 — Mai 2025</div>
+            <div class="timeline-title">Weekend Hackathon</div>
+            <p class="timeline-desc">48h de développement intensif. Mentoring, ateliers et pitching final.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">🏆</div>
+            <div class="timeline-date">Phase 4 — Mai 2025</div>
+            <div class="timeline-title">Cérémonie de Remise</div>
+            <p class="timeline-desc">Présentation devant investisseurs et officiels. Remise des prix et trophées.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-header" style="text-align:left;margin-bottom:32px;">
+          <div class="section-badge">✦ Critères</div>
+          <h2 class="section-title">⚖️ Évaluation <span class="gold">des Projets</span></h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="glass-card" style="display:flex;align-items:center;gap:16px;">
+            <div style="font-size:2rem;flex-shrink:0;">💡</div>
+            <div>
+              <div style="font-weight:600;margin-bottom:4px;">Innovation (30%)</div>
+              <p style="color:var(--text-secondary);font-size:0.83rem;">Originalité de l'idée et de la solution technologique proposée.</p>
+            </div>
+          </div>
+          <div class="glass-card" style="display:flex;align-items:center;gap:16px;">
+            <div style="font-size:2rem;flex-shrink:0;">🎯</div>
+            <div>
+              <div style="font-weight:600;margin-bottom:4px;">Impact Culturel (25%)</div>
+              <p style="color:var(--text-secondary);font-size:0.83rem;">Contribution à la valorisation et à la préservation du patrimoine marocain.</p>
+            </div>
+          </div>
+          <div class="glass-card" style="display:flex;align-items:center;gap:16px;">
+            <div style="font-size:2rem;flex-shrink:0;">📊</div>
+            <div>
+              <div style="font-weight:600;margin-bottom:4px;">Viabilité Économique (25%)</div>
+              <p style="color:var(--text-secondary);font-size:0.83rem;">Potentiel de marché, modèle économique et scalabilité du projet.</p>
+            </div>
+          </div>
+          <div class="glass-card" style="display:flex;align-items:center;gap:16px;">
+            <div style="font-size:2rem;flex-shrink:0;">🎤</div>
+            <div>
+              <div style="font-weight:600;margin-bottom:4px;">Présentation (20%)</div>
+              <p style="color:var(--text-secondary);font-size:0.83rem;">Clarté du pitch, qualité du prototype et réponses aux questions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIZES -->
+    <div class="section-header animate-fade-up" style="margin-top:80px;">
+      <div class="section-badge">✦ Prix</div>
+      <h2 class="section-title">🏆 Récompenses <span class="gold">& Trophées</span></h2>
+    </div>
+    <div class="prizes-grid animate-fade-up">
+      <div class="prize-card">
+        <span class="prize-medal">🥈</span>
+        <div class="prize-rank">2ème Place</div>
+        <div class="prize-amount">20,000 DH</div>
+        <p class="prize-desc">+ Accompagnement 3 mois & accès au réseau CRI</p>
+      </div>
+      <div class="prize-card gold">
+        <span class="prize-medal">🥇</span>
+        <div class="prize-rank">1er Prix — Grand Gagnant</div>
+        <div class="prize-amount">50,000 DH</div>
+        <p class="prize-desc">+ Incubation à la Cité de l'Innovation UCA + Mentoring investisseurs</p>
+      </div>
+      <div class="prize-card">
+        <span class="prize-medal">🥉</span>
+        <div class="prize-rank">3ème Place</div>
+        <div class="prize-amount">10,000 DH</div>
+        <p class="prize-desc">+ Prix spécial "Innovation Culturelle"</p>
+      </div>
+    </div>
+
+    <!-- REGISTER CTA -->
+    <div class="register-section animate-fade-up" style="margin-top:80px;">
+      <div class="arabesque-pattern" style="opacity:0.2;"></div>
+      <div style="position:relative;">
+        <div class="section-badge">🚀 Rejoignez-nous</div>
+        <h2 class="section-title" style="margin-top:12px;">Prêt à innover pour le <span class="gold">Patrimoine Marocain?</span></h2>
+        <p class="section-desc" style="margin:0 auto 32px;">Rejoignez des centaines d'innovateurs, d'entrepreneurs et de passionnés du patrimoine pour relever ce défi unique!</p>
+        <div class="hero-actions" style="justify-content:center;">
+          <a href="register.html" class="btn btn-gold btn-lg">🎯 Candidater Maintenant</a>
+          <a href="chatbot.html" class="btn btn-outline btn-lg">❓ Questions sur le Hackathon</a>
+        </div>
+        <p style="color:var(--text-muted);font-size:0.82rem;margin-top:20px;">📧 Contact: hackathon@cri-marrakech-safi.ma | 📞 +212 5XX-XXXXXX</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">🌙 Maroc Découverte</div>
+        <p class="footer-desc">Valorisons ensemble le patrimoine marocain par l'innovation et l'investissement.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="culture.html">Culture</a></li>
+          <li><a href="learn.html">Apprendre</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Hackathon</div>
+        <ul class="footer-links">
+          <li><a href="#objectifs">Thématiques</a></li>
+          <li><a href="register.html">S'inscrire</a></li>
+          <li><a href="login.html">Connexion</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Partenaires</div>
+        <ul class="footer-links">
+          <li><a href="#">CRI Marrakech-Safi</a></li>
+          <li><a href="#">Université Cadi Ayyad</a></li>
+          <li><a href="#">Cité de l'Innovation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Maroc Découverte — Hackathon CRI Marrakech-Safi</span>
+      <span class="footer-copy">الذاكرة والتراث والابتكار</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // COUNTDOWN TIMER - Target date: May 15, 2025
+    function updateCountdown() {
+      const target = new Date('2025-05-15T09:00:00');
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById('cdDays').textContent = '00';
+        document.getElementById('cdHours').textContent = '00';
+        document.getElementById('cdMinutes').textContent = '00';
+        document.getElementById('cdSeconds').textContent = '00';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+      document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cdMinutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('cdSeconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>

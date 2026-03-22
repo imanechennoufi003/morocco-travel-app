@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maroc Découverte - Voyage, Culture & Traditions</title>
+  <meta name="description" content="Découvrez la magie du Maroc : Marrakech, El Jadida, culture berbère, atlas, désert et traditions millénaires. Votre guide de voyage immersif.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    /* HOME PAGE SPECIFIC */
+    .cities-section { background: linear-gradient(180deg, var(--bg-dark) 0%, #120808 50%, var(--bg-dark) 100%); }
+
+    .city-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      height: 420px;
+      cursor: pointer;
+    }
+
+    .city-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      filter: brightness(0.5);
+    }
+
+    .city-card:hover img {
+      transform: scale(1.08);
+      filter: brightness(0.35);
+    }
+
+    .city-card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 30px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+    }
+
+    .city-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .city-card-sub {
+      color: var(--secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .city-card-detail {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      margin-top: 10px;
+      line-height: 1.6;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .city-card:hover .city-card-detail { max-height: 100px; }
+
+    .city-card-btn {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 8px 20px;
+      background: var(--gradient-red);
+      color: white;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: var(--transition);
+    }
+
+    .city-card:hover .city-card-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* MAP */
+    .map-section { padding: 60px 32px 100px; }
+
+    .map-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    #map-container {
+      height: 520px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* EXPERIENCES */
+    .exp-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: rgba(200,16,46,0.1);
+      border: 1px solid rgba(200,16,46,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      transition: var(--transition);
+    }
+
+    .exp-card:hover .exp-icon {
+      background: rgba(200,16,46,0.2);
+      transform: scale(1.1);
+    }
+
+    .exp-card {
+      padding: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+
+    .exp-card:hover {
+      border-color: rgba(200,16,46,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(200,16,46,0.1);
+    }
+
+    .exp-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .exp-text {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* HACKATHON BANNER */
+    .hackathon-banner {
+      background: linear-gradient(135deg, #0A0A0A 0%, #1A0505 50%, #0A0A0A 100%);
+      border: 1px solid rgba(200,16,46,0.3);
+      border-radius: var(--radius-lg);
+      padding: 50px 40px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      margin: 0 32px;
+      max-width: 1200px;
+      margin: 0 auto 100px;
+    }
+
+    .hackathon-banner .arabesque-pattern { opacity: 0.3; }
+
+    .hackathon-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .hackathon-banner p {
+      color: var(--text-secondary);
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+
+    /* CHATBOT FLOATING */
+    .chatbot-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 500;
+    }
+
+    .chatbot-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--gradient-red);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 24px rgba(200,16,46,0.5);
+      transition: var(--transition);
+      animation: pulse 2s infinite;
+    }
+
+    .chatbot-btn:hover { transform: scale(1.1); }
+
+    .chatbot-label {
+      position: absolute;
+      right: 70px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-50%) translateX(10px); }
+      to { opacity: 1; transform: translateY(-50%) translateX(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- GEOMETRIC BG -->
+  <div class="geo-bg">
+    <div class="geo-circle geo-circle-1"></div>
+    <div class="geo-circle geo-circle-2"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🌙</div>
+      <span class="logo-text">Maroc Découverte</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Accueil</a></li>
+      <li><a href="culture.html">Culture</a></li>
+      <li><a href="learn.html">Apprendre</a></li>
+      <li><a href="chatbot.html">Chatbot</a></li>
+      <li><a href="hackathon.html">Hackathon</a></li>
+      <li><a href="login.html" class="nav-btn">Connexion</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg" style="background-image: url('assets/images/marrakech.png')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">✦ Explorez le Royaume Chérifien</div>
+      <h1 class="hero-title">
+        Découvrez la Magie<br>du <span class="highlight">Maroc</span>
+      </h1>
+      <p class="hero-subtitle">
+        Des souks colorés de Marrakech aux remparts portugais d'El Jadida, plongez dans mille ans de civilisation, de culture et de traditions berbères.
+      </p>
+      <div class="hero-actions">
+        <a href="culture.html" class="btn btn-primary btn-lg">🏛️ Explorer la Culture</a>
+        <a href="#map" class="btn btn-outline btn-lg">🗺️ Carte du Maroc</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number" data-count="12" data-suffix="+" id="c1">0+</div>
+          <div class="stat-label">Régions</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="5000" data-suffix="+" id="c2">0+</div>
+          <div class="stat-label">Ans d'Histoire</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="3" data-suffix="" id="c3">0</div>
+          <div class="stat-label">Langues</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="14" data-suffix="" id="c4">0</div>
+          <div class="stat-label">Sites UNESCO</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CITIES SECTION -->
+  <section class="cities-section" style="padding: 100px 32px;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="section-header animate-fade-up">
+        <div class="section-badge">✦ Destinations</div>
+        <h2 class="section-title">Villes <span class="gold">Emblématiques</span></h2>
+        <div class="divider"></div>
+        <p class="section-desc">De la cité ocre de Marrakech à la cité portugaise d'El Jadida, chaque ville raconte une histoire unique.</p>
+      </div>
+      <div class="grid-2 animate-fade-up">
+        <!-- Marrakech -->
+        <div class="city-card">
+          <img src="assets/images/marrakech.png" alt="Marrakech - La Cité Ocre" loading="lazy">
+          <div class="city-card-content">
+            <div class="city-card-sub">Marrakech</div>
+            <h3 class="city-card-title">La Cité Ocre</h3>
+            <p class="city-card-detail">Jemaa el-Fna, les souks, la Koutoubia, les jardins Majorelle... Marrakech est un chef-d'œuvre vivant de l'architecture islamique et de la culture berbère.</p>
+            <a href="culture.html#marrakech" class="city-card-btn">Découvrir →</a>
+          </div>
+        </div>
+        <!-- El Jadida -->
+        <div class="city-card">
+          <img src="assets/images/el_jadida.png" alt="El Jadida - La Cité Portugaise" loading="lazy">
+          <div class="city-card-content">
+            <div class="city-card-sub">El Jadida</div>
+            <h3 class="city-card-title">La Cité Portugaise</h3>
+            <p class="city-card-detail">Classée patrimoine UNESCO, la Cité Portugaise d'El Jadida fascine par sa citerne mystérieuse, ses remparts et son atmosphère unique entre Atlantique et histoire.</p>
+            <a href="culture.html#eljadida" class="city-card-btn">Découvrir →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section class="map-section" id="map">
+    <div class="map-wrapper">
+      <div class="section-header animate-fade-up">
+        <div class="section-badge">✦ Carte Interactive</div>
+        <h2 class="section-title">Explorez le <span class="gold">Maroc</span></h2>
+        <div class="divider"></div>
+        <p class="section-desc">Cliquez sur les marqueurs pour découvrir les villes, les sites touristiques et les attractions culturelles du Royaume.</p>
+      </div>
+      <div id="map-container" class="animate-fade-up"></div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCES -->
+  <section class="section">
+    <div class="section-header animate-fade-up">
+      <div class="section-badge">✦ Expériences</div>
+      <h2 class="section-title">Vivez le <span class="gold">Maroc Authentique</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="grid-3">
+      <div class="exp-card animate-fade-up">
+        <div class="exp-icon">🏺</div>
+        <div class="exp-title">Artisanat Traditionnel</div>
+        <p class="exp-text">Zellige, céramique, dinanderie, maroquinerie... L'artisanat marocain est un patrimoine vivant reconnu mondialement.</p>
+      </div>
+      <div class="exp-card animate-fade-up">
+        <div class="exp-icon">🍽️</div>
+        <div class="exp-title">Gastronomie Royale</div>
+        <p class="exp-text">Tajine, couscous, pastilla, mint tea... La cuisine marocaine est une célébration de saveurs et d'épices incomparables.</p>
+      </div>
+      <div class="exp-card animate-fade-up">
+        <div class="exp-icon">🎵</div>
+        <div class="exp-title">Musique & Folklore</div>
+        <p class="exp-text">Gnawa, Andalousie, Ahouach berbère... La richesse musicale du Maroc est une vibration de l'âme qui transcende le temps.</p>
+      </div>
+      <div class="exp-card animate-fade-up">
+        <div class="exp-icon">🕌</div>
+        <div class="exp-title">Architecture Islamique</div>
+        <p class="exp-text">Médinas, minarets, riads et palaces... L'architecture marocaine témoigne d'un génie esthétique inégalé.</p>
+      </div>
+      <div class="exp-card animate-fade-up">
+        <div class="exp-icon">🏔️</div>
+        <div class="exp-title">Nature & Aventure</div>
+        <p class="exp-text">De l'Atlas au Sahara, des côtes atlantiques aux gorges du Dadès, le Maroc offre des paysages à couper le souffle.</p>
+      </div>
+      <div class="exp-card animate-fade-up">
+        <div class="exp-icon">🌿</div>
+        <div class="exp-title">Médecine Traditionnelle</div>
+        <p class="exp-text">Argan, rose de Dades, henna, hammam... Les rituels de beauté et de bien-être marocains sont transmis depuis des siècles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HACKATHON BANNER -->
+  <div style="padding: 0 32px;">
+    <div class="hackathon-banner animate-fade-up" style="max-width:1200px; margin:0 auto 100px;">
+      <div class="arabesque-pattern"></div>
+      <div class="section-badge" style="position:relative">🏆 Événement</div>
+      <h2 style="position:relative; margin-top:12px;">الذاكرة، التراث، الابتكار والاستثمار</h2>
+      <p style="position:relative;">Hackathon organisé par le Centre Régional d'Investissement de la Région Marrakech-Safi en partenariat avec la Cité de l'Innovation de l'Université Cadi Ayyad.</p>
+      <a href="hackathon.html" class="btn btn-gold btn-lg" style="position:relative;">En savoir plus →</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">🌙 Maroc Découverte</div>
+        <p class="footer-desc">Votre portail vers la richesse culturelle, historique et artistique du Royaume du Maroc. Explorez, apprenez, et voyagez.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="culture.html">Culture</a></li>
+          <li><a href="learn.html">Apprendre</a></li>
+          <li><a href="chatbot.html">Chatbot IA</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Villes</div>
+        <ul class="footer-links">
+          <li><a href="culture.html#marrakech">Marrakech</a></li>
+          <li><a href="culture.html#eljadida">El Jadida</a></li>
+          <li><a href="culture.html#fes">Fès</a></li>
+          <li><a href="culture.html#chefchaouen">Chefchaouen</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Événements</div>
+        <ul class="footer-links">
+          <li><a href="hackathon.html">Hackathon CRI</a></li>
+          <li><a href="login.html">Se Connecter</a></li>
+          <li><a href="register.html">S'inscrire</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Maroc Découverte — Tous droits réservés</span>
+      <span class="footer-copy">🌙 الذاكرة والتراث والابتكار</span>
+    </div>
+  </footer>
+
+  <!-- FLOATING CHATBOT BTN -->
+  <div class="chatbot-float">
+    <span class="chatbot-label" id="chatLabel">💬 Posez-moi une question!</span>
+    <button class="chatbot-btn" onclick="window.location.href='chatbot.html'" aria-label="Chatbot Morocco">🤖</button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/map.js"></script>
+  <script>
+    // Hide chatbot label after 5s
+    setTimeout(() => {
+      const label = document.getElementById('chatLabel');
+      if (label) { label.style.display = 'none'; }
+    }, 5000);
+  </script>
+</body>
+</html>

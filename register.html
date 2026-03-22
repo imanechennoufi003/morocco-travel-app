@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription — Maroc Découverte</title>
+  <meta name="description" content="Créez votre compte Maroc Découverte et explorez la richesse culturelle du Maroc.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-body">
+  <div class="geo-bg">
+    <div class="geo-circle geo-circle-1"></div>
+    <div class="geo-circle geo-circle-2"></div>
+  </div>
+
+  <a href="index.html" class="auth-back">← Retour à l'accueil</a>
+
+  <div class="auth-container">
+    <!-- LEFT PANEL -->
+    <div class="auth-panel-left">
+      <div class="arabesque-pattern"></div>
+      <div class="auth-panel-content">
+        <div class="auth-logo"></div>
+        <h1 class="auth-panel-title">Rejoignez<br><span>Notre Communauté</span></h1>
+        <p class="auth-panel-sub">Créez votre compte et plongez dans l'univers fascinant de la culture, de l'histoire et des traditions marocaines.</p>
+        <div class="auth-features">
+          <div class="auth-feature">✦ Accès illimité aux contenus</div>
+          <div class="auth-feature">✦ Chatbot IA personnalisé</div>
+          <div class="auth-feature">✦ Suivi de vos apprentissages</div>
+          <div class="auth-feature">✦ Rejoindre le Hackathon CRI</div>
+        </div>
+      </div>
+      <div class="auth-decorative">
+        <div class="auth-dec-circle auth-dec-1"></div>
+        <div class="auth-dec-circle auth-dec-2"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-panel-right">
+      <div class="auth-form-container">
+        <div class="auth-form-header">
+          <h2 class="auth-title">Créer un compte 🚀</h2>
+          <p class="auth-subtitle">Rejoignez notre communauté de passionnés du Maroc</p>
+        </div>
+
+        <div class="auth-social">
+          <button class="social-btn" id="googleBtn">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#EA4335" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"/><path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2936293 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"/><path fill="#4A90E2" d="M19.834192,20.9995801 C22.0291676,18.9520994 23.4545455,15.903626 23.4545455,12 C23.4545455,11.2909091 23.3454545,10.5272727 23.1818182,9.81818182 L12,9.81818182 L12,14.4545455 L18.4363636,14.4545455 C18.1187732,16.013626 17.2662994,17.2212117 16.0407269,18.0125889 L19.834192,20.9995801 Z"/><path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9055417 0.433833334,15.7120352 1.23746264,17.3349879 L5.27698177,14.2678769 Z"/></svg>
+            Inscription avec Google
+          </button>
+        </div>
+
+        <div class="auth-divider"><span>ou avec email</span></div>
+
+        <form id="registerForm" novalidate>
+          <div class="form-name-row">
+            <div class="form-group">
+              <label class="form-label" for="regFirstName">Prénom</label>
+              <div class="input-wrapper">
+                <span class="input-icon">👤</span>
+                <input type="text" id="regFirstName" class="form-input" placeholder="Ahmed" required>
+              </div>
+              <span class="form-error" id="firstNameError"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="regLastName">Nom</label>
+              <div class="input-wrapper">
+                <span class="input-icon">👤</span>
+                <input type="text" id="regLastName" class="form-input" placeholder="El Fassi" required>
+              </div>
+              <span class="form-error" id="lastNameError"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Adresse email</label>
+            <div class="input-wrapper">
+              <span class="input-icon">✉️</span>
+              <input type="email" id="regEmail" class="form-input" placeholder="votre@email.com" required>
+            </div>
+            <span class="form-error" id="regEmailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Mot de passe</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="regPassword" class="form-input" placeholder="Minimum 6 caractères" required>
+              <button type="button" class="toggle-pwd" id="togglePwd">👁️</button>
+            </div>
+            <div class="pwd-strength">
+              <div class="pwd-strength-bar">
+                <div class="pwd-strength-fill" id="pwdStrengthFill"></div>
+              </div>
+              <span class="pwd-strength-text" id="pwdStrengthText"></span>
+            </div>
+            <span class="form-error" id="regPwdError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPasswordConfirm">Confirmer le mot de passe</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="regPasswordConfirm" class="form-input" placeholder="Répétez le mot de passe" required>
+              <button type="button" class="toggle-pwd" id="togglePwdConfirm">👁️</button>
+            </div>
+            <span class="form-error" id="regPwdConfirmError"></span>
+          </div>
+
+          <div class="form-group" style="margin-bottom:24px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="agreeTerms">
+              J'accepte les <a href="#" style="color:var(--secondary);">Conditions d'utilisation</a> et la <a href="#" style="color:var(--secondary);">Politique de confidentialité</a>
+            </label>
+            <span class="form-error" id="termsError"></span>
+          </div>
+
+          <button type="submit" class="btn btn-primary auth-submit" id="registerBtn">
+            <span id="registerBtnText">Créer mon compte</span>
+            <span id="registerBtnLoader" style="display:none">⏳</span>
+          </button>
+        </form>
+
+        <div class="auth-switch">
+          Déjà un compte? <a href="login.html">Se connecter →</a>
+        </div>
+
+        <div class="auth-success" id="registerSuccess" style="display:none">
+          <span>✅</span> Compte créé avec succès! Bienvenue sur Maroc Découverte!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

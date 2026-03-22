@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apprendre l'Arabe & Tamazight — Maroc Découverte</title>
+  <meta name="description" content="Apprenez l'arabe marocain (Darija) et le Tamazight avec des leçons interactives, vocabulaire, alphabet Tifinagh et prononciation.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .learn-hero {
+      padding: 130px 32px 60px;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(180deg, rgba(200,16,46,0.05) 0%, transparent 100%);
+    }
+
+    /* LANGUAGE SWITCH */
+    .lang-switch {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 40px auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 50px;
+      padding: 4px;
+      width: fit-content;
+    }
+
+    .lang-tab {
+      padding: 10px 28px;
+      border-radius: 50px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-tab.active {
+      background: var(--gradient-red);
+      color: white;
+      box-shadow: 0 4px 15px rgba(200,16,46,0.3);
+    }
+
+    /* ALPHABET GRID */
+    .alphabet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 12px;
+      margin: 32px 0;
+    }
+
+    .letter-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 16px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .letter-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(200,16,46,0.15);
+    }
+
+    .letter-card.active {
+      background: rgba(200,16,46,0.1);
+      border-color: var(--primary);
+    }
+
+    .letter-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 2rem;
+      line-height: 1.2;
+      margin-bottom: 4px;
+      color: var(--primary-light);
+    }
+
+    .letter-tifinagh {
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+      color: var(--secondary);
+    }
+
+    .letter-latin {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .letter-name {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* VOCAB SECTION */
+    .vocab-categories {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .vocab-cat-btn {
+      padding: 7px 18px;
+      border-radius: 50px;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .vocab-cat-btn.active, .vocab-cat-btn:hover {
+      background: rgba(212,175,55,0.1);
+      border-color: rgba(212,175,55,0.3);
+      color: var(--secondary);
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .vocab-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vocab-card:hover {
+      border-color: var(--border);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .vocab-french {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .vocab-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 1.5rem;
+      color: var(--primary-light);
+      direction: rtl;
+      text-align: right;
+      margin-bottom: 4px;
+    }
+
+    .vocab-tamazight {
+      font-size: 1.1rem;
+      color: var(--secondary);
+      margin-bottom: 4px;
+    }
+
+    .vocab-phon {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .vocab-card .play-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(200,16,46,0.15);
+      border: none;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .vocab-card .play-btn:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
+
+    /* QUIZ SECTION */
+    .quiz-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .quiz-question {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .quiz-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 3rem;
+      color: var(--primary-light);
+      margin: 20px 0;
+      direction: rtl;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+      max-width: 400px;
+      margin: 24px auto;
+    }
+
+    .quiz-option {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .quiz-option:hover { border-color: var(--secondary); background: rgba(212,175,55,0.05); }
+    .quiz-option.correct { border-color: #22C55E; background: rgba(34,197,94,0.1); color: #22C55E; }
+    .quiz-option.wrong { border-color: #FF4444; background: rgba(255,68,68,0.1); color: #FF4444; }
+
+    .quiz-progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      max-width: 200px;
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gradient-gold);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    /* PHRASES */
+    .phrase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .phrase-card:hover {
+      border-color: var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .phrase-fr { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 4px; }
+    .phrase-arabic { font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--primary-light); direction: rtl; }
+    .phrase-phon { font-size: 0.82rem; color: var(--text-muted); font-style: italic; margin-top: 4px; }
+
+    @media(max-width: 768px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .alphabet-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="geo-bg">
+    <div class="geo-circle geo-circle-1"></div>
+    <div class="geo-circle geo-circle-2"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🌙</div>
+      <span class="logo-text">Maroc Découverte</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="culture.html">Culture</a></li>
+      <li><a href="learn.html" class="active">Apprendre</a></li>
+      <li><a href="chatbot.html">Chatbot</a></li>
+      <li><a href="hackathon.html">Hackathon</a></li>
+      <li><a href="login.html" class="nav-btn">Connexion</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- HERO -->
+  <div class="learn-hero">
+    <div class="arabesque-pattern" style="position:absolute;inset:0;opacity:0.3;"></div>
+    <div style="position:relative;">
+      <div class="hero-badge">✦ Langues du Maroc</div>
+      <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3.5rem);">Apprenez <span class="highlight">l'Arabe</span> & <span class="highlight">Tamazight</span></h1>
+      <p class="hero-subtitle" style="max-width:600px;margin:0 auto 24px;">Maîtrisez les langues du Maroc — Darija, Arabe Standard et Tamazight — avec nos leçons interactives, vocabulaire et quiz.</p>
+    </div>
+  </div>
+
+  <!-- LANG SWITCH -->
+  <div style="display:flex;justify-content:center;margin-bottom:0;">
+    <div class="lang-switch">
+      <button class="lang-tab active" id="arabicTab" onclick="switchLang('arabic')">🌙 Arabe (الدارجة)</button>
+      <button class="lang-tab" id="tamazightTab" onclick="switchLang('tamazight')">ⵜ Tamazight</button>
+    </div>
+  </div>
+
+  <!-- ARABIC SECTION -->
+  <div id="arabicSection" style="max-width:1200px;margin:0 auto;padding:40px 32px;">
+    
+    <!-- ALPHABET -->
+    <div class="section-header animate-fade-up">
+      <div class="section-badge">✦ Alphabet</div>
+      <h2 class="section-title">L'Alphabet <span class="gold">Arabe</span></h2>
+      <div class="divider"></div>
+      <p class="section-desc">28 lettres, écrites de droite à gauche. Chaque lettre a 4 formes selon sa position dans le mot.</p>
+    </div>
+    <div class="alphabet-grid animate-fade-up" id="arabicAlphabet"></div>
+
+    <!-- VOCABULARY -->
+    <div class="section-header animate-fade-up" style="margin-top:60px;">
+      <div class="section-badge">✦ Vocabulaire</div>
+      <h2 class="section-title">Mots <span class="gold">Essentiels</span></h2>
+    </div>
+    <div class="vocab-categories">
+      <button class="vocab-cat-btn active" onclick="loadVocab('salutations')">👋 Salutations</button>
+      <button class="vocab-cat-btn" onclick="loadVocab('chiffres')">🔢 Chiffres</button>
+      <button class="vocab-cat-btn" onclick="loadVocab('couleurs')">🎨 Couleurs</button>
+      <button class="vocab-cat-btn" onclick="loadVocab('famille')">👨‍👩‍👧 Famille</button>
+      <button class="vocab-cat-btn" onclick="loadVocab('voyage')">✈️ Voyage</button>
+      <button class="vocab-cat-btn" onclick="loadVocab('nourriture')">🍽️ Nourriture</button>
+    </div>
+    <div class="vocab-grid animate-fade-up" id="vocabGrid"></div>
+
+    <!-- PHRASES -->
+    <div class="section-header animate-fade-up" style="margin-top:60px;">
+      <div class="section-badge">✦ Phrases</div>
+      <h2 class="section-title">Phrases <span class="gold">Utiles</span></h2>
+    </div>
+    <div class="animate-fade-up" style="display:flex;flex-direction:column;gap:12px;" id="phrases"></div>
+
+    <!-- QUIZ -->
+    <div class="section-header animate-fade-up" style="margin-top:60px;">
+      <div class="section-badge">✦ Quiz</div>
+      <h2 class="section-title">Testez vos <span class="gold">Connaissances</span></h2>
+    </div>
+    <div class="quiz-container animate-fade-up">
+      <div class="quiz-progress">
+        <span id="quizNum" style="color:var(--secondary);font-weight:600;">1/10</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
+        <span id="quizScore" style="color:var(--text-muted);font-size:0.85rem;">Score: 0</span>
+      </div>
+      <div id="quizWord" class="quiz-arabic">مرحبا</div>
+      <div id="quizQuestion" class="quiz-question">Que signifie ce mot arabe?</div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <button class="btn btn-outline btn-sm" onclick="nextQuestion()" id="nextBtn" style="display:none;">Question suivante →</button>
+    </div>
+  </div>
+
+  <!-- TAMAZIGHT SECTION -->
+  <div id="tamazightSection" style="display:none;max-width:1200px;margin:0 auto;padding:40px 32px;">
+    
+    <div class="section-header animate-fade-up">
+      <div class="section-badge">✦ Tifinagh</div>
+      <h2 class="section-title">L'Alphabet <span class="gold">Tifinagh</span></h2>
+      <div class="divider"></div>
+      <p class="section-desc">ⵜⵉⴼⵉⵏⴰⵖ — L'ancien alphabet des Amazigh, remontant au IIIe siècle av. J.-C. Reconnu langue officielle en 2011.</p>
+    </div>
+    <div class="alphabet-grid animate-fade-up" id="tifinaghAlphabet"></div>
+
+    <div class="section-header animate-fade-up" style="margin-top:60px;">
+      <div class="section-badge">✦ Vocabulaire Tamazight</div>
+      <h2 class="section-title">Mots <span class="gold">Amazigh</span></h2>
+    </div>
+    <div class="vocab-grid animate-fade-up" id="tamazightVocabGrid"></div>
+
+    <!-- CULTURE NOTE -->
+    <div class="glass-card animate-fade-up" style="margin-top:40px;text-align:center;">
+      <div style="font-size:2rem;margin-bottom:12px;">🏔️</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:10px;">L'identité Amazighe</h3>
+      <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;font-size:0.9rem;line-height:1.7;">
+        "Amazigh" (ⴰⵎⴰⵣⵉⵖ) signifie "Homme libre". Les Amazigh sont le peuple autochtone du Maghreb depuis plus de 9000 ans. Leur culture, langue et traditions sont au cœur de l'identité marocaine, reconnues dans la Constitution de 2011.
+      </p>
+      <div style="margin-top:20px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+        <span class="tag">ⵜⴰⵛⵍⵃⵉⵜ Tachelhit</span>
+        <span class="tag">ⵜⴰⵎⴰⵣⵉⵖⵜ Tamazight Central</span>
+        <span class="tag">ⵜⴰⵔⵉⴼⵉⵜ Tarifit</span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">🌙 Maroc Découverte</div>
+        <p class="footer-desc">Apprenez les langues et la culture du Royaume du Maroc.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="culture.html">Culture</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+          <li><a href="hackathon.html">Hackathon</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Maroc Découverte</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/learn.js"></script>
+</body>
+</html>
