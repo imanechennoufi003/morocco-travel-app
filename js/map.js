@@ -143,10 +143,15 @@ function initMoroccoMap() {
   ];
 
   cities.forEach(city => {
+    // Default mock data for new features if not present
+    const artisanInfo = city.artisan || 'Zellige & Poterie traditionnelle';
+    const experience = city.experience || 'Atelier Artisanal & Repas';
+    const partner = city.partner || 'Coopérative Artisanale Al Amal';
+
     const marker = L.marker(city.coords, { icon: createIcon(city.emoji, city.color) }).addTo(map);
 
     const popup = L.popup({
-      maxWidth: 280,
+      maxWidth: 320,
       className: 'morocco-popup'
     }).setContent(`
       <div style="
@@ -154,29 +159,59 @@ function initMoroccoMap() {
         background: #1A1A1A;
         border-radius: 12px;
         overflow: hidden;
-        min-width: 220px;
+        min-width: 260px;
       ">
         <div style="background:${city.color}; padding:14px 16px; display:flex; align-items:center; gap:10px;">
           <span style="font-size:1.4rem;">${city.emoji}</span>
           <div>
-            <div style="font-weight:700; color:white; font-size:1rem;">${city.name}</div>
-            <div style="color:rgba(255,255,255,0.75); font-size:0.73rem; text-transform:uppercase; letter-spacing:1px;">${city.type}</div>
+            <div style="font-weight:700; color:white; font-size:1.1rem; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">${city.name}</div>
+            <div style="color:rgba(255,255,255,0.9); font-size:0.73rem; text-transform:uppercase; letter-spacing:1px; font-weight:600;">${city.type}</div>
           </div>
         </div>
         <div style="padding:16px;">
-          <p style="color:#B8A99A; font-size:0.82rem; line-height:1.6; margin-bottom:10px;">${city.desc}</p>
-          <div style="color:#6B5B4E; font-size:0.75rem; margin-bottom:12px;">👥 ${city.pop}</div>
+          <p style="color:#E5E5E5; font-size:0.85rem; line-height:1.5; margin-bottom:12px;">${city.desc}</p>
+          
+          <!-- AXE 2 & 1 : Gamification & Audio -->
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+             <button onclick="alert('🎧 Lecture de la capsule audio : Histoire de ${city.name} (30 sec)...')" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:6px 10px; border-radius:6px; font-size:0.75rem; cursor:pointer; display:flex; align-items:center; gap:4px; transition:0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                🎧 Écouter l'Histoire
+             </button>
+             <button onclick="alert('🎮 Lancement du Quiz géolocalisé pour ${city.name}\\nQuestion : Que s\\'est-il passé ici en 1958 ?\\nRécompense : 50pts + Badge !')" style="background:var(--gradient-gold); border:none; color:#1A0A0A; padding:6px 10px; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:700; display:flex; align-items:center; gap:4px; box-shadow:0 2px 10px rgba(212,175,55,0.3);">
+                🎮 Quiz Interactif
+             </button>
+          </div>
+
+          <!-- AXE 1 : Artisanat -->
+          <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:10px; border-radius:8px; margin-bottom:12px; font-size:0.75rem;">
+             <div style="color:${city.color}; font-weight:600; margin-bottom:4px; letter-spacing:0.5px;">🧵 FICHE ARTISAN</div>
+             <div style="color:#B8A99A; margin-bottom:6px;">Spécialité : ${artisanInfo}</div>
+             <button onclick="alert('🎥 Lancement de la vidéo courte : Comment c\\'est fait ?')" style="background:none; border:none; color:#D4AF37; text-decoration:none; font-size:0.75rem; cursor:pointer; padding:0; font-weight:600; display:flex; align-items:center; gap:4px;">
+                ▶ Voir comment c'est fait
+             </button>
+          </div>
+
+          <!-- AXE 3 : Investissement / Expérience -->
+          <div style="background:rgba(200,16,46,0.1); border:1px solid rgba(200,16,46,0.2); padding:10px; border-radius:8px; margin-bottom:12px; font-size:0.75rem;">
+             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="color:white; font-weight:600;">📌 Expérience Locale</span>
+                <button onclick="alert('✅ Redirection vers la réservation : ${experience}\\nModèle : Commission 10% pour la plateforme.')" style="background:#C8102E; border:none; color:white; padding:4px 10px; border-radius:4px; font-size:0.7rem; cursor:pointer; font-weight:600; box-shadow:0 2px 8px rgba(200,16,46,0.4);">Réserver</button>
+             </div>
+             <div style="color:#B8A99A;">Activité : ${experience}</div>
+             <div style="color:rgba(255,255,255,0.5); font-size:0.7rem; margin-top:6px; border-top:1px solid rgba(255,255,255,0.1); padding-top:6px;">🤝 Partenaire : ${partner}</div>
+          </div>
+          
           <a href="${city.link}" style="
-            display:inline-block; background:${city.color};
-            color:white; padding:6px 16px; border-radius:50px;
-            text-decoration:none; font-size:0.78rem; font-weight:600;
-          ">Découvrir →</a>
+            display:block; text-align:center; background:${city.color};
+            color:white; padding:8px 16px; border-radius:50px;
+            text-decoration:none; font-size:0.85rem; font-weight:600;
+            box-shadow: 0 4px 15px ${city.color}66;
+          ">📍 Explorer le Parcours Historique →</a>
         </div>
       </div>
     `);
 
     marker.bindPopup(popup);
-    marker.on('mouseover', () => marker.openPopup());
+    marker.on('click', () => marker.openPopup());
   });
 
   // Popup custom styles
