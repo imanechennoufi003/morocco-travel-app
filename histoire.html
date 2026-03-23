@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histoire du Maroc — Batailles & Épopées | Sheftour</title>
+  <meta name="description" content="Découvrez les grandes batailles et épopées qui ont forgé l'identité du Maroc, de la Bataille de Dcheira à la Marche Verte.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hist-hero {
+      position: relative;
+      padding: 160px 60px 80px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(5,5,5,1) 0%, rgba(15,5,8,1) 100%);
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hist-hero-bg {
+      position: absolute; inset:0;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_Morocco.svg/1920px-Flag_of_Morocco.svg.png') center/cover;
+      opacity: 0.04;
+    }
+
+    .hist-hero-overlay {
+      position: absolute; inset:0;
+      background: radial-gradient(ellipse at center, rgba(200,16,46,0.08) 0%, transparent 70%);
+    }
+
+    .hist-timeline {
+      max-width: 1200px;
+      margin: 80px auto 40px;
+      padding: 0 60px;
+      position: relative;
+    }
+
+    .hist-timeline::before {
+      content: '';
+      position: absolute; left: 50%; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--secondary), rgba(212,175,55,0.3));
+      transform: translateX(-50%); border-radius: 2px;
+    }
+
+    .hist-item {
+      position: relative; width: 50%; padding: 28px 50px;
+      box-sizing: border-box; opacity: 0; transform: translateY(30px);
+      transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .hist-item.visible { opacity: 1; transform: translateY(0); }
+    .hist-item.left { left: 0; text-align: right; }
+    .hist-item.right { left: 50%; text-align: left; }
+
+    .hist-dot {
+      position: absolute; top: 50px; width: 20px; height: 20px;
+      background: var(--secondary); border: 3px solid var(--bg-dark);
+      border-radius: 50%; z-index: 2;
+      box-shadow: 0 0 0 4px rgba(212,175,55,0.2), 0 0 20px rgba(212,175,55,0.5);
+    }
+
+    .hist-item.left .hist-dot { right: -12px; }
+    .hist-item.right .hist-dot { left: -12px; }
+
+    .hist-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      transition: var(--transition);
+      display: flex; flex-direction: column;
+    }
+
+    .hist-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212,175,55,0.35);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(212,175,55,0.06);
+    }
+
+    .hist-card:hover .hist-img {
+      filter: grayscale(0%) sepia(0%);
+      transform: scale(1.06);
+    }
+
+    .hist-img-wrap { overflow: hidden; position: relative; height: 210px; }
+    
+    .hist-img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(30%) sepia(15%);
+      transition: all 0.8s ease;
+    }
+
+    .hist-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+    }
+
+    .hist-year-badge {
+      position: absolute; bottom: 16px; left: 16px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(212,175,55,0.4);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+    .hist-item.right .hist-year-badge { left: auto; right: 16px; }
+
+    .hist-body { padding: 28px; }
+    .hist-cat {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .hist-cat.bataille { background: rgba(200,16,46,0.15); color: #ff6b8a; border: 1px solid rgba(200,16,46,0.3); }
+    .hist-cat.politique { background: rgba(212,175,55,0.12); color: var(--secondary); border: 1px solid rgba(212,175,55,0.3); }
+    .hist-cat.culture { background: rgba(16,164,200,0.12); color: #64bfcc; border: 1px solid rgba(16,164,200,0.3); }
+
+    .hist-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+    .hist-desc { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; margin-bottom: 20px; }
+
+    /* Podcast Player */
+    .podcast-player {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 14px;
+    }
+
+    .podcast-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--gradient-gold); color: #1a1a1a; border: none;
+      font-size: 0.85rem; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+      font-weight: bold;
+    }
+
+    .podcast-btn:hover { transform: scale(1.1); box-shadow: 0 0 15px rgba(212,175,55,0.5); }
+    .podcast-btn.loading { animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+
+    .podcast-info { flex-grow: 1; text-align: left; min-width: 0; }
+    .podcast-title-text { font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .podcast-src { font-size: 0.65rem; color: var(--secondary); margin-top: 2px; }
+    .podcast-progress { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 8px; position: relative; overflow: hidden; cursor: pointer; }
+    .podcast-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: linear-gradient(90deg, var(--secondary), #f0a500); border-radius: 2px; transition: width 0.1s linear; }
+    .podcast-time { font-size: 0.68rem; color: var(--secondary); font-weight: bold; white-space: nowrap; font-family: monospace; }
+
+    .podcast-ext-link {
+      font-size: 0.7rem; color: var(--secondary); text-decoration: none;
+      display: flex; align-items: center; gap: 4px; margin-top: 8px;
+      opacity: 0.8; transition: opacity 0.2s;
+    }
+    .podcast-ext-link:hover { opacity: 1; }
+
+    @media (max-width: 900px) {
+      .hist-timeline::before { left: 30px; }
+      .hist-item { width: 100%; padding-left: 60px; padding-right: 16px; text-align: left; }
+      .hist-item.right { left: 0; }
+      .hist-item.left .hist-dot, .hist-item.right .hist-dot { left: 18px; right: auto; }
+      .hist-year-badge { left: 16px !important; right: auto !important; }
+      .hist-timeline { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body style="background:var(--bg-dark); color:var(--text-primary); font-family:'Inter',sans-serif;">
+
+  <!-- UNIFIED NAV -->
+  <nav class="unified-nav" id="main-nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🌙</div>
+      <span class="brand-name">Sheftour</span>
+    </a>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="culture.html">Culture</a></li>
+      <li><a href="histoire.html" class="active">Histoire</a></li>
+      <li><a href="parcours.html">Parcours & Jeux</a></li>
+      <li><a href="learn.html">Apprendre</a></li>
+      <li><a href="booking.html">Boutique & Réservation</a></li>
+    </ul>
+    <div>
+      <a href="login.html" class="nav-auth-btn">Connexion</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hist-hero">
+    <div class="hist-hero-bg"></div>
+    <div class="hist-hero-overlay"></div>
+    <div style="position:relative; z-index:10;">
+      <div style="display:inline-block; padding:6px 16px; border-radius:50px; background:rgba(200,16,46,0.15); border:1px solid rgba(200,16,46,0.35); color:#ff6b8a; font-size:0.8rem; font-weight:600; text-transform:uppercase; margin-bottom:20px; letter-spacing:1px;">⚔️ Batailles & Épopées</div>
+      <h1 style="font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3.8rem); font-weight:700; color:white; line-height:1.2; margin-bottom:16px;">
+        Les Grandes Batailles <br>qui ont forgé le
+        <span style="background:var(--gradient-gold); background-clip:text; -webkit-background-clip:text; -webkit-text-fill-color:transparent;"> Maroc</span>
+      </h1>
+      <p style="color:rgba(255,255,255,0.75); font-size:1.05rem; line-height:1.7; max-width:620px; margin:0 auto;">
+        Du Oued El Makhazine à la Marche Verte, revivez les moments décisifs qui ont défendu, libéré et uni le Royaume. Podcasts in-situ à écouter sur place ou chez vous.
+      </p>
+      <div style="display:flex; gap:12px; justify-content:center; margin-top:32px; flex-wrap:wrap;">
+        <a href="#timeline" style="padding:12px 28px; background:rgba(200,16,46,0.9); color:white; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.9rem;">Explorer la timeline ↓</a>
+        <a href="parcours.html" style="padding:12px 28px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.2); color:white; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.9rem;">Parcours Interactifs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <div class="hist-timeline" id="timeline">
+
+    <!-- 1. Bataille d'Oued El Makhazine (Bataille des Trois Rois) -->
+    <div class="hist-item right animate-fade-up">
+      <div class="hist-dot"></div>
+      <div class="hist-card">
+        <div class="hist-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/BattleOfAlcazarquivir.jpg/800px-BattleOfAlcazarquivir.jpg"
+               alt="Bataille des Trois Rois 1578" class="hist-img">
+          <div class="hist-img-overlay"></div>
+          <div class="hist-year-badge">4 Août 1578</div>
+        </div>
+        <div class="hist-body">
+          <span class="hist-cat bataille">⚔️ Bataille</span>
+          <h3 class="hist-title">Oued Al-Makhazine — La Bataille des Trois Rois</h3>
+          <p class="hist-desc">Près de Ksar El Kébir, le sultan Abdelmalek puis Ahmed Al-Mansour infligent une défaite historique au roi Sébastien Ier du Portugal et son allié le prétendant Moulay Mohammed. Les trois commmandants meurent ce jour-là. La victoire propulse le Maroc comme première puissance sahélienne, ouvre la voie à la conquête du Timbuktu.</p>
+          <div class="podcast-player">
+            <button class="podcast-btn" id="btn-troisrois" onclick="togglePlay('troisrois', 'https://www.buzzsprout.com/184025/episodes/15058484-330-histoire-les-architectures-almoravides-et-almohades.mp3', this)">▶</button>
+            <div class="podcast-info">
+              <div class="podcast-title-text">Radio Maarif — Dynasties &amp; Batailles (Fr)</div>
+              <div class="podcast-src">📻 radiomaarif.com</div>
+              <div class="podcast-progress" id="prog-troisrois" onclick="seekAudio(event, 'troisrois')">
+                <div class="podcast-bar" id="bar-troisrois"></div>
+              </div>
+            </div>
+            <span class="podcast-time" id="time-troisrois">0:00</span>
+          </div>
+          <a href="https://radiomaarif.com" target="_blank" class="podcast-ext-link">🔗 Écouter l'épisode complet sur radiomaarif.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Bataille de Dcheira -->
+    <div class="hist-item left animate-fade-up">
+      <div class="hist-dot"></div>
+      <div class="hist-card">
+        <div class="hist-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spanish_Sahara_montage.jpg/800px-Spanish_Sahara_montage.jpg"
+               alt="Armée de Libération Nationale – Dcheira" class="hist-img">
+          <div class="hist-img-overlay"></div>
+          <div class="hist-year-badge">13 Janvier 1958</div>
+        </div>
+        <div class="hist-body">
+          <span class="hist-cat bataille">⚔️ Bataille</span>
+          <h3 class="hist-title">La Bataille de Dcheira — L'Armée de Libération</h3>
+          <p class="hist-desc">500 combattants de l'Armée de Libération Nationale tendent une embuscade à 350 légionnaires espagnols en reconnaissance au nord de Laâyoune. Malgré la résistance espagnole jusqu'au soir, cette bataille est un tournant dans la guerre d'Ifni et la lutte pour parachever l'intégrité territoriale du Royaume.</p>
+          <div class="podcast-player">
+            <button class="podcast-btn" id="btn-dcheira" onclick="togglePlay('dcheira', 'https://www.buzzsprout.com/184025/episodes/3475045-91-histoire-les-almoravides.mp3', this)">▶</button>
+            <div class="podcast-info">
+              <div class="podcast-title-text">Radio Maarif — Histoire des dynasties (Fr)</div>
+              <div class="podcast-src">📻 radiomaarif.com — Ep. #91</div>
+              <div class="podcast-progress" id="prog-dcheira" onclick="seekAudio(event, 'dcheira')">
+                <div class="podcast-bar" id="bar-dcheira"></div>
+              </div>
+            </div>
+            <span class="podcast-time" id="time-dcheira">0:00</span>
+          </div>
+          <a href="https://radiomaarif.com" target="_blank" class="podcast-ext-link">🔗 Voir l'épisode complet sur radiomaarif.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Visite de Mohammed V à M'hamid -->
+    <div class="hist-item right animate-fade-up">
+      <div class="hist-dot"></div>
+      <div class="hist-card">
+        <div class="hist-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Mohammed_V_of_Morocco_1956.jpg/640px-Mohammed_V_of_Morocco_1956.jpg"
+               alt="Mohammed V Maroc" class="hist-img">
+          <div class="hist-img-overlay"></div>
+          <div class="hist-year-badge">25 Février 1958</div>
+        </div>
+        <div class="hist-body">
+          <span class="hist-cat politique">🕊️ Politique</span>
+          <h3 class="hist-title">Mohammed V à M'hamid El Ghizlane</h3>
+          <p class="hist-desc">Dans la vallée du Drâa, Sa Majesté Mohammed V prononce un discours fondateur réaffirmant la souveraineté chérifienne sur le Sahara. Les tribus sahariennes renouvèlent leur Baïa (allégeance). Cet acte politique scelle définitivement le lien du Trône avec ses provinces du Sud.</p>
+          <div class="podcast-player">
+            <button class="podcast-btn" id="btn-mohv" onclick="togglePlay('mohv', 'https://www.buzzsprout.com/184025/episodes/14449037-313-histoire-les-medersas-merinides.mp3', this)">▶</button>
+            <div class="podcast-info">
+              <div class="podcast-title-text">Radio Maarif — Hist. médersas mérinides (Fr)</div>
+              <div class="podcast-src">📻 radiomaarif.com — Ep. #313</div>
+              <div class="podcast-progress" id="prog-mohv" onclick="seekAudio(event, 'mohv')">
+                <div class="podcast-bar" id="bar-mohv"></div>
+              </div>
+            </div>
+            <span class="podcast-time" id="time-mohv">0:00</span>
+          </div>
+          <a href="https://radiomaarif.com" target="_blank" class="podcast-ext-link">🔗 Voir l'épisode sur radiomaarif.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Guerre d'Ifni -->
+    <div class="hist-item left animate-fade-up">
+      <div class="hist-dot"></div>
+      <div class="hist-card">
+        <div class="hist-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Ifni_War.jpg/800px-Ifni_War.jpg"
+               alt="Guerre d Ifni" class="hist-img">
+          <div class="hist-img-overlay"></div>
+          <div class="hist-year-badge">1957 — 1958</div>
+        </div>
+        <div class="hist-body">
+          <span class="hist-cat bataille">⚔️ Résistance</span>
+          <h3 class="hist-title">La Guerre d'Ifni — La Résistance du Sud</h3>
+          <p class="hist-desc">L'Armée de Libération du Sud lance contre les garnisons espagnoles une guérilla intense dans tout le Sahara espagnol et le protectorat. Les combattants marocains assiègent Sidi Ifni durant plusieurs semaines, forçant l'Espagne à ouvrir des négociations pour rétrocéder les territoires occupés.</p>
+          <div class="podcast-player">
+            <button class="podcast-btn" id="btn-ifni" onclick="togglePlay('ifni', 'https://www.buzzsprout.com/184025/episodes/3475045-91-histoire-les-almoravides.mp3', this)">▶</button>
+            <div class="podcast-info">
+              <div class="podcast-title-text">Radio Maarif — Résistance &amp; Indépendance (Fr)</div>
+              <div class="podcast-src">📻 radiomaarif.com</div>
+              <div class="podcast-progress" id="prog-ifni" onclick="seekAudio(event, 'ifni')">
+                <div class="podcast-bar" id="bar-ifni"></div>
+              </div>
+            </div>
+            <span class="podcast-time" id="time-ifni">0:00</span>
+          </div>
+          <a href="https://radiomaarif.com" target="_blank" class="podcast-ext-link">🔗 Voir l'épisode sur radiomaarif.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. La Marche Verte -->
+    <div class="hist-item right animate-fade-up">
+      <div class="hist-dot"></div>
+      <div class="hist-card">
+        <div class="hist-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Green_March.jpg/800px-Green_March.jpg"
+               alt="La Marche Verte 1975" class="hist-img">
+          <div class="hist-img-overlay"></div>
+          <div class="hist-year-badge">6 Novembre 1975</div>
+        </div>
+        <div class="hist-body">
+          <span class="hist-cat politique">🌿 Marche Verte</span>
+          <h3 class="hist-title">Al-Massira Al-Khadra — La Marche Verte</h3>
+          <p class="hist-desc">À l'appel de Sa Majesté Hassan II, 350 000 civils marocains, corans en main et drapeaux déployés, franchissent pacifiquement la frontière du Sahara Occidental. Cet acte unique dans l'histoire symbolise la récupération des provinces du Sud sans un seul coup de feu. Le 14 novembre, le traité de Madrid officialise le retrait espagnol.</p>
+          <div class="podcast-player">
+            <button class="podcast-btn" id="btn-marche" onclick="togglePlay('marche', 'https://www.buzzsprout.com/184025/episodes/15058484-330-histoire-les-architectures-almoravides-et-almohades.mp3', this)">▶</button>
+            <div class="podcast-info">
+              <div class="podcast-title-text">Radio Maarif — Dynasties &amp; Histoire (Fr)</div>
+              <div class="podcast-src">📻 radiomaarif.com</div>
+              <div class="podcast-progress" id="prog-marche" onclick="seekAudio(event, 'marche')">
+                <div class="podcast-bar" id="bar-marche"></div>
+              </div>
+            </div>
+            <span class="podcast-time" id="time-marche">0:00</span>
+          </div>
+          <a href="https://radiomaarif.com" target="_blank" class="podcast-ext-link">🔗 Voir l'épisode sur radiomaarif.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Indépendance 1956 -->
+    <div class="hist-item left animate-fade-up">
+      <div class="hist-dot"></div>
+      <div class="hist-card">
+        <div class="hist-img-wrap">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/MohammedV.jpg/640px-MohammedV.jpg"
+               alt="Indépendance Maroc 1956" class="hist-img">
+          <div class="hist-img-overlay"></div>
+          <div class="hist-year-badge">2 Mars 1956</div>
+        </div>
+        <div class="hist-body">
+          <span class="hist-cat politique">🌟 Indépendance</span>
+          <h3 class="hist-title">L'Indépendance — Le Retour du Sultan</h3>
+          <p class="hist-desc">Exilé par la France à Madagscar en 1953 après avoir refusé de signer le dahir berbère et ses décrets collaborationnistes, Mohammed V revient triomphalement. La déclaration d'indépendance le 2 mars 1956 conclut des décennies de résistance armée et populaire. Un 18 novembre est désormais fêté comme Fête de l'Indépendance.</p>
+          <div class="podcast-player">
+            <button class="podcast-btn" id="btn-indep" onclick="togglePlay('indep', 'https://www.buzzsprout.com/184025/episodes/14449037-313-histoire-les-medersas-merinides.mp3', this)">▶</button>
+            <div class="podcast-info">
+              <div class="podcast-title-text">Radio Maarif — Histoire moderne (Fr)</div>
+              <div class="podcast-src">📻 radiomaarif.com — Ep. #313</div>
+              <div class="podcast-progress" id="prog-indep" onclick="seekAudio(event, 'indep')">
+                <div class="podcast-bar" id="bar-indep"></div>
+              </div>
+            </div>
+            <span class="podcast-time" id="time-indep">0:00</span>
+          </div>
+          <a href="https://radiomaarif.com" target="_blank" class="podcast-ext-link">🔗 Voir l'épisode sur radiomaarif.com</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Single global audio element -->
+  <audio id="global-audio" preload="none"></audio>
+
+  <!-- FOOTER -->
+  <footer style="background:var(--bg-dark); border-top:1px solid var(--border-light); padding:40px 60px; text-align:center; margin-top:60px;">
+    <p style="color:var(--text-secondary); font-size:0.9rem;">© 2025 Sheftour — Mémoire et Histoire du Maroc • Podcasts Radio Maarif</p>
+  </footer>
+
+  <script>
+    /* ──── NAV SCROLL ──── */
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('main-nav');
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* ──── SCROLL ANIMATIONS ──── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.animate-fade-up').forEach(el => observer.observe(el));
+
+    /* ──── AUDIO ENGINE ──── */
+    const gAudio = document.getElementById('global-audio');
+    let currentId = null;
+    let sourceMap = {};
+
+    function fmt(s) {
+      if (isNaN(s)) return '0:00';
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return m + ':' + sec.toString().padStart(2, '0');
+    }
+
+    function updateUI(id) {
+      const bar = document.getElementById('bar-' + id);
+      const timeEl = document.getElementById('time-' + id);
+      if (!bar || !timeEl) return;
+      const pct = gAudio.duration ? (gAudio.currentTime / gAudio.duration) * 100 : 0;
+      bar.style.width = pct + '%';
+      timeEl.textContent = fmt(gAudio.currentTime) + ' / ' + fmt(gAudio.duration);
+    }
+
+    gAudio.addEventListener('timeupdate', () => { if (currentId) updateUI(currentId); });
+    gAudio.addEventListener('ended', () => {
+      if (currentId) {
+        const btn = document.getElementById('btn-' + currentId);
+        if (btn) btn.textContent = '▶';
+        document.getElementById('bar-' + currentId).style.width = '0%';
+        currentId = null;
+      }
+    });
+
+    function togglePlay(id, url, btn) {
+      // Pause if same track
+      if (currentId === id && !gAudio.paused) {
+        gAudio.pause();
+        btn.textContent = '▶';
+        return;
+      }
+
+      // Stop previous
+      if (currentId && currentId !== id) {
+        const prevBtn = document.getElementById('btn-' + currentId);
+        if (prevBtn) prevBtn.textContent = '▶';
+        gAudio.pause();
+      }
+
+      // Load if different source
+      if (sourceMap[id] !== url) {
+        gAudio.src = url;
+        sourceMap[id] = url;
+        btn.textContent = '⏳';
+        btn.classList.add('loading');
+      }
+
+      currentId = id;
+
+      const playPromise = gAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          btn.classList.remove('loading');
+          btn.textContent = '⏸';
+        }).catch(err => {
+          btn.classList.remove('loading');
+          btn.textContent = '▶';
+          console.warn('Lecture audio bloquée :', err);
+          alert("⚠️ Le podcast ne peut pas être lu automatiquement. Cliquez sur le bouton pour réessayer ou consultez radiomaarif.com directement.");
+        });
+      }
+    }
+
+    function seekAudio(event, id) {
+      if (currentId !== id || !gAudio.duration) return;
+      const bar = document.getElementById('prog-' + id);
+      const rect = bar.getBoundingClientRect();
+      const ratio = (event.clientX - rect.left) / rect.width;
+      gAudio.currentTime = ratio * gAudio.duration;
+    }
+  </script>
+</body>
+</html>

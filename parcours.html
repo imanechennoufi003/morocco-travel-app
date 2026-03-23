@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parcours & Jeux — Sheftour</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .parcours-hero {
+      position: relative;
+      padding: 160px 60px 80px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(8,8,8,1) 0%, rgba(18,5,8,1) 100%);
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .parcours-hero-bg {
+      position: absolute; inset:0;
+      background: url('https://images.unsplash.com/photo-1533667554580-f0071da516be?auto=format&fit=crop&w=1920&q=80') center/cover;
+      opacity: 0.15;
+    }
+
+    /* Exp Interactives */
+    .exp-interactives { padding: 80px 60px; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .exp-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 40px 32px; transition: var(--transition); }
+    .exp-card:hover { transform: translateY(-6px); border-color: rgba(200,16,46,0.3); box-shadow: 0 16px 40px rgba(200,16,46,0.1); }
+    .exp-icon { font-size: 3rem; margin-bottom: 20px; display: block; }
+    .exp-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+    .exp-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 24px; }
+    .exp-link { color: var(--gradient-red); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: var(--transition); }
+    .exp-link:hover { color: #ff6b8a; letter-spacing: 0.5px; }
+
+    /* Plans / Itinéraires */
+    .plans-section { padding: 80px 60px; background: rgba(255,255,255,0.02); }
+    .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: 1200px; margin: 0 auto; }
+    .plan-card { display: flex; background: var(--bg-dark); border: 1px solid var(--border-light); border-radius: var(--radius-lg); overflow: hidden; transition: var(--transition); }
+    .plan-card:hover { border-color: var(--secondary); transform: translateX(4px); }
+    .plan-img { width: 40%; object-fit: cover; filter: brightness(0.7); transition: var(--transition); }
+    .plan-card:hover .plan-img { filter: brightness(0.9); }
+    .plan-content { padding: 32px 24px; width: 60%; display: flex; flex-direction: column; justify-content: center; }
+    .plan-meta { font-size: 0.75rem; color: var(--secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .plan-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+    .plan-desc { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px; }
+
+    /* Reality Games */
+    .game-section { padding: 100px 60px; max-width: 1000px; margin: 0 auto; text-align: center; }
+    .game-console {
+      background: linear-gradient(135deg, rgba(30,30,30,0.95), rgba(15,15,15,0.95));
+      border: 1px solid rgba(200,16,46,0.3);
+      padding: 60px; border-radius: var(--radius-lg); position: relative; overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    }
+    .game-console::after { content:''; position:absolute; inset:0; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity:0.03; pointer-events:none; }
+
+    .game-step { display: none; animation: fadeIn 0.4s ease; }
+    .game-step.active { display: block; }
+
+    .game-btn { background: var(--gradient-red); color: white; border: none; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.2s; margin-top: 24px; }
+    .game-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .game-btn:not(:disabled):hover { transform: scale(1.05); }
+
+    .terms-box { background: rgba(0,0,0,0.4); padding: 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; text-align: left; margin: 24px 0; font-size: 0.85rem; color: var(--text-secondary); height: 120px; overflow-y: auto; }
+    
+    .quiz-options { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; text-align: left; }
+    .quiz-opt { padding: 16px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; cursor: pointer; transition: var(--transition); font-weight: 500; }
+    .quiz-opt:hover { background: rgba(255,255,255,0.1); }
+    .quiz-opt.selected { background: rgba(200,16,46,0.2); border-color: #C8102E; }
+
+    .reward-box { background: rgba(212,175,55,0.1); border: 2px dashed rgba(212,175,55,0.5); padding: 40px; border-radius: 12px; margin-top: 30px; animation: bounceIn 0.8s; }
+
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.8);} 60%{opacity:1;transform:scale(1.05);} 100%{transform:scale(1);} }
+
+    @media (max-width: 1024px) {
+      .plans-grid, .exp-grid { grid-template-columns: 1fr; }
+      .plan-card { flex-direction: column; }
+      .plan-img { width: 100%; height: 200px; }
+      .plan-content { width: 100%; }
+      .game-console { padding: 40px 24px; }
+      .exp-interactives, .plans-section, .game-section { padding-left: 32px; padding-right: 32px; }
+    }
+  </style>
+</head>
+<body style="background:var(--bg-dark); color:var(--text-primary); font-family:'Inter',sans-serif;">
+
+  <!-- UNIFIED NAV -->
+  <nav class="unified-nav" id="main-nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🌙</div>
+      <span class="brand-name">Sheftour</span>
+    </a>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="culture.html">Culture</a></li>
+      <li><a href="histoire.html">Histoire</a></li>
+      <li><a href="parcours.html" class="active">Parcours & Jeux</a></li>
+      <li><a href="learn.html">Apprendre</a></li>
+      <li><a href="booking.html">Boutique & Réservation</a></li>
+    </ul>
+    <div>
+      <a href="login.html" class="nav-auth-btn">Connexion</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="parcours-hero">
+    <div class="parcours-hero-bg"></div>
+    <div style="position:relative; z-index:10;">
+      <div class="hero-badge" style="display:inline-block; padding:6px 16px; border-radius:50px; background:rgba(200,16,46,0.15); border:1px solid rgba(200,16,46,0.35); color:#ff6b8a; font-size:0.8rem; font-weight:600; text-transform:uppercase; margin-bottom:20px;">🎒 Aventure & Exploration</div>
+      <h1 class="hero-main-title" style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:white; line-height:1.2; margin-bottom:16px;">
+        Itinéraires & <span style="background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Jeux de Réalité</span>
+      </h1>
+      <p style="color:rgba(255,255,255,0.8); font-size:1.1rem; line-height:1.6; max-width:600px; margin:0 auto;">
+        Partez à la découverte des trésors cachés du Maroc à travers des circuits guidés et devenez l'acteur de votre voyage avec nos jeux immersifs.
+      </p>
+    </div>
+  </section>
+
+  <!-- EXPERIENCES INTERACTIVES (Moved from Homepage) -->
+  <section class="exp-interactives">
+    <div class="section-badge" style="display:inline-block; padding:6px 16px; border-radius:50px; background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.3); color:var(--secondary); font-size:0.8rem; text-transform:uppercase; font-weight:600; margin-bottom:14px;">🎮 Expériences Interactives</div>
+    <h2 style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; margin-bottom:14px;">Jouez, Apprenez, <span style="color:var(--secondary)">Découvrez</span></h2>
+    <p style="color:var(--text-secondary); max-width:600px; margin:0 auto;">Trois façons uniques de plonger au cœur de la culture marocaine tout en s'amusant.</p>
+
+    <div class="exp-grid">
+      <div class="exp-card animate-fade-up">
+        <span class="exp-icon">🧠</span>
+        <h3 class="exp-title">Quiz Culturels</h3>
+        <p class="exp-desc">Testez vos connaissances sur chaque lieu, chaque monument et chaque tradition. Gagnez des points et débloquez des niveaux secrets.</p>
+        <a href="#games" class="exp-link">Tester mes connaissances →</a>
+      </div>
+      <div class="exp-card animate-fade-up" style="transition-delay: 0.1s;">
+        <span class="exp-icon">🏆</span>
+        <h3 class="exp-title">Chasse au Trésor</h3>
+        <p class="exp-desc">Trouvez des récompenses cachées dans des lieux emblématiques du Maroc. Indices, énigmes et surprises à chaque étape (Réalité augmentée).</p>
+        <a href="#games" class="exp-link">Partir à l'aventure →</a>
+      </div>
+      <div class="exp-card animate-fade-up" style="transition-delay: 0.2s;">
+        <span class="exp-icon">🗺️</span>
+        <h3 class="exp-title">Parcours Historiques</h3>
+        <p class="exp-desc">Suivez des itinéraires immersifs à travers l'histoire du Maroc. Du Moyen Âge à l'indépendance, revivez chaque époque pas à pas.</p>
+        <a href="#plans" class="exp-link">Suivre un parcours →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION PLANS (bons plans touristiques) -->
+  <section class="plans-section" id="plans">
+    <div style="text-align:center; margin-bottom: 50px;">
+      <h2 style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700;">Les Bons Plans <span style="color:var(--secondary)">Touristiques</span></h2>
+      <p style="color:var(--text-secondary); max-width:600px; margin:14px auto 0;">Des circuits recommandés pour découvrir le Maroc seul, en famille ou avec nos guides certifiés.</p>
+    </div>
+    
+    <div class="plans-grid">
+      <!-- Plan 1 -->
+      <div class="plan-card animate-fade-up">
+        <img src="https://images.unsplash.com/photo-1552591605-645367b93df9?auto=format&fit=crop&w=600&q=80" alt="Villes impériales" class="plan-img">
+        <div class="plan-content">
+          <div class="plan-meta">🗺️ 7 Jours • Culture & Histoire</div>
+          <h3 class="plan-title">Le Circuit des Villes Impériales</h3>
+          <p class="plan-desc">Fès, Meknès, Rabat et Marrakech. Plongez dans les médinas millénaires, les palais somptueux et l'effervescence des souks. Idéal pour un premier voyage au Maroc.</p>
+          <a href="#games" style="color:white; font-size:0.85rem; text-decoration:none; border-bottom:1px solid; width:fit-content;">Jouer dans ce parcours →</a>
+        </div>
+      </div>
+      <!-- Plan 2 -->
+      <div class="plan-card animate-fade-up" style="transition-delay: 0.1s;">
+        <img src="https://images.unsplash.com/photo-1542642598-639a64e1ff1d?auto=format&fit=crop&w=600&q=80" alt="Désert et Kasbahs" class="plan-img">
+        <div class="plan-content">
+          <div class="plan-meta">🐪 5 Jours • Aventure & Nature</div>
+          <h3 class="plan-title">La Route des Kasbahs & Le Désert</h3>
+          <p class="plan-desc">Départ de Marrakech (Vallée du Dadès, Ouarzazate) jusqu'aux dunes de Merzouga. Bivouac sous les étoiles, lever de soleil sur l'Erg Chebbi et thé à la menthe avec les nomades.</p>
+          <a href="#games" style="color:white; font-size:0.85rem; text-decoration:none; border-bottom:1px solid; width:fit-content;">Jouer dans ce parcours →</a>
+        </div>
+      </div>
+      <!-- Plan 3 -->
+      <div class="plan-card animate-fade-up">
+        <img src="https://images.unsplash.com/photo-1517036662492-b4c6e919f8dd?auto=format&fit=crop&w=600&q=80" alt="Côte Atlantique" class="plan-img">
+        <div class="plan-content">
+          <div class="plan-meta">🌊 4 Jours • Détente & Surf</div>
+          <h3 class="plan-title">Évasion sur la Côte Atlantique</h3>
+          <p class="plan-desc">Essaouira la blanche, Agadir et Taghazout. Savourez du poisson grillé sur le port, surfez sur les meilleures vagues du continent et perdez-vous dans la Skala.</p>
+          <a href="#games" style="color:white; font-size:0.85rem; text-decoration:none; border-bottom:1px solid; width:fit-content;">Jouer dans ce parcours →</a>
+        </div>
+      </div>
+      <!-- Plan 4 -->
+      <div class="plan-card animate-fade-up" style="transition-delay: 0.1s;">
+        <img src="https://plus.unsplash.com/premium_photo-1661962360641-ed51cc378822?auto=format&fit=crop&w=600&q=80" alt="Le Nord" class="plan-img">
+        <div class="plan-content">
+          <div class="plan-meta">⛰️ 6 Jours • Méditerranée</div>
+          <h3 class="plan-title">Les Perles du Nord et du Rif</h3>
+          <p class="plan-desc">Tanger la cosmopolite, Chefchaouen la ville bleue et Tétouan. Un itinéraire marqué par une architecture andalouse unique et des sommets montagneux verdoyants.</p>
+          <a href="#games" style="color:white; font-size:0.85rem; text-decoration:none; border-bottom:1px solid; width:fit-content;">Jouer dans ce parcours →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REALITY GAMES DEMO -->
+  <section class="game-section" id="games">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <h2 style="font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:700; background:var(--gradient-gold); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">L'Aventure Commence Ici</h2>
+      <p style="color:var(--text-secondary); margin-top:10px;">Scannez les lieux, répondez aux énigmes et débloquez vos récompenses exclusives.</p>
+    </div>
+
+    <div class="game-console animate-fade-up">
+      
+      <!-- STEP 1: TERMS -->
+      <div id="game-step-1" class="game-step active">
+        <h3 style="font-size:1.4rem; margin-bottom:16px;">📜 Mission : Le Trésor de la Médina</h3>
+        <p style="color:rgba(255,255,255,0.8); font-size:0.95rem;">Avant de vous lancer dans les ruelles, vous devez accepter les règles du jeu.</p>
+        
+        <div class="terms-box">
+          <strong>Conditions d'utilisation (Reality Game) :</strong><br><br>
+          1. Soyez respectueux des habitants, ne filmez pas les personnes sans leur accord.<br>
+          2. Ne courez pas dans la médina (ruelles étroites et marchands).<br>
+          3. Pour utiliser la caméra AR, vous devrez autoriser l'accès depuis votre navigateur.<br>
+          4. La récompense obtenue n'est utilisable que pendant 48 heures dans la boutique partenaire indiquée.<br>
+          5. Amusez-vous et ouvrez l'œil !
+        </div>
+        
+        <label style="display:flex; align-items:center; justify-content:center; gap:10px; cursor:pointer;">
+          <input type="checkbox" id="accept-terms" onchange="document.getElementById('start-btn').disabled = !this.checked;" style="width:18px; height:18px; accent-color:#C8102E;">
+          <span style="font-size:0.9rem;">J'accepte les règles et je suis prêt pour l'aventure.</span>
+        </label>
+        <br>
+        <button id="start-btn" class="game-btn" disabled onclick="nextStep(2)">Commencer l'énigme</button>
+      </div>
+
+      <!-- STEP 2: QUIZ -->
+      <div id="game-step-2" class="game-step">
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:12px;">Énigme #1 : La Porte Céleste</h3>
+        <p style="color:rgba(255,255,255,0.8); line-height:1.6;">"Je protège la ville impériale du vent marin. Mes remparts ont repoussé les pirates, mais ont accueilli les poètes d'Andalousie. Mon nom signifie *La Belle*."</p>
+        
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectOpt(this, false)">A. Bab Boujloud (Fès)</div>
+          <div class="quiz-opt" onclick="selectOpt(this, true)">B. Bab Mansour (Meknès)</div>
+          <div class="quiz-opt" onclick="selectOpt(this, false)">C. Bab Agnaou (Marrakech)</div>
+          <div class="quiz-opt" onclick="selectOpt(this, false)">D. Kasbah des Oudayas (Rabat)</div>
+        </div>
+
+        <button id="submit-quiz" class="game-btn" disabled onclick="checkAnswer()">Valider la réponse</button>
+      </div>
+
+      <!-- STEP 3: REWARD -->
+      <div id="game-step-3" class="game-step">
+        <h3 style="font-family:'Playfair Display',serif; font-size:2rem; color:var(--secondary);">Bravo ! Vous avez trouvé.</h3>
+        <p style="color:rgba(255,255,255,0.8); margin-top:12px;">C'est effectivement <strong>Bab Mansour</strong> à Meknès, la porte la plus célèbre d'Afrique du Nord, achevée en 1732 par le Sultan Moulay Ismaïl.</p>
+        
+        <div class="reward-box">
+          <div style="font-size:3rem; margin-bottom:10px;">🎁</div>
+          <h4 style="font-size:1.3rem; margin-bottom:8px;">Bon de Réduction -15%</h4>
+          <p style="font-size:0.9rem; color:rgba(255,255,255,0.7);">Sur toute la maroquinerie au Souk de Meknès (Boutique de Hassan, Allée B).</p>
+          <div style="background:rgba(0,0,0,0.5); padding:10px; font-family:monospace; font-size:1.4rem; letter-spacing:4px; margin-top:20px; border-radius:6px; user-select:all;">MEKNES2025</div>
+        </div>
+
+        <button class="game-btn" onclick="window.location.href='booking.html'">Utiliser mon code en vitrine virtuelle →</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:var(--bg-dark); border-top:1px solid var(--border-light); padding:40px 60px; text-align:center;">
+    <p style="color:var(--text-secondary); font-size:0.9rem;">© 2025 Sheftour — Parcours Touristiques & Gamification</p>
+  </footer>
+
+  <script>
+    // Navbar Scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('main-nav');
+      if(window.scrollY > 60) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.animate-fade-up').forEach(el => observer.observe(el));
+
+    // Game Logic
+    let isCorrect = false;
+
+    function nextStep(step) {
+      document.querySelectorAll('.game-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('game-step-' + step).classList.add('active');
+    }
+
+    function selectOpt(element, correct) {
+      document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+      element.classList.add('selected');
+      isCorrect = correct;
+      document.getElementById('submit-quiz').disabled = false;
+    }
+
+    function checkAnswer() {
+      if(isCorrect) {
+        nextStep(3);
+      } else {
+        alert("Ce n'est pas tout à fait ça... Lisez bien l'indice !");
+      }
+    }
+  </script>
+</body>
+</html>

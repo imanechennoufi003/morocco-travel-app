@@ -1,190 +1,647 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maroc Découverte - Voyage, Culture & Traditions</title>
-  <meta name="description" content="Découvrez la magie du Maroc : Marrakech, El Jadida, culture berbère, atlas, désert et traditions millénaires. Votre guide de voyage immersif.">
+  <title>Sheftour — Explorez le Maroc Culturel & Historique</title>
+  <meta name="description"
+    content="Une plateforme immersive qui transforme chaque lieu en découverte culturelle. Explorez le Maroc à travers son histoire, ses traditions et ses expériences interactives.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <style>
-    /* HOME PAGE SPECIFIC */
-    .cities-section { background: linear-gradient(180deg, var(--bg-dark) 0%, #120808 50%, var(--bg-dark) 100%); }
+    /* ================================================
+       HOMEPAGE – UPDATED
+       ================================================ */
 
-    .city-card {
+    /* ---- HERO SECTION ---- */
+    .hero-section {
       position: relative;
-      border-radius: var(--radius-lg);
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
-      height: 420px;
-      cursor: pointer;
     }
 
-    .city-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-      filter: brightness(0.5);
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      /* High quality Unsplash image for the hero (Koutoubia HD) */
+      background-image: url('https://moroccanjourneys.com/wp-content/uploads/Marrakech-street-view.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      transform: scale(1.05);
+      animation: heroZoom 20s ease-in-out infinite alternate;
     }
 
-    .city-card:hover img {
-      transform: scale(1.08);
-      filter: brightness(0.35);
+    @keyframes heroZoom {
+      from {
+        transform: scale(1.05);
+      }
+
+      to {
+        transform: scale(1.12);
+      }
     }
 
-    .city-card-content {
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg,
+          rgba(0, 0, 0, 0.75) 0%,
+          rgba(13, 4, 4, 0.55) 50%,
+          rgba(0, 0, 0, 0.85) 100%);
+    }
+
+    .hero-section::after {
+      content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 30px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+      height: 120px;
+      background: linear-gradient(0deg, var(--bg-dark) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 5;
     }
 
-    .city-card-title {
+    /* HERO CONTENT */
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 0 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-text-block {
+      max-width: 680px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--secondary);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .hero-main-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 700;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 22px;
+      animation: fadeInUp 0.7s ease 0.1s both;
+    }
+
+    .hero-main-title .hero-gold {
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      margin-bottom: 40px;
+      max-width: 560px;
+      animation: fadeInUp 0.7s ease 0.2s both;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.7s ease 0.3s both;
+    }
+
+    .hero-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gradient-red);
+      color: white;
+      padding: 15px 32px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 28px rgba(200, 16, 46, 0.45);
+      transition: var(--transition);
+    }
+
+    .hero-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(200, 16, 46, 0.55);
+    }
+
+    .hero-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 15px 32px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: var(--transition);
+    }
+
+    .hero-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-3px);
+    }
+
+    /* Hero scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .hero-scroll:hover {
+      color: white;
+    }
+
+    .scroll-wheel {
+      width: 24px;
+      height: 38px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .scroll-dot {
+      width: 4px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 2px;
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: scrollDown 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollDown {
+      0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(14px);
+      }
+    }
+
+    /* Hero stats bar */
+    .hero-stats-bar {
+      position: absolute;
+      bottom: 90px;
+      right: 60px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: right;
+    }
+
+    .hero-stat-num {
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
       font-weight: 700;
-      color: white;
-      margin-bottom: 6px;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
     }
 
-    .city-card-sub {
-      color: var(--secondary);
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 1px;
+    .hero-stat-lbl {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.74rem;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
     }
 
-    .city-card-detail {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.88rem;
-      margin-top: 10px;
-      line-height: 1.6;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-    }
-
-    .city-card:hover .city-card-detail { max-height: 100px; }
-
-    .city-card-btn {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 8px 20px;
-      background: var(--gradient-red);
-      color: white;
-      border-radius: 50px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-decoration: none;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: var(--transition);
-    }
-
-    .city-card:hover .city-card-btn {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* MAP */
-    .map-section { padding: 60px 32px 100px; }
-
-    .map-wrapper {
-      max-width: 1200px;
+    /* ---- SECTION: MAP CONTAINER ---- */
+    .map-section {
+      padding: 60px;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
-    #map-container {
-      height: 520px;
+    /* Interactive Map Expand Feature */
+    .map-wrapper {
+      position: relative;
+      width: 100%;
+      height: 600px;
       border-radius: var(--radius-lg);
       border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
       overflow: hidden;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: zoom-in;
     }
 
-    /* EXPERIENCES */
-    .exp-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      background: rgba(200,16,46,0.1);
-      border: 1px solid rgba(200,16,46,0.2);
+    .map-wrapper.expanded {
+      position: fixed;
+      inset: 20px;
+      width: calc(100vw - 40px);
+      height: calc(100vh - 40px);
+      z-index: 2000;
+      cursor: auto;
+    }
+
+    .map-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 2500;
+      background: var(--gradient-red);
+      border: none;
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .map-wrapper.expanded .map-close-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
-      margin-bottom: 16px;
-      transition: var(--transition);
     }
 
-    .exp-card:hover .exp-icon {
-      background: rgba(200,16,46,0.2);
-      transform: scale(1.1);
+    .map-overlay-tip {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      pointer-events: none;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: opacity 0.3s;
     }
 
-    .exp-card {
-      padding: 28px;
+    .map-wrapper.expanded .map-overlay-tip {
+      opacity: 0;
+    }
+
+    #leaflet-map {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ---- SECTION: MÉMOIRE DU MAROC ---- */
+    .memoire-section {
+      padding: 80px 60px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .memoire-timeline {
+      position: relative;
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, var(--border), var(--secondary), var(--border), transparent);
+      transform: translateX(-50%);
+    }
+
+    .timeline-event {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0;
+      align-items: center;
+      padding: 24px 0;
+    }
+
+    .timeline-event:nth-child(even) .timeline-card {
+      grid-column: 3;
+    }
+
+    .timeline-event:nth-child(even) .timeline-empty {
+      grid-column: 1;
+    }
+
+    .timeline-event:nth-child(odd) .timeline-card {
+      grid-column: 1;
+    }
+
+    .timeline-event:nth-child(odd) .timeline-empty {
+      grid-column: 3;
+    }
+
+    .timeline-dot-col {
+      grid-column: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      grid-row: 1;
+    }
+
+    .timeline-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--gradient-gold);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2), 0 0 20px rgba(212, 175, 55, 0.4);
+      z-index: 2;
+      position: relative;
+    }
+
+    .timeline-card {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
       border-radius: var(--radius);
+      padding: 28px 32px;
       transition: var(--transition);
+      cursor: pointer;
     }
 
-    .exp-card:hover {
-      border-color: rgba(200,16,46,0.3);
+    .timeline-event:nth-child(odd) .timeline-card {
+      text-align: right;
+      margin-right: 30px;
+    }
+
+    .timeline-event:nth-child(even) .timeline-card {
+      text-align: left;
+      margin-left: 30px;
+    }
+
+    .timeline-card:hover {
+      border-color: rgba(212, 175, 55, 0.4);
       transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(200,16,46,0.1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     }
 
-    .exp-title {
+    .timeline-year {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--secondary);
+      font-weight: 700;
+      letter-spacing: 1px;
       margin-bottom: 8px;
     }
 
-    .exp-text {
+    .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
       color: var(--text-secondary);
       font-size: 0.88rem;
       line-height: 1.6;
     }
 
-    /* HACKATHON BANNER */
-    .hackathon-banner {
-      background: linear-gradient(135deg, #0A0A0A 0%, #1A0505 50%, #0A0A0A 100%);
-      border: 1px solid rgba(200,16,46,0.3);
+    .timeline-empty {
+      background: transparent;
+    }
+
+    /* ---- SECTION: EXPÉRIENCES LOCALES PREVIEW ---- */
+    .local-exp-section {
+      padding: 100px 60px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .local-exp-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 60px;
+    }
+
+    .local-exp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
       border-radius: var(--radius-lg);
-      padding: 50px 40px;
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .local-exp-card:hover {
+      border-color: rgba(200, 16, 46, 0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(200, 16, 46, 0.1);
+    }
+
+    .local-exp-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.8);
+      transition: var(--transition);
+    }
+
+    .local-exp-card:hover .local-exp-img {
+      filter: brightness(0.65);
+      transform: scale(1.04);
+    }
+
+    .local-exp-img-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .local-exp-price {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: var(--gradient-red);
+      color: white;
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .local-exp-body {
+      padding: 24px;
+    }
+
+    .local-exp-type {
+      font-size: 0.77rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+
+    .local-exp-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .local-exp-desc {
+      color: var(--text-secondary);
+      font-size: 0.87rem;
+      line-height: 1.6;
+    }
+
+    .local-exp-section-cta {
+      text-align: center;
+      margin-top: 56px;
+    }
+
+    /* ---- SECTION: IMPACT ---- */
+    .impact-section {
+      padding: 100px 60px;
+      background: linear-gradient(135deg, #0D0D0D 0%, #150508 50%, #0D0D0D 100%);
       position: relative;
       overflow: hidden;
-      text-align: center;
-      margin: 0 32px;
+    }
+
+    .impact-section .arabesque-pattern {
+      opacity: 0.15;
+    }
+
+    .impact-inner {
       max-width: 1200px;
-      margin: 0 auto 100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
     }
 
-    .hackathon-banner .arabesque-pattern { opacity: 0.3; }
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+      margin-top: 60px;
+    }
 
-    .hackathon-banner h2 {
+    .impact-card {
+      text-align: center;
+      padding: 48px 32px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      transition: var(--transition);
+    }
+
+    .impact-card:hover {
+      background: rgba(212, 175, 55, 0.04);
+      border-color: rgba(212, 175, 55, 0.2);
+      transform: translateY(-6px);
+    }
+
+    .impact-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    .impact-icon.artisans {
+      background: radial-gradient(circle, rgba(44, 122, 123, 0.25), rgba(44, 122, 123, 0.05));
+      border: 1px solid rgba(44, 122, 123, 0.4);
+      box-shadow: 0 0 20px rgba(44, 122, 123, 0.2);
+    }
+
+    .impact-icon.tourisme {
+      background: radial-gradient(circle, rgba(200, 16, 46, 0.2), rgba(200, 16, 46, 0.05));
+      border: 1px solid rgba(200, 16, 46, 0.4);
+      box-shadow: 0 0 20px rgba(200, 16, 46, 0.2);
+    }
+
+    .impact-icon.memoire {
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .impact-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-size: 1.2rem;
       font-weight: 700;
+      color: var(--text-primary);
       margin-bottom: 12px;
-      position: relative;
     }
 
-    .hackathon-banner p {
+    .impact-desc {
       color: var(--text-secondary);
-      position: relative;
-      max-width: 700px;
-      margin: 0 auto 32px;
-      line-height: 1.7;
+      font-size: 0.9rem;
+      line-height: 1.65;
     }
 
-    /* CHATBOT FLOATING */
+    /* FLOATING CHATBOT */
     .chatbot-float {
       position: fixed;
       bottom: 28px;
@@ -203,251 +660,555 @@
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
-      box-shadow: 0 4px 24px rgba(200,16,46,0.5);
+      box-shadow: 0 4px 24px rgba(200, 16, 46, 0.5);
       transition: var(--transition);
       animation: pulse 2s infinite;
     }
 
-    .chatbot-btn:hover { transform: scale(1.1); }
-
-    .chatbot-label {
-      position: absolute;
-      right: 70px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 0.82rem;
-      white-space: nowrap;
-      animation: slideIn 0.3s ease;
+    .chatbot-btn:hover {
+      transform: scale(1.1);
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(-50%) translateX(10px); }
-      to { opacity: 1; transform: translateY(-50%) translateX(0); }
+    /* FOOTER */
+    .footer-new {
+      background: #080808;
+      border-top: 1px solid var(--border);
+      padding: 70px 60px 30px;
+    }
+
+    .footer-new-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2.2fr 1fr 1fr 1fr;
+      gap: 50px;
+      margin-bottom: 50px;
+    }
+
+    .footer-new .footer-desc {
+      max-width: 280px;
+    }
+
+    .footer-heading {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--secondary);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      color: white;
+    }
+
+    .social-btn:hover {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .hero-content {
+        padding: 0 32px;
+      }
+
+      .hero-stats-bar {
+        right: 32px;
+      }
+
+      .map-section {
+        padding: 60px 32px;
+      }
+
+      .memoire-section {
+        padding: 80px 32px;
+      }
+
+      .local-exp-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .impact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-new-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-main-title {
+        font-size: 2.4rem;
+      }
+
+      .hero-stats-bar {
+        display: none;
+      }
+
+      .timeline-line {
+        left: 20px;
+      }
+
+      .timeline-event {
+        grid-template-columns: 40px 1fr;
+      }
+
+      .timeline-event .timeline-dot-col {
+        grid-column: 1;
+      }
+
+      .timeline-event .timeline-card {
+        grid-column: 2 !important;
+        text-align: left !important;
+        margin-left: 16px !important;
+        margin-right: 0 !important;
+      }
+
+      .timeline-event .timeline-empty {
+        display: none;
+      }
+
+      .footer-new-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
+
 <body>
-  <!-- GEOMETRIC BG -->
-  <div class="geo-bg">
-    <div class="geo-circle geo-circle-1"></div>
-    <div class="geo-circle geo-circle-2"></div>
-  </div>
 
-  <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
-    <a href="index.html" class="nav-logo">
-      <div class="logo-icon">🌙</div>
-      <span class="logo-text">Maroc Découverte</span>
-    </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html" class="active">Accueil</a></li>
-      <li><a href="culture.html">Culture</a></li>
-      <li><a href="learn.html">Apprendre</a></li>
-      <li><a href="chatbot.html">Chatbot</a></li>
-      <li><a href="hackathon.html">Hackathon</a></li>
-      <li><a href="login.html" class="nav-btn">Connexion</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-bg" id="heroBg" style="background-image: url('assets/images/marrakech.png')"></div>
+  <!-- =============================================
+       1. HERO SECTION
+       ============================================= -->
+  <section class="hero-section" id="hero">
+    <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
+
+    <!-- UNIFIED NAV -->
+    <nav class="unified-nav" id="main-nav">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">🌙</div>
+        <span class="brand-name">Sheftour</span>
+      </a>
+      <ul>
+        <li><a href="index.html" class="active">Accueil</a></li>
+        <li><a href="culture.html">Culture</a></li>
+        <li><a href="histoire.html">Histoire</a></li>
+        <li><a href="parcours.html">Parcours & Jeux</a></li>
+        <li><a href="learn.html">Apprendre</a></li>
+        <li><a href="booking.html">Boutique & Réservation</a></li>
+      </ul>
+      <div>
+        <a href="login.html" class="nav-auth-btn">Connexion</a>
+      </div>
+    </nav>
+
+    <!-- HERO CONTENT -->
     <div class="hero-content">
-      <div class="hero-badge">✦ Explorez le Royaume Chérifien</div>
-      <h1 class="hero-title">
-        Découvrez la Magie<br>du <span class="highlight">Maroc</span>
-      </h1>
-      <p class="hero-subtitle">
-        Des souks colorés de Marrakech aux remparts portugais d'El Jadida, plongez dans mille ans de civilisation, de culture et de traditions berbères.
-      </p>
-      <div class="hero-actions">
-        <a href="culture.html" class="btn btn-primary btn-lg">🏛️ Explorer la Culture</a>
-        <a href="#map" class="btn btn-outline btn-lg">🗺️ Carte du Maroc</a>
+      <div class="hero-text-block">
+        <div class="hero-badge">
+          <span>✦</span> L'Authenticité Marocaine
+        </div>
+        <h1 class="hero-main-title">
+          Explorez le Maroc à travers <span class="hero-gold">son histoire,<br>ses traditions</span>
+          <br>et ses expériences
+        </h1>
+        <p class="hero-subtitle">
+          Une plateforme immersive qui vous guide à travers les récits enchanteurs, les monuments majestueux et les
+          secrets de l'artisanat marocain.
+        </p>
+        <div class="hero-cta-group">
+          <!-- Directs to map, script makes it expand -->
+          <button id="btn-explore-map" class="hero-btn-primary">
+            🗺️ Explorer la carte
+          </button>
+          <!-- Directs to parcours.html -->
+          <a href="parcours.html" class="hero-btn-secondary">
+            🎮 Commencer un parcours
+          </a>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-number" data-count="12" data-suffix="+" id="c1">0+</div>
-          <div class="stat-label">Régions</div>
+    </div>
+
+    <!-- SCROLL INDICATOR -->
+    <div class="hero-scroll" onclick="document.getElementById('map-container').scrollIntoView({behavior:'smooth'})">
+      <div class="scroll-wheel">
+        <div class="scroll-dot"></div>
+      </div>
+      <span>Défiler</span>
+    </div>
+  </section>
+
+  <!-- =============================================
+       2. CARTE INTERACTIVE (FULL SCREEN ON CLICK)
+       ============================================= -->
+  <section class="map-section">
+    <div class="map-wrapper animate-fade-up" id="map-container">
+      <button class="map-close-btn" id="map-close">✕</button>
+      <div class="map-overlay-tip" id="map-hint">Cliquez sur la carte pour l'agrandir</div>
+      <div id="leaflet-map"></div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       3. MÉMOIRE DU MAROC (TIMELINE)
+       ============================================= -->
+  <section class="memoire-section" id="memoire">
+    <div class="section-header animate-fade-up" style="text-align: center;">
+      <div class="section-badge"
+        style="display:inline-block; padding:6px 16px; border-radius:50px; background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.3); color:var(--secondary); font-size:0.8rem; text-transform:uppercase; font-weight:600; margin-bottom:14px;">
+        🧠 Chronologie du Maroc</div>
+      <h2 class="section-title"
+        style="font-family:'Playfair Display', serif; font-size:2.6rem; font-weight:700; margin-bottom:14px;">Les
+        Grandes <span
+          style="background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Phases
+          de l'Histoire</span></h2>
+      <div class="divider" style="width:60px; height:3px; background:var(--gradient-gold); margin:0 auto 20px;"></div>
+      <p class="section-desc" style="color:var(--text-secondary); max-width:600px; margin:0 auto;">Un aperçu des
+        fondations et grandes dynasties qui ont forgé la nation marocaine à travers les siècles.</p>
+    </div>
+
+    <div class="memoire-timeline">
+      <div class="timeline-line"></div>
+
+      <!-- Idrissides -->
+      <div class="timeline-event animate-fade-up">
+        <div class="timeline-card" onclick="window.location.href='histoire.html'">
+          <div class="timeline-year">788 — 985</div>
+          <div class="timeline-title">La Fondation Idrisside</div>
+          <p class="timeline-desc">Établissement du premier état islamique unifié au Maroc par Idriss Ier. Fondation de
+            Fès et diffusion de l'Islam à travers le Maghreb Al Aqsa.</p>
         </div>
-        <div class="stat-item">
-          <div class="stat-number" data-count="5000" data-suffix="+" id="c2">0+</div>
-          <div class="stat-label">Ans d'Histoire</div>
+        <div class="timeline-dot-col">
+          <div class="timeline-dot"></div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number" data-count="3" data-suffix="" id="c3">0</div>
-          <div class="stat-label">Langues</div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <!-- Almoravides & Almohades -->
+      <div class="timeline-event animate-fade-up">
+        <div class="timeline-empty"></div>
+        <div class="timeline-dot-col">
+          <div class="timeline-dot"></div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number" data-count="14" data-suffix="" id="c4">0</div>
-          <div class="stat-label">Sites UNESCO</div>
+        <div class="timeline-card" onclick="window.location.href='histoire.html'">
+          <div class="timeline-year">1055 — 1269</div>
+          <div class="timeline-title">L'Âge d'Or des Empires Berbères</div>
+          <p class="timeline-desc">L'émergence des civilisations Almoravide et Almohade, régnant de l'Andalousie
+            jusqu'au fleuve Sénégal, laissant un héritage architectural magistral comme la Koutoubia.</p>
+        </div>
+      </div>
+
+      <!-- Saadiens -->
+      <div class="timeline-event animate-fade-up">
+        <div class="timeline-card" onclick="window.location.href='histoire.html'">
+          <div class="timeline-year">1554 — 1659</div>
+          <div class="timeline-title">L'Éclat de la Dynastie Saadienne</div>
+          <p class="timeline-desc">Période de grandeur caractérisée par la victoire lors de la Bataille des Trois Rois
+            (1578). Architecture fastueuse illustrée par les Tombeaux Saadiens et le Palais El Badi à Marrakech.</p>
+        </div>
+        <div class="timeline-dot-col">
+          <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-empty"></div>
+      </div>
+
+      <!-- Alaouites & Independance -->
+      <div class="timeline-event animate-fade-up">
+        <div class="timeline-empty"></div>
+        <div class="timeline-dot-col">
+          <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-card" onclick="window.location.href='histoire.html'">
+          <div class="timeline-year">1664 — Présent</div>
+          <div class="timeline-title">La Dynastie Alaouite & l'Indépendance</div>
+          <p class="timeline-desc">Consolidation du royaume chérifien, suivie par la libération du joug colonial en 1956
+            sous le Roi Mohammed V et la Marche Verte en 1975 sous Hassan II.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:60px;" class="animate-fade-up">
+      <a href="histoire.html" class="btn btn-primary"
+        style="background:var(--gradient-red); color:white; padding:14px 28px; border-radius:50px; text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:8px;">
+        📖 Découvrir l'histoire complète et écouter les récits →
+      </a>
+    </div>
+  </section>
+
+  <!-- =============================================
+       4. EXPÉRIENCES LOCALES & BOUTIQUE
+       ============================================= -->
+  <section class="local-exp-section" id="local-exp">
+    <div class="section-header animate-fade-up" style="text-align: center;">
+      <div class="section-badge"
+        style="display:inline-block; padding:6px 16px; border-radius:50px; background:rgba(44,122,123,0.1); border:1px solid rgba(44,122,123,0.3); color:#5ec4c4; font-size:0.8rem; text-transform:uppercase; font-weight:600; margin-bottom:14px;">
+        🛍️ Boutique & Expériences</div>
+      <h2 class="section-title"
+        style="font-family:'Playfair Display', serif; font-size:2.6rem; font-weight:700; margin-bottom:14px;">Acquérez
+        l'<span
+          style="background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Authentique</span>
+      </h2>
+      <div class="divider" style="width:60px; height:3px; background:var(--gradient-gold); margin:0 auto 20px;"></div>
+      <p class="section-desc" style="color:var(--text-secondary); max-width:600px; margin:0 auto;">Découvrez des
+        créations traditionnelles uniques et réservez des ateliers immersifs auprès des maîtres artisans.</p>
+    </div>
+
+    <div class="local-exp-cards">
+      <!-- Boutique item 1 -->
+      <div class="local-exp-card animate-fade-up" onclick="window.location.href='booking.html'">
+        <div class="local-exp-img-wrap">
+          <img src="https://images.unsplash.com/photo-1596796333423-e18d6e9dcab7?auto=format&fit=crop&w=800&q=80"
+            alt="Habits traditionnels" class="local-exp-img">
+        </div>
+        <div class="local-exp-body">
+          <div class="local-exp-type">👘 Artisanat Vestimentaire</div>
+          <div class="local-exp-name">Acheter des Costumes Traditionnels</div>
+          <p class="local-exp-desc">Explorez notre sélection de djellabas, caftans et bourses brodés main par les
+            coopératives féminines.</p>
+        </div>
+      </div>
+      <!-- Boutique item 2 -->
+      <div class="local-exp-card animate-fade-up" onclick="window.location.href='booking.html'">
+        <div class="local-exp-img-wrap">
+          <img src="https://images.unsplash.com/photo-1574697475117-69c7041f92c1?auto=format&fit=crop&w=800&q=80"
+            alt="Fakhar poterie" class="local-exp-img">
+        </div>
+        <div class="local-exp-body">
+          <div class="local-exp-type">🏺 Poterie (Fakhar)</div>
+          <div class="local-exp-name">Pièces Uniques de Safi & Fès</div>
+          <p class="local-exp-desc">Commandez d'authentiques tajines en terre cuite ou céramiques peintes directement
+            depuis les ateliers locaux.</p>
+        </div>
+      </div>
+      <!-- Booking Exp -->
+      <div class="local-exp-card animate-fade-up" onclick="window.location.href='booking.html'">
+        <div class="local-exp-img-wrap">
+          <img src="https://images.unsplash.com/photo-1541450805218-47201bc6c06a?auto=format&fit=crop&w=800&q=80"
+            alt="Réservation" class="local-exp-img">
+          <span class="local-exp-price">Réserver</span>
+        </div>
+        <div class="local-exp-body">
+          <div class="local-exp-type">📅 Activités & Guides</div>
+          <div class="local-exp-name">Ateliers, Restaurants & Guides</div>
+          <p class="local-exp-desc">Planifiez une visite guidée exclusive, un atelier de dinanderie ou une dégustation
+            gastronomique.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="local-exp-section-cta animate-fade-up">
+      <a href="booking.html" class="btn btn-outline"
+        style="border:1px solid var(--secondary); color:var(--secondary); padding:12px 26px; border-radius:50px; text-decoration:none; display:inline-flex; gap:8px;">
+        🌟 Accéder à la Boutique et aux Réservations →
+      </a>
+    </div>
+  </section>
+
+  <!-- =============================================
+       5. IMPACT
+       ============================================= -->
+  <section class="impact-section" id="impact">
+    <div class="arabesque-pattern"></div>
+    <div class="impact-inner">
+      <div class="section-header animate-fade-up" style="text-align: center;">
+        <div class="section-badge"
+          style="display:inline-block; padding:6px 16px; border-radius:50px; background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.3); color:var(--secondary); font-size:0.8rem; text-transform:uppercase; font-weight:600; margin-bottom:14px;">
+          🌍 Notre Impact</div>
+        <h2 class="section-title"
+          style="font-family:'Playfair Display', serif; font-size:2.6rem; font-weight:700; margin-bottom:14px;">Plus
+          qu'une plateforme, <span class="gold">un engagement</span></h2>
+        <div class="divider" style="width:60px; height:3px; background:var(--gradient-gold); margin:0 auto 20px;"></div>
+        <p class="section-desc" style="color:var(--text-secondary); max-width:600px; margin:0 auto;">Chaque visite,
+          chaque réservation contribue à un Maroc plus riche, plus solidaire et plus connecté avec son histoire.</p>
+      </div>
+
+      <div class="impact-grid">
+        <div class="impact-card animate-fade-up">
+          <div class="impact-icon artisans">🧶</div>
+          <div class="impact-title">Soutien Équitable</div>
+          <p class="impact-desc">Les ventes de la boutique et les réservations reversent directement les revenus aux
+            artisans et guides locaux certifiés.</p>
+        </div>
+        <div class="impact-card animate-fade-up">
+          <div class="impact-icon tourisme">📖</div>
+          <div class="impact-title">Histoire Numérisée</div>
+          <p class="impact-desc">Préervation des savoirs ancestraux et des archives historiques au travers de récits
+            multimédias accessibles à tous.</p>
+        </div>
+        <div class="impact-card animate-fade-up">
+          <div class="impact-icon memoire">🌍</div>
+          <div class="impact-title">Tourisme Durable</div>
+          <p class="impact-desc">Promotion d'itinéraires responsables via notre section 'Parcours', préservant les
+            écosystèmes et le patrimoine fragile.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CITIES SECTION -->
-  <section class="cities-section" style="padding: 100px 32px;">
-    <div style="max-width:1200px; margin:0 auto;">
-      <div class="section-header animate-fade-up">
-        <div class="section-badge">✦ Destinations</div>
-        <h2 class="section-title">Villes <span class="gold">Emblématiques</span></h2>
-        <div class="divider"></div>
-        <p class="section-desc">De la cité ocre de Marrakech à la cité portugaise d'El Jadida, chaque ville raconte une histoire unique.</p>
-      </div>
-      <div class="grid-2 animate-fade-up">
-        <!-- Marrakech -->
-        <div class="city-card">
-          <img src="assets/images/marrakech.png" alt="Marrakech - La Cité Ocre" loading="lazy">
-          <div class="city-card-content">
-            <div class="city-card-sub">Marrakech</div>
-            <h3 class="city-card-title">La Cité Ocre</h3>
-            <p class="city-card-detail">Jemaa el-Fna, les souks, la Koutoubia, les jardins Majorelle... Marrakech est un chef-d'œuvre vivant de l'architecture islamique et de la culture berbère.</p>
-            <a href="culture.html#marrakech" class="city-card-btn">Découvrir →</a>
-          </div>
-        </div>
-        <!-- El Jadida -->
-        <div class="city-card">
-          <img src="assets/images/el_jadida.png" alt="El Jadida - La Cité Portugaise" loading="lazy">
-          <div class="city-card-content">
-            <div class="city-card-sub">El Jadida</div>
-            <h3 class="city-card-title">La Cité Portugaise</h3>
-            <p class="city-card-detail">Classée patrimoine UNESCO, la Cité Portugaise d'El Jadida fascine par sa citerne mystérieuse, ses remparts et son atmosphère unique entre Atlantique et histoire.</p>
-            <a href="culture.html#eljadida" class="city-card-btn">Découvrir →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MAP SECTION -->
-  <section class="map-section" id="map">
-    <div class="map-wrapper">
-      <div class="section-header animate-fade-up">
-        <div class="section-badge">✦ Carte Interactive</div>
-        <h2 class="section-title">Explorez le <span class="gold">Maroc</span></h2>
-        <div class="divider"></div>
-        <p class="section-desc">Cliquez sur les marqueurs pour découvrir les villes, les sites touristiques et les attractions culturelles du Royaume.</p>
-      </div>
-      <div id="map-container" class="animate-fade-up"></div>
-    </div>
-  </section>
-
-  <!-- EXPERIENCES -->
-  <section class="section">
-    <div class="section-header animate-fade-up">
-      <div class="section-badge">✦ Expériences</div>
-      <h2 class="section-title">Vivez le <span class="gold">Maroc Authentique</span></h2>
-      <div class="divider"></div>
-    </div>
-    <div class="grid-3">
-      <div class="exp-card animate-fade-up">
-        <div class="exp-icon">🏺</div>
-        <div class="exp-title">Artisanat Traditionnel</div>
-        <p class="exp-text">Zellige, céramique, dinanderie, maroquinerie... L'artisanat marocain est un patrimoine vivant reconnu mondialement.</p>
-      </div>
-      <div class="exp-card animate-fade-up">
-        <div class="exp-icon">🍽️</div>
-        <div class="exp-title">Gastronomie Royale</div>
-        <p class="exp-text">Tajine, couscous, pastilla, mint tea... La cuisine marocaine est une célébration de saveurs et d'épices incomparables.</p>
-      </div>
-      <div class="exp-card animate-fade-up">
-        <div class="exp-icon">🎵</div>
-        <div class="exp-title">Musique & Folklore</div>
-        <p class="exp-text">Gnawa, Andalousie, Ahouach berbère... La richesse musicale du Maroc est une vibration de l'âme qui transcende le temps.</p>
-      </div>
-      <div class="exp-card animate-fade-up">
-        <div class="exp-icon">🕌</div>
-        <div class="exp-title">Architecture Islamique</div>
-        <p class="exp-text">Médinas, minarets, riads et palaces... L'architecture marocaine témoigne d'un génie esthétique inégalé.</p>
-      </div>
-      <div class="exp-card animate-fade-up">
-        <div class="exp-icon">🏔️</div>
-        <div class="exp-title">Nature & Aventure</div>
-        <p class="exp-text">De l'Atlas au Sahara, des côtes atlantiques aux gorges du Dadès, le Maroc offre des paysages à couper le souffle.</p>
-      </div>
-      <div class="exp-card animate-fade-up">
-        <div class="exp-icon">🌿</div>
-        <div class="exp-title">Médecine Traditionnelle</div>
-        <p class="exp-text">Argan, rose de Dades, henna, hammam... Les rituels de beauté et de bien-être marocains sont transmis depuis des siècles.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- HACKATHON BANNER -->
-  <div style="padding: 0 32px;">
-    <div class="hackathon-banner animate-fade-up" style="max-width:1200px; margin:0 auto 100px;">
-      <div class="arabesque-pattern"></div>
-      <div class="section-badge" style="position:relative">🏆 Événement</div>
-      <h2 style="position:relative; margin-top:12px;">الذاكرة، التراث، الابتكار والاستثمار</h2>
-      <p style="position:relative;">Hackathon organisé par le Centre Régional d'Investissement de la Région Marrakech-Safi en partenariat avec la Cité de l'Innovation de l'Université Cadi Ayyad.</p>
-      <a href="hackathon.html" class="btn btn-gold btn-lg" style="position:relative;">En savoir plus →</a>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-grid">
+  <!-- =============================================
+       FOOTER
+       ============================================= -->
+  <footer class="footer-new">
+    <div class="footer-new-grid">
       <div class="footer-brand">
-        <div class="logo-text">🌙 Maroc Découverte</div>
-        <p class="footer-desc">Votre portail vers la richesse culturelle, historique et artistique du Royaume du Maroc. Explorez, apprenez, et voyagez.</p>
+        <div class="brand-name"
+          style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+          🌙 Sheftour</div>
+        <p class="footer-desc" style="margin-top:14px;color:var(--text-secondary);line-height:1.6;">Votre portail vers
+          la richesse culturelle, historique et artistique du Royaume du Maroc. Explorez, apprenez et vivez des
+          expériences authentiques.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn">📘</a>
+          <a href="#" class="social-btn">📸</a>
+          <a href="#" class="social-btn">🐦</a>
+          <a href="#" class="social-btn">▶️</a>
+        </div>
       </div>
       <div>
         <div class="footer-heading">Navigation</div>
         <ul class="footer-links">
           <li><a href="index.html">Accueil</a></li>
-          <li><a href="culture.html">Culture</a></li>
-          <li><a href="learn.html">Apprendre</a></li>
-          <li><a href="chatbot.html">Chatbot IA</a></li>
+          <li><a href="histoire.html">L'Histoire</a></li>
+          <li><a href="parcours.html">Parcours & Jeux</a></li>
+          <li><a href="learn.html">Apprendre les langues</a></li>
         </ul>
       </div>
       <div>
-        <div class="footer-heading">Villes</div>
+        <div class="footer-heading">Boutique & Résa</div>
         <ul class="footer-links">
-          <li><a href="culture.html#marrakech">Marrakech</a></li>
-          <li><a href="culture.html#eljadida">El Jadida</a></li>
-          <li><a href="culture.html#fes">Fès</a></li>
-          <li><a href="culture.html#chefchaouen">Chefchaouen</a></li>
+          <li><a href="booking.html#achats">Artisanat</a></li>
+          <li><a href="booking.html#reservations">Guides & Ateliers</a></li>
+          <li><a href="booking.html#partenaires">Nos Artisans</a></li>
         </ul>
       </div>
       <div>
-        <div class="footer-heading">Événements</div>
+        <div class="footer-heading">Contact</div>
         <ul class="footer-links">
-          <li><a href="hackathon.html">Hackathon CRI</a></li>
-          <li><a href="login.html">Se Connecter</a></li>
-          <li><a href="register.html">S'inscrire</a></li>
+          <li><a href="mailto:contact@sheftour.ma">📧 contact@sheftour.ma</a></li>
+          <li><a href="#">📞 +212 5xx xx xx xx</a></li>
+          <li><a href="#">📍 Rabat, Maroc</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">© 2025 Maroc Découverte — Tous droits réservés</span>
-      <span class="footer-copy">🌙 الذاكرة والتراث والابتكار</span>
+    <div
+      style="max-width:1200px; margin:0 auto; padding-top:28px; border-top:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center;">
+      <span style="color:var(--text-muted);font-size:0.85rem;">© 2025 Sheftour — Tous droits réservés</span>
+      <span style="color:var(--text-muted);font-size:0.85rem;">🌙 الذاكرة والتراث والابتكار</span>
     </div>
   </footer>
 
-  <!-- FLOATING CHATBOT BTN -->
+  <!-- FLOATING CHATBOT -->
   <div class="chatbot-float">
-    <span class="chatbot-label" id="chatLabel">💬 Posez-moi une question!</span>
-    <button class="chatbot-btn" onclick="window.location.href='chatbot.html'" aria-label="Chatbot Morocco">🤖</button>
+    <button class="chatbot-btn" onclick="window.location.href='chatbot.html'" aria-label="Chatbot">🤖</button>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/main.js"></script>
   <script src="js/map.js"></script>
   <script>
-    // Hide chatbot label after 5s
-    setTimeout(() => {
-      const label = document.getElementById('chatLabel');
-      if (label) { label.style.display = 'none'; }
-    }, 5000);
+    // Navbar scroll effect unify
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('main-nav');
+      if (window.scrollY > 60) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // Animate on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.animate-fade-up').forEach(el => observer.observe(el));
+
+    // Map expand logic
+    const btnExplore = document.getElementById('btn-explore-map');
+    const mapWrapper = document.getElementById('map-container');
+    const mapClose = document.getElementById('map-close');
+    const mapHint = document.getElementById('map-hint');
+
+    function expandMap() {
+      mapWrapper.classList.add('expanded');
+      document.body.style.overflow = 'hidden';
+      // Recalculate leaflet map size
+      setTimeout(() => { if (window.dispatchEvent) window.dispatchEvent(new Event('resize')); }, 300);
+    }
+
+    function closeMap(e) {
+      if (e) e.stopPropagation();
+      mapWrapper.classList.remove('expanded');
+      document.body.style.overflow = '';
+      setTimeout(() => { if (window.dispatchEvent) window.dispatchEvent(new Event('resize')); }, 300);
+    }
+
+    btnExplore.addEventListener('click', () => {
+      mapWrapper.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(expandMap, 600);
+    });
+
+    mapWrapper.addEventListener('click', (e) => {
+      if (!mapWrapper.classList.contains('expanded') && e.target.tagName !== 'BUTTON') {
+        expandMap();
+      }
+    });
+
+    mapClose.addEventListener('click', closeMap);
   </script>
 </body>
+
 </html>

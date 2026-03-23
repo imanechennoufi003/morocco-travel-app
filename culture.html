@@ -3,594 +3,708 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Culture Marocaine — Marrakech & El Jadida</title>
-  <meta name="description" content="Explorez la richesse culturelle du Maroc : Marrakech, El Jadida, gastronomie, artisanat, musique et traditions berbères.">
+  <title>Patrimoine & Culture du Maroc — Sheftour</title>
+  <meta name="description" content="Explorez le patrimoine culturel marocain : artisanat, gastronomie, traditions musicales et habits traditionnels.">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* CULTURE PAGE STYLES */
-    .culture-hero {
-      min-height: 65vh;
-      display: flex;
-      align-items: flex-end;
+    /* ---- CULTURE HERO ---- */
+    .cult-hero {
       position: relative;
-      padding: 120px 32px 60px;
+      min-height: 72vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
     }
-
-    .culture-hero-bg {
-      position: absolute;
-      inset:0;
-      background-image: url('assets/images/culture.png');
-      background-size:cover;
-      background-position:center;
-      filter: brightness(0.35);
+    .cult-hero-bg {
+      position: absolute; inset: 0;
+      background: url('assets/images/culture.png') center/cover no-repeat;
+      animation: heroZoom 18s ease-in-out infinite alternate;
     }
-
-    .culture-hero-overlay {
-      position:absolute;
-      inset:0;
-      background: linear-gradient(0deg, rgba(13,13,13,0.95) 0%, transparent 60%);
+    @keyframes heroZoom { from{transform:scale(1.04)} to{transform:scale(1.1)} }
+    .cult-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(0,0,0,.65) 0%, rgba(13,4,4,.5) 40%, rgba(0,0,0,.85) 100%);
     }
-
-    .culture-hero-content {
-      position:relative;
-      z-index:2;
-      max-width:1200px;
-      margin:0 auto;
-      width:100%;
+    .cult-hero-overlay::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:140px;
+      background: linear-gradient(0deg, var(--bg-dark) 0%, transparent 100%);
     }
-
-    /* TABS */
-    .tab-nav {
-      display:flex;
-      gap:8px;
-      margin-bottom:48px;
-      flex-wrap:wrap;
+    .cult-hero-nav {
+      position: relative; z-index: 20;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 60px;
     }
-
-    .tab-btn {
-      padding:10px 24px;
-      border-radius:50px;
-      border: 1px solid var(--border-light);
-      background: var(--bg-card);
-      color:var(--text-secondary);
-      font-size:0.88rem;
-      font-weight:500;
-      cursor:pointer;
-      transition:var(--transition);
-      font-family:'Inter',sans-serif;
+    .cult-hero-nav .brand {
+      display: flex; align-items: center; gap: 12px; text-decoration: none;
     }
-
-    .tab-btn.active, .tab-btn:hover {
-      background:linear-gradient(135deg,#C8102E,#FF3355);
-      border-color:transparent;
-      color:white;
+    .cult-hero-nav .brand-icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--gradient-red); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem;
+      box-shadow: 0 4px 14px rgba(200,16,46,.5);
     }
-
-    .tab-panel { display:none; }
-    .tab-panel.active { display:block; animation:fadeIn 0.4s ease; }
-
-    /* CITY DETAIL CARDS */
-    .city-detail {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:48px;
-      align-items:center;
-      margin-bottom:80px;
+    .cult-hero-nav .brand-name {
+      font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700;
+      background: var(--gradient-gold); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
     }
-
-    .city-detail.reverse { direction:rtl; }
-    .city-detail.reverse > * { direction:ltr; }
-
-    .city-detail-img {
-      border-radius:var(--radius-lg);
-      overflow:hidden;
-      height:400px;
-      position:relative;
+    .cult-hero-nav ul { display:flex; gap:6px; list-style:none; }
+    .cult-hero-nav ul a {
+      color: rgba(255,255,255,.8); text-decoration:none; font-size:.9rem;
+      padding: 8px 18px; border-radius: 50px; transition: var(--transition);
     }
-
-    .city-detail-img img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
+    .cult-hero-nav ul a:hover, .cult-hero-nav ul a.active { background:rgba(255,255,255,.12); color:white; }
+    .cult-hero-content {
+      position: relative; z-index: 10; padding: 0 60px 70px;
+      max-width: 1300px; width: 100%;
     }
-
-    .city-detail-img::after {
-      content:'';
-      position:absolute;
-      inset:0;
-      border:1px solid rgba(212,175,55,0.2);
-      border-radius:var(--radius-lg);
-      pointer-events:none;
+    .cult-hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(212,175,55,.15); border: 1px solid rgba(212,175,55,.35);
+      color: var(--secondary); padding: 6px 16px; border-radius: 50px;
+      font-size: .78rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 22px;
     }
-
-    .city-detail-badge {
-      display:inline-block;
-      background:rgba(200,16,46,0.15);
-      color:var(--primary-light);
-      font-size:0.75rem;
-      font-weight:600;
-      padding:4px 14px;
-      border-radius:50px;
-      text-transform:uppercase;
-      letter-spacing:1px;
-      margin-bottom:12px;
+    .cult-hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 700;
+      color: white; line-height: 1.15; margin-bottom: 18px;
     }
+    .cult-hero-title .gold { background: var(--gradient-gold); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .cult-hero-desc { color: rgba(255,255,255,.8); font-size:1rem; line-height:1.75; max-width:580px; margin-bottom:36px; }
+    .cult-hero-tags { display:flex; gap:10px; flex-wrap:wrap; }
+    .cult-tag {
+      padding:8px 18px; border-radius:50px; font-size:.84rem; font-weight:500;
+      border:1px solid; cursor:pointer; transition: var(--transition);
+      text-decoration: none;
+    }
+    .cult-tag:hover { transform: translateY(-2px); }
+    .ct-artisan { background:rgba(44,122,123,.15); border-color:rgba(44,122,123,.4); color:#5ec4c4; }
+    .ct-gastro  { background:rgba(231,111,81,.15); border-color:rgba(231,111,81,.4); color:#f5a07f; }
+    .ct-musique { background:rgba(139,92,246,.15); border-color:rgba(139,92,246,.4); color:#c4b5fd; }
+    .ct-habit   { background:rgba(212,175,55,.15); border-color:rgba(212,175,55,.35); color:var(--secondary); }
 
-    .city-detail-title {
+    /* ---- CATEGORY CARDS ---- */
+    .cat-section { padding: 90px 60px; max-width:1300px; margin:0 auto; }
+    .cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:56px; }
+    .cat-card {
+      position:relative; border-radius:var(--radius-lg); overflow:hidden;
+      height:380px; cursor:pointer; transition:var(--transition);
+    }
+    .cat-card img { width:100%; height:100%; object-fit:cover; filter:brightness(.55); transition:transform .6s ease,filter .5s ease; }
+    .cat-card:hover img { transform:scale(1.08); filter:brightness(.35); }
+    .cat-card-body {
+      position:absolute; bottom:0; left:0; right:0; padding:28px 24px;
+      background:linear-gradient(0deg,rgba(0,0,0,.9) 0%,transparent 100%);
+    }
+    .cat-card-label {
+      display:inline-block; padding:3px 12px; border-radius:50px;
+      font-size:.72rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px;
+    }
+    .cat-card-title { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:white; margin-bottom:8px; }
+    .cat-card-sub { color:rgba(255,255,255,.65); font-size:.84rem; line-height:1.5; max-height:0; overflow:hidden; transition:max-height .4s ease; }
+    .cat-card:hover .cat-card-sub { max-height:80px; }
+    .cat-card-btn {
+      display:inline-flex; align-items:center; gap:6px; margin-top:14px;
+      background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25);
+      color:white; padding:8px 18px; border-radius:50px; font-size:.8rem;
+      font-weight:600; cursor:pointer; backdrop-filter:blur(6px);
+      opacity:0; transform:translateY(8px); transition:var(--transition);
+    }
+    .cat-card:hover .cat-card-btn { opacity:1; transform:translateY(0); }
+    /* Label colors */
+    .lbl-artisan { background:rgba(44,122,123,.35); border:1px solid rgba(44,122,123,.5); color:#5ec4c4; }
+    .lbl-gastro  { background:rgba(231,111,81,.35); border:1px solid rgba(231,111,81,.5); color:#f5a07f; }
+    .lbl-musique { background:rgba(139,92,246,.35); border:1px solid rgba(139,92,246,.5); color:#c4b5fd; }
+    .lbl-habit   { background:rgba(212,175,55,.2); border:1px solid rgba(212,175,55,.4); color:var(--secondary); }
+
+    /* ---- MODAL DETAIL ---- */
+    .modal-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,.85);
+      backdrop-filter:blur(12px); z-index:1000; opacity:0;
+      pointer-events:none; transition:opacity .3s ease;
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .modal-overlay.open { opacity:1; pointer-events:all; }
+    .modal-box {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius-lg); max-width:860px; width:100%;
+      max-height:90vh; overflow-y:auto; position:relative;
+      transform:translateY(30px) scale(.97); transition:transform .35s ease;
+    }
+    .modal-overlay.open .modal-box { transform:translateY(0) scale(1); }
+    .modal-hero { position:relative; height:280px; overflow:hidden; border-radius:var(--radius-lg) var(--radius-lg) 0 0; }
+    .modal-hero img { width:100%; height:100%; object-fit:cover; filter:brightness(.6); }
+    .modal-hero-text { position:absolute; bottom:24px; left:28px; right:28px; }
+    .modal-close {
+      position:absolute; top:16px; right:16px; background:rgba(0,0,0,.6);
+      border:1px solid rgba(255,255,255,.2); color:white; width:36px; height:36px;
+      border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex;
+      align-items:center; justify-content:center; transition:var(--transition);
+      backdrop-filter:blur(6px); z-index:5;
+    }
+    .modal-close:hover { background:rgba(200,16,46,.6); }
+    .modal-body { padding:32px; }
+    .modal-meta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+    .modal-meta-chip {
+      display:inline-flex; align-items:center; gap:6px; padding:6px 14px;
+      border-radius:50px; font-size:.78rem; font-weight:500; border:1px solid;
+    }
+    .mc-origine { background:rgba(212,175,55,.1); border-color:rgba(212,175,55,.3); color:var(--secondary); }
+    .mc-category { background:rgba(200,16,46,.1); border-color:rgba(200,16,46,.3); color:#ff6b8a; }
+    .modal-desc { color:var(--text-secondary); line-height:1.8; margin-bottom:20px; font-size:.95rem; }
+    .modal-signif-title { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; margin-bottom:10px; color:var(--secondary); }
+    .modal-signif { color:var(--text-secondary); font-size:.9rem; line-height:1.7; padding:16px 20px; background:rgba(212,175,55,.05); border-left:3px solid var(--secondary); border-radius:0 8px 8px 0; margin-bottom:24px; }
+    .modal-audio { display:flex; align-items:center; gap:12px; background:rgba(255,255,255,.04); border:1px solid var(--border-light); padding:14px 18px; border-radius:var(--radius); margin-bottom:24px; }
+    .modal-audio-btn { background:var(--gradient-red); border:none; color:white; width:38px; height:38px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.9rem; flex-shrink:0; }
+    .modal-audio-label { font-size:.85rem; color:var(--text-secondary); }
+    .modal-actions { display:flex; gap:12px; flex-wrap:wrap; }
+
+    /* ---- IMMERSIVE SECTION ---- */
+    .immersive-section {
+      padding: 90px 60px;
+      background: linear-gradient(135deg, #0D0D0D 0%, #120508 50%, #0D0D0D 100%);
+    }
+    .immersive-grid { max-width:1200px; margin:56px auto 0; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .immersive-card {
+      background:var(--bg-card); border:1px solid var(--border-light);
+      border-radius:var(--radius-lg); padding:36px 28px; text-align:center;
+      cursor:pointer; transition:var(--transition); position:relative; overflow:hidden;
+    }
+    .immersive-card::before {
+      content:''; position:absolute; inset:0;
+      background:var(--ic-grad, linear-gradient(135deg,rgba(44,122,123,.08),transparent));
+      opacity:0; transition:var(--transition);
+    }
+    .immersive-card:hover::before { opacity:1; }
+    .immersive-card:hover { border-color:var(--ic-border,rgba(44,122,123,.4)); transform:translateY(-7px); box-shadow:0 24px 60px rgba(0,0,0,.4); }
+    .ic-map  { --ic-grad:linear-gradient(135deg,rgba(44,122,123,.1),transparent); --ic-border:rgba(44,122,123,.4); }
+    .ic-art  { --ic-grad:linear-gradient(135deg,rgba(200,16,46,.08),transparent); --ic-border:rgba(200,16,46,.4); }
+    .ic-book { --ic-grad:linear-gradient(135deg,rgba(212,175,55,.1),transparent); --ic-border:rgba(212,175,55,.35); }
+    .immersive-icon { font-size:2.8rem; margin-bottom:18px; display:block; }
+    .immersive-title { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; margin-bottom:10px; }
+    .immersive-desc  { color:var(--text-secondary); font-size:.88rem; line-height:1.65; margin-bottom:22px; }
+    .immersive-link  { display:inline-flex; align-items:center; gap:6px; font-size:.84rem; font-weight:600; text-decoration:none; transition:var(--transition); }
+    .ic-map  .immersive-link { color:var(--accent); }
+    .ic-art  .immersive-link { color:#ff6b8a; }
+    .ic-book .immersive-link { color:var(--secondary); }
+    .immersive-link:hover { letter-spacing:.5px; }
+
+    /* ---- STORYTELLING ---- */
+    .story-section { padding:90px 60px; max-width:1300px; margin:0 auto; }
+    .story-quote {
+      position:relative; background:var(--bg-card);
+      border:1px solid rgba(212,175,55,.2); border-radius:var(--radius-lg);
+      padding:56px 60px; text-align:center; overflow:hidden;
+    }
+    .story-quote .arabesque-pattern { opacity:.1; }
+    .story-quote-mark {
+      font-family:'Playfair Display',serif; font-size:8rem; line-height:.7;
+      color:rgba(212,175,55,.15); position:absolute; top:20px; left:30px;
+      font-weight:900; pointer-events:none;
+    }
+    .story-text {
       font-family:'Playfair Display',serif;
-      font-size:2.2rem;
-      font-weight:700;
-      margin-bottom:12px;
+      font-size:clamp(1.3rem,2.5vw,1.9rem); font-weight:600;
+      color:var(--text-primary); line-height:1.6; position:relative; z-index:2;
+      margin-bottom:18px; font-style:italic;
     }
-
-    .city-detail-title span {
-      background:var(--gradient-gold);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
+    .story-text .gold { background:var(--gradient-gold); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .story-author { color:var(--text-secondary); font-size:.88rem; letter-spacing:1px; position:relative; z-index:2; }
+    .story-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:40px; }
+    .story-card {
+      background:var(--bg-card); border:1px solid var(--border-light);
+      border-radius:var(--radius); padding:28px 24px; transition:var(--transition);
     }
+    .story-card:hover { border-color:rgba(212,175,55,.3); transform:translateY(-4px); }
+    .story-card-emoji { font-size:2rem; margin-bottom:14px; display:block; }
+    .story-card-title { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; margin-bottom:8px; }
+    .story-card-text { color:var(--text-secondary); font-size:.86rem; line-height:1.65; }
 
-    .city-detail-text {
-      color:var(--text-secondary);
-      font-size:0.95rem;
-      line-height:1.8;
-      margin-bottom:20px;
+    /* ---- CTA SECTION ---- */
+    .cult-cta {
+      margin:0 60px 80px; border-radius:var(--radius-lg);
+      background:linear-gradient(135deg,#0A0A0A 0%,#1A0505 50%,#0A0A0A 100%);
+      border:1px solid rgba(200,16,46,.3); padding:70px 60px;
+      text-align:center; position:relative; overflow:hidden;
     }
-
-    .city-highlights {
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
+    .cult-cta .arabesque-pattern { opacity:.2; }
+    .cult-cta-title {
+      font-family:'Playfair Display',serif; font-size:clamp(1.6rem,3.5vw,2.6rem);
+      font-weight:700; margin-bottom:14px; position:relative; z-index:2;
     }
+    .cult-cta-desc { color:var(--text-secondary); max-width:560px; margin:0 auto 36px; line-height:1.7; position:relative; z-index:2; }
+    .cult-cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; position:relative; z-index:2; }
 
-    /* GALLERY */
-    .gallery-grid {
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:16px;
+    /* ---- FOOTER ---- */
+    .cult-footer { background:#080808; border-top:1px solid var(--border); padding:60px 60px 28px; }
+    .cult-footer-grid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+
+    /* ---- CHATBOT ---- */
+    .chatbot-float { position:fixed; bottom:28px; right:28px; z-index:500; }
+    .chatbot-btn {
+      width:60px; height:60px; border-radius:50%; background:var(--gradient-red);
+      border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; box-shadow:0 4px 24px rgba(200,16,46,.5);
+      transition:var(--transition); animation:pulse 2s infinite;
     }
+    .chatbot-btn:hover { transform:scale(1.1); }
 
-    .gallery-item {
-      border-radius:var(--radius);
-      overflow:hidden;
-      aspect-ratio:1;
-      cursor:pointer;
-      position:relative;
+    @media(max-width:1024px) {
+      .cult-hero-nav,.cult-hero-content { padding-left:32px; padding-right:32px; }
+      .cat-section,.immersive-section,.story-section { padding:70px 32px; }
+      .cat-grid { grid-template-columns:repeat(2,1fr); }
+      .immersive-grid,.story-cards { grid-template-columns:1fr; }
+      .cult-cta { margin:0 32px 60px; padding:50px 32px; }
+      .cult-footer,.cult-footer-grid { padding-left:32px; padding-right:32px; }
     }
-
-    .gallery-item img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:transform 0.4s ease, filter 0.4s ease;
-      filter:brightness(0.8);
-    }
-
-    .gallery-item:hover img {
-      transform:scale(1.08);
-      filter:brightness(1);
-    }
-
-    .gallery-item-label {
-      position:absolute;
-      bottom:0;
-      left:0;
-      right:0;
-      padding:10px 12px;
-      background:linear-gradient(0deg,rgba(0,0,0,0.8),transparent);
-      font-size:0.78rem;
-      font-weight:500;
-      color:white;
-      transform:translateY(100%);
-      transition:transform 0.3s ease;
-    }
-
-    .gallery-item:hover .gallery-item-label { transform:translateY(0); }
-
-    /* GASTRONOMY */
-    .food-card {
-      background:var(--bg-card);
-      border:1px solid var(--border-light);
-      border-radius:var(--radius);
-      overflow:hidden;
-      transition:var(--transition);
-    }
-
-    .food-card:hover {
-      transform:translateY(-4px);
-      border-color:var(--border);
-      box-shadow:var(--shadow);
-    }
-
-    .food-emoji {
-      font-size:3rem;
-      text-align:center;
-      padding:28px 0 0;
-    }
-
-    .food-body { padding:16px 20px 20px; }
-
-    .food-name {
-      font-family:'Playfair Display',serif;
-      font-size:1.1rem;
-      margin-bottom:6px;
-    }
-
-    .food-desc {
-      color:var(--text-secondary);
-      font-size:0.83rem;
-      line-height:1.6;
-    }
-
-    .food-origin {
-      display:inline-block;
-      background:rgba(212,175,55,0.1);
-      color:var(--secondary);
-      font-size:0.72rem;
-      padding:3px 10px;
-      border-radius:50px;
-      margin-top:10px;
-    }
-
     @media(max-width:768px) {
-      .city-detail { grid-template-columns:1fr; gap:24px; }
-      .city-detail.reverse { direction:ltr; }
-      .gallery-grid { grid-template-columns:repeat(2,1fr); }
+      .cult-hero-nav ul { display:none; }
+      .cat-grid { grid-template-columns:1fr; }
+      .story-cards { grid-template-columns:1fr; }
+      .cult-footer-grid { grid-template-columns:1fr 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="geo-bg">
-    <div class="geo-circle geo-circle-1"></div>
-    <div class="geo-circle geo-circle-2"></div>
-  </div>
 
-  <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
-    <a href="index.html" class="nav-logo">
-      <div class="logo-icon">🌙</div>
-      <span class="logo-text">Maroc Découverte</span>
+<div class="geo-bg">
+  <div class="geo-circle geo-circle-1"></div>
+  <div class="geo-circle geo-circle-2"></div>
+</div>
+
+<!-- ================================================
+     1. HERO
+================================================ -->
+<section class="cult-hero" id="top">
+  <div class="cult-hero-bg"></div>
+  <div class="cult-hero-overlay"></div>
+
+  <nav class="unified-nav" id="main-nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🌙</div>
+      <span class="brand-name">Sheftour</span>
     </a>
-    <ul class="nav-links" id="navLinks">
+    <ul>
       <li><a href="index.html">Accueil</a></li>
       <li><a href="culture.html" class="active">Culture</a></li>
+      <li><a href="histoire.html">Histoire</a></li>
+      <li><a href="parcours.html">Parcours & Jeux</a></li>
       <li><a href="learn.html">Apprendre</a></li>
-      <li><a href="chatbot.html">Chatbot</a></li>
-      <li><a href="hackathon.html">Hackathon</a></li>
-      <li><a href="login.html" class="nav-btn">Connexion</a></li>
+      <li><a href="booking.html">Boutique & Réservation</a></li>
     </ul>
-    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <div>
+      <a href="login.html" class="nav-auth-btn">Connexion</a>
+    </div>
   </nav>
 
-  <!-- CULTURE HERO -->
-  <div class="culture-hero">
-    <div class="culture-hero-bg"></div>
-    <div class="culture-hero-overlay"></div>
-    <div class="culture-hero-content">
-      <div class="hero-badge">✦ Culture & Patrimoine</div>
-      <h1 class="hero-title">L'Âme du <span class="highlight">Maroc</span></h1>
-      <p class="hero-subtitle" style="max-width:700px">De Marrakech à El Jadida, découvrez un patrimoine millénaire où se mêlent cultures amazighe, arabe, andalouse et africaine dans une symphonie unique.</p>
+  <div class="cult-hero-content animate-fade-up">
+    <div class="cult-hero-badge">✦ Patrimoine Vivant</div>
+    <h1 class="cult-hero-title">Patrimoine & <span class="gold">Culture</span><br>du Maroc</h1>
+    <p class="cult-hero-desc">Plongez dans l'âme du Royaume : chaque artisan, chaque plat, chaque mélodie raconte une histoire millénaire de beauté, de résistance et de transmission.</p>
+    <div class="cult-hero-tags">
+      <a href="#artisanat" class="cult-tag ct-artisan" onclick="openModal('artisanat')">🧵 Artisanat</a>
+      <a href="#gastronomie" class="cult-tag ct-gastro" onclick="openModal('gastronomie')">🍲 Gastronomie</a>
+      <a href="#musique" class="cult-tag ct-musique" onclick="openModal('musique')">🎶 Traditions & Musique</a>
+      <a href="#habits" class="cult-tag ct-habit" onclick="openModal('habits')">👘 Habits Traditionnels</a>
     </div>
   </div>
+</section>
 
-  <!-- TAB NAV -->
-  <div style="background:var(--bg-dark); border-bottom:1px solid var(--border-light); padding:0 32px; position:sticky; top:70px; z-index:100;">
-    <div style="max-width:1200px; margin:0 auto; padding:16px 0;">
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="switchTab('marrakech')">🏯 Marrakech</button>
-        <button class="tab-btn" onclick="switchTab('eljadida')" id="tab-eljadida">🏰 El Jadida</button>
-        <button class="tab-btn" onclick="switchTab('gastro')">🍽️ Gastronomie</button>
-        <button class="tab-btn" onclick="switchTab('artisanat')">🎨 Artisanat</button>
-        <button class="tab-btn" onclick="switchTab('traditions')">🎭 Traditions</button>
+<!-- ================================================
+     2. CATÉGORIES CULTURELLES
+================================================ -->
+<section class="cat-section" id="categories">
+  <div class="section-header animate-fade-up">
+    <div class="section-badge">🏛️ Catégories Culturelles</div>
+    <h2 class="section-title" style="margin-top:14px;">Les Piliers du <span class="gold">Génie Marocain</span></h2>
+    <div class="divider"></div>
+    <p class="section-desc">Cliquez sur une catégorie pour explorer ses secrets, son origine et sa signification culturelle</p>
+  </div>
+
+  <div class="cat-grid">
+    <!-- Artisanat -->
+    <div class="cat-card animate-fade-up" onclick="openModal('artisanat')">
+      <img src="assets/images/culture.png" alt="Artisanat marocain">
+      <div class="cat-card-body">
+        <span class="cat-card-label lbl-artisan">🧵 Artisanat</span>
+        <div class="cat-card-title">L'Art des Mains</div>
+        <p class="cat-card-sub">Zellige, poterie, dinanderie, maroquinerie — un savoir-faire millénaire transmis de père en fils.</p>
+        <button class="cat-card-btn">Explorer →</button>
+      </div>
+    </div>
+    <!-- Gastronomie -->
+    <div class="cat-card animate-fade-up" onclick="openModal('gastronomie')">
+      <img src="assets/images/marrakech.png" alt="Gastronomie marocaine">
+      <div class="cat-card-body">
+        <span class="cat-card-label lbl-gastro">🍲 Gastronomie</span>
+        <div class="cat-card-title">Saveurs Royales</div>
+        <p class="cat-card-sub">Tajine, couscous, pastilla, thé à la menthe — la cuisine marocaine, un voyage sensoriel incomparable.</p>
+        <button class="cat-card-btn">Explorer →</button>
+      </div>
+    </div>
+    <!-- Musique -->
+    <div class="cat-card animate-fade-up" onclick="openModal('musique')">
+      <img src="assets/images/el_jadida.png" alt="Traditions musicales">
+      <div class="cat-card-body">
+        <span class="cat-card-label lbl-musique">🎶 Traditions</span>
+        <div class="cat-card-title">Musique & Folklore</div>
+        <p class="cat-card-sub">Gnawa, Andalou, Ahouach berbère — chaque rythme est une prière, une histoire, une identité.</p>
+        <button class="cat-card-btn">Explorer →</button>
+      </div>
+    </div>
+    <!-- Habits -->
+    <div class="cat-card animate-fade-up" onclick="openModal('habits')">
+      <img src="assets/images/marrakech.png" alt="Habits traditionnels">
+      <div class="cat-card-body">
+        <span class="cat-card-label lbl-habit">👘 Tenues</span>
+        <div class="cat-card-title">Habits Traditionnels</div>
+        <p class="cat-card-sub">Djellaba, caftan, haïk, burnous — chaque habit raconte une région, une époque et une fierté.</p>
+        <button class="cat-card-btn">Explorer →</button>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- TABS CONTENT -->
-  <div style="max-width:1200px;margin:0 auto;padding:60px 32px;">
+<!-- ================================================
+     3. MODALS DE DÉTAIL
+================================================ -->
 
-    <!-- MARRAKECH TAB -->
-    <div class="tab-panel active" id="tab-marrakech">
-      <div class="city-detail animate-fade-up" id="marrakech">
-        <div class="city-detail-img">
-          <img src="assets/images/marrakech.png" alt="Marrakech la cité ocre">
-        </div>
+<!-- MODAL: ARTISANAT -->
+<div class="modal-overlay" id="modal-artisanat" onclick="closeModalIfOutside(event,'artisanat')">
+  <div class="modal-box">
+    <div class="modal-hero">
+      <img src="assets/images/culture.png" alt="Artisanat marocain">
+      <button class="modal-close" onclick="closeModal('artisanat')">✕</button>
+      <div class="modal-hero-text">
+        <span class="cat-card-label lbl-artisan" style="margin-bottom:8px;display:inline-block;">🧵 Artisanat</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:white;">L'Art des Mains Marocaines</h2>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="modal-meta-chip mc-origine">📍 National — Fès, Marrakech, Safi</span>
+        <span class="modal-meta-chip mc-category">🏛️ Patrimoine Immatériel</span>
+      </div>
+      <p class="modal-desc">L'artisanat marocain est l'une des expressions les plus riches du patrimoine du Royaume. Du zellige de Fès aux tapis berbères de Beni Ourain, en passant par la poterie de Safi et la dinanderie de Marrakech — chaque pièce est une œuvre unique créée à la main selon des techniques transmises depuis des siècles.</p>
+      <div class="modal-signif-title">✦ Signification culturelle</div>
+      <div class="modal-signif">L'artisanat n'est pas qu'une activité économique au Maroc — c'est un langage. Les motifs géométriques du zellige représentent l'infini divin. Les broderies d'or (sfifa) des caftans racontent le statut social. Chaque geste de l'artisan est un acte de transmission culturelle.</div>
+      <div class="modal-audio">
+        <button class="modal-audio-btn" onclick="alert('🎧 Capsule audio : Le maître zelligeur de Fès raconte son art...')">▶</button>
         <div>
-          <div class="city-detail-badge">Ville Impériale</div>
-          <h2 class="city-detail-title">Marrakech — <span>La Cité Ocre</span></h2>
-          <p class="city-detail-text">
-            Marrakech, fondée en 1062 par les Almoravides, est l'une des quatre villes impériales du Maroc. Connue comme "la ville rouge" en raison de ses murs en pisé couleur ocre, elle est inscrite au patrimoine mondial de l'UNESCO depuis 1985.
-          </p>
-          <p class="city-detail-text">
-            Au cœur de la médina bat la place Jemaa el-Fna, place des halqa (cercles de conteurs, musiciens, acrobates) classée "chef-d'œuvre du patrimoine oral et immatériel de l'humanité".
-          </p>
-          <div class="city-highlights">
-            <span class="tag">🕌 Koutoubia</span>
-            <span class="tag">🌿 Jardins Majorelle</span>
-            <span class="tag">🛍️ Souks Médiévaux</span>
-            <span class="tag">🏛️ Palais Bahia</span>
-            <span class="tag">🎪 Jemaa el-Fna</span>
-            <span class="tag">🔔 Ben Youssef</span>
-          </div>
+          <div style="font-size:.88rem;color:var(--text-primary);font-weight:500;">🎧 Capsule Audio</div>
+          <div class="modal-audio-label">Écouter un maître artisan de Fès (2 min)</div>
         </div>
       </div>
-
-      <div class="section-header animate-fade-up">
-        <div class="section-badge">✦ Sites Iconiques</div>
-        <h3 class="section-title">À ne pas <span class="gold">manquer</span></h3>
-      </div>
-
-      <div class="grid-3 animate-fade-up">
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(200,16,46,0.05);">🕌</div>
-          <div class="card-body">
-            <div class="card-badge">Architecture</div>
-            <div class="card-title">Mosquée Koutoubia</div>
-            <p class="card-text">Le minaret de 70m est le symbole de Marrakech. Chef-d'œuvre de l'architecture almohade (1158), il a inspiré la Giralda de Séville.</p>
-          </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;">
+          <div style="font-size:1.5rem;margin-bottom:6px;">🔷</div>
+          <div style="font-size:.82rem;font-weight:600;color:var(--text-primary);">Zellige</div>
+          <div style="font-size:.75rem;color:var(--text-secondary);">Fès</div>
         </div>
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(212,175,55,0.05);">🌿</div>
-          <div class="card-body">
-            <div class="card-badge">Jardin</div>
-            <div class="card-title">Jardins Majorelle</div>
-            <p class="card-text">Créés par le peintre Jacques Majorelle en 1923, rachetés par Yves Saint Laurent et Pierre Bergé. Un paradis botanique et artistique unique.</p>
-          </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;">
+          <div style="font-size:1.5rem;margin-bottom:6px;">🏺</div>
+          <div style="font-size:.82rem;font-weight:600;color:var(--text-primary);">Poterie</div>
+          <div style="font-size:.75rem;color:var(--text-secondary);">Safi</div>
         </div>
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(44,122,123,0.05);">🏛️</div>
-          <div class="card-body">
-            <div class="card-badge">Palais</div>
-            <div class="card-title">Palais Bahia</div>
-            <p class="card-text">Joyau architectural du XIXe siècle, le Palais Bahia ("brillance") abrite 8000m² de cours, jardins et salles décorées de zellige et de stucs.</p>
-          </div>
-        </div>
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(200,16,46,0.05);">🎪</div>
-          <div class="card-body">
-            <div class="card-badge">Place</div>
-            <div class="card-title">Jemaa el-Fna</div>
-            <p class="card-text">Patrimoine immatériel UNESCO. Cette place vivante accueille chaque soir conteurs, musiciens gnawa, charmeurs de serpents et vendeurs d'épices.</p>
-          </div>
-        </div>
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(212,175,55,0.05);">🛍️</div>
-          <div class="card-body">
-            <div class="card-badge">Commerce</div>
-            <div class="card-title">Les Souks</div>
-            <p class="card-text">Un labyrinthe de 22 souks spécialisés : cuir (Souk des Teinturiers), épices, bijoux, tissu. Un voyage sensoriel hors du temps.</p>
-          </div>
-        </div>
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(44,122,123,0.05);">📚</div>
-          <div class="card-body">
-            <div class="card-badge">Éducation</div>
-            <div class="card-title">Medersa Ben Youssef</div>
-            <p class="card-text">La plus grande médersa du Maroc (XVIe siècle), avec 130 cellules d'étudiants. Ciselures en stuc, zellige et bois de cèdre exemplaires.</p>
-          </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;">
+          <div style="font-size:1.5rem;margin-bottom:6px;">👜</div>
+          <div style="font-size:.82rem;font-weight:600;color:var(--text-primary);">Maroquinerie</div>
+          <div style="font-size:.75rem;color:var(--text-secondary);">Fès</div>
         </div>
       </div>
-    </div>
-
-    <!-- EL JADIDA TAB -->
-    <div class="tab-panel" id="tab-eljadida">
-      <div class="city-detail reverse animate-fade-up" id="eljadida">
-        <div>
-          <div class="city-detail-badge">Patrimoine UNESCO</div>
-          <h2 class="city-detail-title">El Jadida — <span>La Cité Portugaise</span></h2>
-          <p class="city-detail-text">
-            El Jadida, fondée en 1502 par les Portugais sous le nom de "Mazagan", est classée Patrimoine Mondial de l'UNESCO depuis 2004. Ses fortifications Renaissance et sa mystérieuse citerne sont parmi les plus beaux exemples de l'architecture militaire portugaise au Maroc.
-          </p>
-          <p class="city-detail-text">
-            La Citerne Portugaise (1514), salle voûtée inondée d'une mince couche d'eau reflétant les piliers gothiques, crée une atmosphère magique et mystérieuse unique au monde.
-          </p>
-          <div class="city-highlights">
-            <span class="tag">🏰 Remparts UNESCO</span>
-            <span class="tag">💧 Citerne Portugaise</span>
-            <span class="tag">🌊 Côte Atlantique</span>
-            <span class="tag">⛪ Église Portugaise</span>
-            <span class="tag">🗺️ Bastions 1502</span>
-          </div>
-        </div>
-        <div class="city-detail-img">
-          <img src="assets/images/el_jadida.png" alt="El Jadida cité portugaise">
-        </div>
-      </div>
-
-      <div class="grid-3 animate-fade-up">
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(44,122,123,0.08);">💧</div>
-          <div class="card-body">
-            <div class="card-badge">UNESCO</div>
-            <div class="card-title">La Citerne Portugaise</div>
-            <p class="card-text">Construite en 1514, cette salle voûtée sur colonnes est inondée d'eau, créant un reflet surréel des arches gothiques. Orson Welles y tourna "Othello" en 1952.</p>
-          </div>
-        </div>
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(200,16,46,0.05);">🏰</div>
-          <div class="card-body">
-            <div class="card-badge">Fortification</div>
-            <div class="card-title">Les Remparts</div>
-            <p class="card-text">Quatre bastions aux noms de saints anges (Saint-Ange, Saint-Sébastien, Saint-Esprit) forment une enceinte hexagonale en pierre de taille de l'époque manuelle.</p>
-          </div>
-        </div>
-        <div class="card">
-          <div style="font-size:3rem;text-align:center;padding:24px;background:rgba(212,175,55,0.05);">⛪</div>
-          <div class="card-body">
-            <div class="card-badge">Patrimoine</div>
-            <div class="card-title">Église Portugaise</div>
-            <p class="card-text">L'Église de l'Assomption (XVIe s.) est l'une des rares demeures gothiques du Maroc. Sa voûte à nervures et ses piliers torsadés témoignent du style manuélin.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- GASTRONOMIE TAB -->
-    <div class="tab-panel" id="tab-gastro">
-      <div class="section-header animate-fade-up">
-        <div class="section-badge">✦ Gastronomie</div>
-        <h2 class="section-title">Saveurs <span class="gold">Marocaines</span></h2>
-        <div class="divider"></div>
-        <p class="section-desc">La cuisine marocaine, reconnue comme l'une des plus riches du monde, est un voyage en soi.</p>
-      </div>
-      <div class="grid-3 animate-fade-up">
-        <div class="food-card"><div class="food-emoji">🏺</div><div class="food-body"><div class="food-name">Tajine</div><p class="food-desc">Ragoût lentement mijoté dans un plat en terre cuite conique. Poulet-citron, agneau-pruneaux, kefta... une infinité de variantes régionales.</p><span class="food-origin">🌍 National</span></div></div>
-        <div class="food-card"><div class="food-emoji">🌾</div><div class="food-body"><div class="food-name">Couscous</div><p class="food-desc">Plat emblématique du vendredi, servi avec légumes et viande cuits à la vapeur dans un couscoussier. Patrimoine UNESCO depuis 2020.</p><span class="food-origin">🍽️ Maghrébin</span></div></div>
-        <div class="food-card"><div class="food-emoji">🥟</div><div class="food-body"><div class="food-name">Pastilla</div><p class="food-desc">Tarte feuilletée au pigeon (ou poulet), amandes caramélisées et cannelle. Alliance sucrée-salée d'origine andalouse, typique de Fès.</p><span class="food-origin">🏰 Fès</span></div></div>
-        <div class="food-card"><div class="food-emoji">🍪</div><div class="food-body"><div class="food-name">Cornes de Gazelle</div><p class="food-desc">Pâtisseries en croissant fourrées à la pâte d'amandes aromatisée à l'eau de fleur d'oranger. Offertes lors des mariages et fêtes.</p><span class="food-origin">🎊 Festivités</span></div></div>
-        <div class="food-card"><div class="food-emoji">🍵</div><div class="food-body"><div class="food-name">Thé à la Menthe</div><p class="food-desc">Le "whisky berbère" : thé vert gunpowder infusé avec de la menthe fraîche et du sucre, versé de haut pour créer une mousse. Symbole d'hospitalité.</p><span class="food-origin">🌿 Berbère</span></div></div>
-        <div class="food-card"><div class="food-emoji">🫙</div><div class="food-body"><div class="food-name">Huile d'Argan</div><p class="food-desc">L'"or liquide" du Maroc, extraite de l'arganier endémique du Souss. Utilisée en cuisine (amlou) et cosmétique. UNESCO depuis 2014.</p><span class="food-origin">🌳 Souss</span></div></div>
-      </div>
-    </div>
-
-    <!-- ARTISANAT TAB -->
-    <div class="tab-panel" id="tab-artisanat">
-      <div class="section-header animate-fade-up">
-        <div class="section-badge">✦ Artisanat</div>
-        <h2 class="section-title">L'Art des <span class="gold">Mains Marocaines</span></h2>
-        <div class="divider"></div>
-        <p class="section-desc">Chaque pièce artisanale marocaine est une œuvre d'art transmise de génération en génération.</p>
-      </div>
-      <div class="grid-3 animate-fade-up">
-        <div class="glass-card" style="text-align:center;">
-          <div style="font-size:2.5rem;margin-bottom:12px;">🔷</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;">Zellige</div>
-          <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;">Mosaïque de carreaux en céramique émaillée, découpés à la main. Chaque fontaine, palais et mosquée en est orné. Origine andalouse, perfectionné à Fès.</p>
-        </div>
-        <div class="glass-card" style="text-align:center;">
-          <div style="font-size:2.5rem;margin-bottom:12px;">👜</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;">Maroquinerie</div>
-          <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;">Le cuir tanné dans les célèbres tanneries de Fès selon des méthodes médiévales. Babouches, sacs, ceintures — exportés dans le monde entier.</p>
-        </div>
-        <div class="glass-card" style="text-align:center;">
-          <div style="font-size:2.5rem;margin-bottom:12px;">🏺</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;">Poterie & Céramique</div>
-          <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;">Tagines peints de Safi, céramique bleue de Fès... chaque ville a sa tradition. Les potiers travaillent au tour depuis des siècles.</p>
-        </div>
-        <div class="glass-card" style="text-align:center;">
-          <div style="font-size:2.5rem;margin-bottom:12px;">🧵</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;">Tissage & Tapis</div>
-          <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;">Tapis berbères de Beni Ourain (laine blanche à motifs géométriques), djellabas brodées, caftans brodés d'or (sfifa). Chaque motif raconte une histoire.</p>
-        </div>
-        <div class="glass-card" style="text-align:center;">
-          <div style="font-size:2.5rem;margin-bottom:12px;">🔨</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;">Dinanderie</div>
-          <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;">Art du cuivre et du laiton martelé. Théières, plateaux, lanternes ciselées à la main. L'artisan marrakchi martèle jusqu'à 12h par jour.</p>
-        </div>
-        <div class="glass-card" style="text-align:center;">
-          <div style="font-size:2.5rem;margin-bottom:12px;">🪵</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px;">Menuiserie Cèdre</div>
-          <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.6;">Le bois de cèdre de l'Atlas sculpté en moucharabieh (grilles), plafonds à caissons, portes. Son odeur envoûtante parfume encore les riads de Fès.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- TRADITIONS TAB -->
-    <div class="tab-panel" id="tab-traditions">
-      <div class="section-header animate-fade-up">
-        <div class="section-badge">✦ Traditions</div>
-        <h2 class="section-title">Rivages de la <span class="gold">Mémoire</span></h2>
-        <div class="divider"></div>
-      </div>
-      <div class="grid-2 animate-fade-up">
-        <div class="glass-card">
-          <div style="font-size:2rem;margin-bottom:12px;">🎵</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:10px;">Musique Gnawa</div>
-          <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.7;">Musique rituelle de transe des Gnawa, descendants d'esclaves subsahariens. Les Lila (nuits de musique) mêlent spiritualité et guérison chamanique. UNESCO 2019.</p>
-        </div>
-        <div class="glass-card">
-          <div style="font-size:2rem;margin-bottom:12px;">🎼</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:10px;">Musique Andalouse</div>
-          <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.7;">Héritée des Maures d'Andalousie au XVe siècle, la nouba andalouse est une suite musicale en 11 movements. Fès, Rabat et Tétouan en sont les hauts lieux.</p>
-        </div>
-        <div class="glass-card">
-          <div style="font-size:2rem;margin-bottom:12px;">🔥</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:10px;">Hammam</div>
-          <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.7;">Le hammam public est un lieu de purification et de socialisation. Précédé du savon beldi au beurre d'argan, du kessa (gant de gommage) et du ghassoul (argile).</p>
-        </div>
-        <div class="glass-card">
-          <div style="font-size:2rem;margin-bottom:12px;">💃</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:10px;">Ahouach & Ahidous</div>
-          <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.7;">Danses collectives berbères de l'Atlas : l'Ahouach (Haut-Atlas) mêle chant, percussion et danse mixte. L'Ahidous (Moyen-Atlas) est accompagné du bendir.</p>
-        </div>
-        <div class="glass-card">
-          <div style="font-size:2rem;margin-bottom:12px;">🐪</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:10px;">Fantasia</div>
-          <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.7;">Art équestre traditionnel où des cavaliers en costume traditionnel galopent à toute bride avant de tirer simultanément leurs fusils. Spectacle de fierté nationale.</p>
-        </div>
-        <div class="glass-card">
-          <div style="font-size:2rem;margin-bottom:12px;">🌙</div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:10px;">Ramadan & Aïd</div>
-          <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.7;">Les fêtes religieuses transforment le Maroc : ftour collectif au coucher du soleil, nuits de Ramadan animées, sacrifice de l'Aïd al-Adha, soirées de Achoura.</p>
-        </div>
+      <div class="modal-actions">
+        <a href="index.html#map-preview" class="btn btn-primary btn-sm">🗺️ Voir sur la carte</a>
+        <button class="btn btn-outline btn-sm" onclick="alert('Redirection vers la liste des artisans proches...')">🧵 Voir l'artisan proche</button>
+        <button class="btn btn-gold btn-sm" onclick="alert('Redirection vers la réservation d\'un atelier artisanal...')">📅 Réserver un atelier</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="logo-text">🌙 Maroc Découverte</div>
-        <p class="footer-desc">Explorez la richesse culturelle du Royaume du Maroc.</p>
-      </div>
-      <div>
-        <div class="footer-heading">Navigation</div>
-        <ul class="footer-links">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="culture.html">Culture</a></li>
-          <li><a href="learn.html">Apprendre</a></li>
-          <li><a href="chatbot.html">Chatbot</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-heading">Villes</div>
-        <ul class="footer-links">
-          <li><a href="#marrakech">Marrakech</a></li>
-          <li><a href="#eljadida">El Jadida</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-heading">Compte</div>
-        <ul class="footer-links">
-          <li><a href="login.html">Connexion</a></li>
-          <li><a href="register.html">Inscription</a></li>
-          <li><a href="hackathon.html">Hackathon</a></li>
-        </ul>
+<!-- MODAL: GASTRONOMIE -->
+<div class="modal-overlay" id="modal-gastronomie" onclick="closeModalIfOutside(event,'gastronomie')">
+  <div class="modal-box">
+    <div class="modal-hero">
+      <img src="assets/images/marrakech.png" alt="Gastronomie marocaine">
+      <button class="modal-close" onclick="closeModal('gastronomie')">✕</button>
+      <div class="modal-hero-text">
+        <span class="cat-card-label lbl-gastro" style="margin-bottom:8px;display:inline-block;">🍲 Gastronomie</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:white;">Saveurs Royales du Maroc</h2>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">© 2025 Maroc Découverte</span>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="modal-meta-chip mc-origine">📍 National — Fès, Marrakech, Meknès</span>
+        <span class="modal-meta-chip mc-category">🍽️ Patrimoine Culinaire UNESCO</span>
+      </div>
+      <p class="modal-desc">La cuisine marocaine est reconnue comme l'une des plus riches et des plus variées du monde. Influencée par les civilisations amazighe, arabe, andalouse, et méditerranéenne, elle est un véritable voyage des sens à travers les épices, les textures et les saveurs ancestrales.</p>
+      <div class="modal-signif-title">✦ Signification culturelle</div>
+      <div class="modal-signif">La table marocaine est avant tout un espace de partage et d'hospitalité. Servir un thé à la menthe est un acte sacré d'accueil. Le couscous du vendredi réunit la famille autour d'un plat unique, symbole d'unité et de bénédiction. La cuisine est transmise oralement, de mère en fille, comme un code culturel vivant.</div>
+      <div class="modal-audio">
+        <button class="modal-audio-btn" onclick="alert('🎧 Capsule audio : Une cuisinière de Fès raconte le couscous du vendredi...')">▶</button>
+        <div>
+          <div style="font-size:.88rem;color:var(--text-primary);font-weight:500;">🎧 Capsule Audio</div>
+          <div class="modal-audio-label">Secrets d'une cuisine marocaine traditionnelle (2 min)</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">🏺</div><div style="font-size:.82rem;font-weight:600;">Tajine</div><div style="font-size:.75rem;color:var(--text-secondary);">National</div></div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">🌾</div><div style="font-size:.82rem;font-weight:600;">Couscous</div><div style="font-size:.75rem;color:var(--text-secondary);">UNESCO 2020</div></div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">🍵</div><div style="font-size:.82rem;font-weight:600;">Thé Menthe</div><div style="font-size:.75rem;color:var(--text-secondary);">Berbère</div></div>
+      </div>
+      <div class="modal-actions">
+        <a href="index.html#map-preview" class="btn btn-primary btn-sm">🗺️ Voir sur la carte</a>
+        <button class="btn btn-gold btn-sm" onclick="alert('Réservation d\'un repas traditionnel en cours...')">🍽️ Réserver un repas</button>
+      </div>
     </div>
-  </footer>
+  </div>
+</div>
 
-  <script src="js/main.js"></script>
-  <script>
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      event.target.classList.add('active');
-      document.getElementById('tab-' + tabId).classList.add('active');
-      // Re-trigger animations
-      document.querySelectorAll('.tab-panel.active .animate-fade-up').forEach(el => {
-        el.classList.remove('visible');
-        setTimeout(() => el.classList.add('visible'), 50);
-      });
-    }
+<!-- MODAL: MUSIQUE -->
+<div class="modal-overlay" id="modal-musique" onclick="closeModalIfOutside(event,'musique')">
+  <div class="modal-box">
+    <div class="modal-hero">
+      <img src="assets/images/el_jadida.png" alt="Musique et traditions">
+      <button class="modal-close" onclick="closeModal('musique')">✕</button>
+      <div class="modal-hero-text">
+        <span class="cat-card-label lbl-musique" style="margin-bottom:8px;display:inline-block;">🎶 Traditions</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:white;">Musique & Traditions Vivantes</h2>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="modal-meta-chip mc-origine">📍 Marrakech, Essaouira, Atlas</span>
+        <span class="modal-meta-chip mc-category">🎵 Patrimoine Immatériel UNESCO</span>
+      </div>
+      <p class="modal-desc">La musique marocaine est un miroir de l'histoire du pays — mélange de rythmes africains, de mélodies andalouses et de chants berbères. Des Lila gnawa aux noubas andalouses, chaque tradition musicale porte en elle un territoire, une communauté et une spiritualité unique.</p>
+      <div class="modal-signif-title">✦ Signification culturelle</div>
+      <div class="modal-signif">La musique Gnawa (UNESCO 2019) est bien plus qu'un art — c'est une cérémonie de guérison spirituelle. Les femmes berbères du Haut-Atlas utilisent l'Ahouach comme langage collectif lors des célébrations villageoises. La musique andalouse de Fès conserve vivante la mémoire de l'Espagne médiévale.</div>
+      <div class="modal-audio">
+        <button class="modal-audio-btn" onclick="alert('🎵 Lancement de la capsule : Sons du Malhoune et Gnawa d\'Essaouira...')">▶</button>
+        <div>
+          <div style="font-size:.88rem;color:var(--text-primary);font-weight:500;">🎵 Capsule Musicale</div>
+          <div class="modal-audio-label">Écouter un fragment de Gnawa & Ahouach (3 min)</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">🥁</div><div style="font-size:.82rem;font-weight:600;">Gnawa</div><div style="font-size:.75rem;color:var(--text-secondary);">Marrakech</div></div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">🎼</div><div style="font-size:.82rem;font-weight:600;">Andalou</div><div style="font-size:.75rem;color:var(--text-secondary);">Fès</div></div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">💃</div><div style="font-size:.82rem;font-weight:600;">Ahouach</div><div style="font-size:.75rem;color:var(--text-secondary);">Atlas</div></div>
+      </div>
+      <div class="modal-actions">
+        <a href="index.html#map-preview" class="btn btn-primary btn-sm">🗺️ Voir sur la carte</a>
+        <button class="btn btn-outline btn-sm" onclick="alert('Immersion : festival Gnawa d\'Essaouira...')">🎵 Voir une expérience</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    // Handle URL hash for tab
-    if (window.location.hash) {
-      const hash = window.location.hash.replace('#', '');
-      if (['eljadida'].includes(hash)) {
-        const btn = document.getElementById('tab-' + hash);
-        if (btn) {
-          setTimeout(() => {
-            btn.click();
-            document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
-          }, 300);
-        }
-      }
+<!-- MODAL: HABITS -->
+<div class="modal-overlay" id="modal-habits" onclick="closeModalIfOutside(event,'habits')">
+  <div class="modal-box">
+    <div class="modal-hero">
+      <img src="assets/images/marrakech.png" alt="Habits traditionnels">
+      <button class="modal-close" onclick="closeModal('habits')">✕</button>
+      <div class="modal-hero-text">
+        <span class="cat-card-label lbl-habit" style="margin-bottom:8px;display:inline-block;">👘 Tenues</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:white;">Habits Traditionnels Marocains</h2>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="modal-meta-chip mc-origine">📍 National — Fès, Marrakech, Tétouan</span>
+        <span class="modal-meta-chip mc-category">👘 Patrimoine Vestimentaire</span>
+      </div>
+      <p class="modal-desc">Le costume traditionnel marocain est une œuvre d'art portée. Djellaba en laine pour l'hiver, caftan de soie brodé d'or pour les fêtes, haïk blanc des femmes du Nord, burnous des tribus du Sahara — chaque tenue parle d'une région, d'un statut, d'une identité profonde.</p>
+      <div class="modal-signif-title">✦ Signification culturelle</div>
+      <div class="modal-signif">Porter un caftan lors d'une cérémonie au Maroc est un acte identitaire fort. La broderie Fassi (de Fès) avec ses fils d'or représente la sophistication andalouse. Les motifs berbères des robes amazighes sont un alphabet visuel — chaque symbole géométrique raconte la nature, la fertilité ou la protection contre le mauvais œil.</div>
+      <div class="modal-audio">
+        <button class="modal-audio-btn" onclick="alert('🎧 Capsule : Une couturière de Tétouan raconte la tradition du caftan...')">▶</button>
+        <div>
+          <div style="font-size:.88rem;color:var(--text-primary);font-weight:500;">🎧 Capsule Audio</div>
+          <div class="modal-audio-label">La couturière de Tétouan et l'art du caftan (2 min)</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">👘</div><div style="font-size:.82rem;font-weight:600;">Caftan</div><div style="font-size:.75rem;color:var(--text-secondary);">Fès</div></div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">🧥</div><div style="font-size:.82rem;font-weight:600;">Djellaba</div><div style="font-size:.75rem;color:var(--text-secondary);">National</div></div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-size:1.5rem;margin-bottom:6px;">🪬</div><div style="font-size:.82rem;font-weight:600;">Burnous</div><div style="font-size:.75rem;color:var(--text-secondary);">Sahara</div></div>
+      </div>
+      <div class="modal-actions">
+        <a href="index.html#map-preview" class="btn btn-primary btn-sm">🗺️ Voir sur la carte</a>
+        <button class="btn btn-gold btn-sm" onclick="alert('Atelier confection caftan — Tétouan...')">📅 Réserver un atelier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================
+     4. EXPÉRIENCE IMMERSIVE
+================================================ -->
+<section class="immersive-section" id="immersive">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-header animate-fade-up">
+      <div class="section-badge">🌍 Expérience Immersive</div>
+      <h2 class="section-title" style="margin-top:14px;">Vivez la Culture, <span class="gold">de l'Intérieur</span></h2>
+      <div class="divider"></div>
+      <p class="section-desc">Trois portes d'entrée vers une expérience culturelle authentique et mémorable</p>
+    </div>
+  </div>
+  <div class="immersive-grid">
+    <div class="immersive-card ic-map animate-fade-up" onclick="window.location.href='index.html#map-preview'">
+      <span class="immersive-icon">🗺️</span>
+      <div class="immersive-title">Découvrir sur la Carte</div>
+      <p class="immersive-desc">Explorez chaque élément culturel géolocalisé sur notre carte interactive. Filtrez par artisanat, gastronomie ou traditions selon votre position.</p>
+      <a href="index.html#map-preview" class="immersive-link">Ouvrir la carte →</a>
+    </div>
+    <div class="immersive-card ic-art animate-fade-up" onclick="alert('Recherche des artisans locaux autour de vous...')">
+      <span class="immersive-icon">🧵</span>
+      <div class="immersive-title">Voir l'Artisan Proche</div>
+      <p class="immersive-desc">Trouvez un maître artisan près de vous. Chaque profil inclut sa spécialité, ses œuvres et la possibilité de prendre rendez-vous directement.</p>
+      <a href="#" class="immersive-link" onclick="alert('Artisans proches : recherche en cours...')">Trouver un artisan →</a>
+    </div>
+    <div class="immersive-card ic-book animate-fade-up" onclick="alert('Catalogue des expériences locales...')">
+      <span class="immersive-icon">📅</span>
+      <div class="immersive-title">Réserver une Expérience</div>
+      <p class="immersive-desc">Ateliers zellige, repas traditionnel en riad, soirée Gnawa, visite guidée de medina — réservez directement et soutenez les acteurs locaux.</p>
+      <a href="#" class="immersive-link" onclick="alert('Ouverture du catalogue d\'expériences...')">Voir les expériences →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     5. STORYTELLING
+================================================ -->
+<section class="story-section" id="storytelling">
+  <div class="story-quote animate-fade-up">
+    <div class="arabesque-pattern"></div>
+    <div class="story-quote-mark">"</div>
+    <div class="section-badge" style="position:relative;z-index:2;margin-bottom:24px;">🖋️ Histoires Vivantes</div>
+    <p class="story-text">
+      Le zellige n'est pas qu'un art, <span class="gold">c'est un héritage.</span><br>
+      Chaque fragment de céramique cassé à la main traduit un siècle de patience,<br>de foi et de transmission silencieuse entre un père et son fils.
+    </p>
+    <div class="story-author">— Hassan M., Maître Zelligeur, Fès · 4ème génération</div>
+  </div>
+
+  <div class="story-cards" style="margin-top:40px;">
+    <div class="story-card animate-fade-up">
+      <span class="story-card-emoji">🏺</span>
+      <div class="story-card-title">La Potière de Safi</div>
+      <p class="story-card-text">Fatima façonne l'argile depuis l'âge de 12 ans, comme sa mère et sa grand-mère avant elle. Ses pots voyagent jusqu'en Europe, mais ses mains restent au Maroc.</p>
+    </div>
+    <div class="story-card animate-fade-up">
+      <span class="story-card-emoji">🎵</span>
+      <div class="story-card-title">La Nuit Gnawa d'Essaouira</div>
+      <p class="story-card-text">Chaque juin, la ville bleue vibre au son du guembri. 500 000 personnes, autant d'âmes qui entendent parler l'Afrique profonde à travers un instrument à 3 cordes.</p>
+    </div>
+    <div class="story-card animate-fade-up">
+      <span class="story-card-emoji">👘</span>
+      <div class="story-card-title">Le Caftan de la Mariée</div>
+      <p class="story-card-text">150 heures de broderie. Les mains de Khadija tremblent légèrement en posant le dernier fil d'or sur un caftan qui sera porté une seule fois — mais dont la mémoire durera toujours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     6. CTA
+================================================ -->
+<div class="cult-cta animate-fade-up">
+  <div class="arabesque-pattern"></div>
+  <div class="section-badge" style="position:relative;z-index:2;background:var(--gradient-red);color:white;border:none;margin-bottom:20px;">✦ Passez à l'Action</div>
+  <h2 class="cult-cta-title">Prêt à <span class="gold">explorer le Maroc</span> autrement ?</h2>
+  <p class="cult-cta-desc">Chaque lieu raconte une histoire. Chaque artisan attend votre visite. Chaque plat mérite d'être goûté à la source.</p>
+  <div class="cult-cta-btns">
+    <a href="index.html#map-preview" class="btn btn-primary btn-lg" style="display:inline-flex;gap:10px;align-items:center;">
+      🗺️ Explorer la carte
+    </a>
+    <a href="learn.html" class="btn btn-gold btn-lg" style="display:inline-flex;gap:10px;align-items:center;">
+      🎮 Commencer un parcours
+    </a>
+  </div>
+</div>
+
+<!-- ================================================
+     FOOTER
+================================================ -->
+<footer class="cult-footer">
+  <div class="cult-footer-grid">
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">🌙 Sheftour</div>
+      <p class="footer-desc" style="margin-top:12px;max-width:280px;">Votre portail vers la richesse culturelle, historique et artistique du Royaume du Maroc.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="culture.html">Culture</a></li>
+        <li><a href="learn.html">Story Mode</a></li>
+        <li><a href="chatbot.html">Chatbot IA</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">À Propos</div>
+      <ul class="footer-links">
+        <li><a href="#">Notre mission</a></li>
+        <li><a href="#">L'équipe</a></li>
+        <li><a href="#">Partenaires</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Contact</div>
+      <ul class="footer-links">
+        <li><a href="mailto:contact@sheftour.ma">📧 contact@sheftour.ma</a></li>
+        <li><a href="#">📍 El Jadida, Maroc</a></li>
+        <li><a href="#">🤝 Devenir Partenaire</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center;">
+    <span class="footer-copy">© 2025 Sheftour — Tous droits réservés</span>
+    <span class="footer-copy">🌙 الذاكرة والتراث والابتكار</span>
+  </div>
+</footer>
+
+<!-- CHATBOT FLOAT -->
+<div class="chatbot-float">
+  <button class="chatbot-btn" onclick="window.location.href='chatbot.html'" aria-label="Chatbot">🤖</button>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+  // Modal logic
+  function openModal(id) {
+    document.getElementById('modal-' + id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById('modal-' + id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeModalIfOutside(e, id) {
+    if (e.target === document.getElementById('modal-' + id)) closeModal(id);
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      ['artisanat','gastronomie','musique','habits'].forEach(id => closeModal(id));
     }
-  </script>
+  });
+
+  // Scroll animations
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.animate-fade-up').forEach(el => obs.observe(el));
+
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('main-nav');
+    if(window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+</script>
 </body>
 </html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique & Réservation — Sheftour</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .book-hero {
+      position: relative;
+      padding: 160px 60px 80px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(8,8,8,1) 0%, rgba(18,5,8,1) 100%);
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .book-hero-bg {
+      position: absolute; inset:0;
+      background: url('https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1920&q=80') center/cover;
+      opacity: 0.15;
+    }
+
+    /* TABS NAV */
+    .store-tabs {
+      display: flex; gap: 16px; margin: 40px auto;
+      background: rgba(255,255,255,0.05); padding: 8px; border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.1); width: fit-content; position: relative; z-index: 5;
+    }
+
+    .store-tab {
+      padding: 12px 32px; border-radius: 50px;
+      font-weight: 600; font-size: 1rem; cursor: pointer;
+      color: var(--text-secondary); transition: var(--transition);
+      border: none; background: transparent; letter-spacing: 0.5px;
+    }
+
+    .store-tab:hover { color: white; }
+    .store-tab.active { background: var(--gradient-red); color: white; box-shadow: 0 4px 15px rgba(200,16,46,0.5); }
+
+    /* GRID & CARDS */
+    .store-container {
+      max-width: 1300px; margin: 0 auto; padding: 60px;
+      min-height: 50vh; display: none;
+    }
+    .store-container.active { display: block; animation: fadeIn 0.5s ease; }
+
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden; text-align: left;
+      transition: var(--transition);
+    }
+    .product-card:hover { transform: translateY(-6px); border-color: rgba(212,175,55,0.4); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+    
+    .product-img { width: 100%; height: 260px; object-fit: cover; filter: brightness(0.9); transition: 0.5s; }
+    .product-card:hover .product-img { filter: brightness(1.1); transform: scale(1.05); }
+    .product-img-wrap { overflow: hidden; position: relative; }
+    
+    .product-badge { position: absolute; top: 16px; right: 16px; background: var(--gradient-gold); color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; z-index: 2; }
+    .product-badge.exp { background: var(--gradient-red); }
+
+    .product-body { padding: 24px; }
+    .product-art { font-size: 0.75rem; color: var(--secondary); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; }
+    .product-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 12px; }
+    .product-price { font-size: 1.15rem; font-weight: 700; color: white; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .product-price span { font-size: 0.8rem; color: var(--text-secondary); font-weight: 400; }
+    
+    .btn-buy {
+      display: block; width: 100%; padding: 12px; text-align: center;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px; color: white; font-weight: 600; font-size: 0.9rem;
+      cursor: pointer; transition: var(--transition);
+    }
+    .btn-buy:hover { background: var(--secondary); border-color: var(--secondary); color: var(--bg-dark); }
+    .btn-book { background: rgba(200,16,46,0.15); border-color: rgba(200,16,46,0.4); color: #ff6b8a; }
+    .btn-book:hover { background: #C8102E; border-color: #C8102E; color: white; }
+
+    @keyframes fadeIn { from{opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);} }
+
+    @media (max-width: 1024px) {
+      .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .store-container { padding: 60px 32px; }
+    }
+    @media (max-width: 768px) {
+      .grid-4, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body style="background:var(--bg-dark); color:var(--text-primary); font-family:'Inter',sans-serif;">
+
+  <!-- UNIFIED NAV -->
+  <nav class="unified-nav" id="main-nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🌙</div>
+      <span class="brand-name">Sheftour</span>
+    </a>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="culture.html">Culture</a></li>
+      <li><a href="histoire.html">Histoire</a></li>
+      <li><a href="parcours.html">Parcours & Jeux</a></li>
+      <li><a href="learn.html">Apprendre</a></li>
+      <li><a href="booking.html" class="active">Boutique & Réservation</a></li>
+    </ul>
+    <div>
+      <a href="login.html" class="nav-auth-btn">Connexion</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="book-hero">
+    <div class="book-hero-bg"></div>
+    <div style="position:relative; z-index:10;">
+      <div class="hero-badge" style="display:inline-block; padding:6px 16px; border-radius:50px; background:rgba(212,175,55,0.15); border:1px solid rgba(212,175,55,0.35); color:var(--secondary); font-size:0.8rem; font-weight:600; text-transform:uppercase; margin-bottom:20px;">🛍️ Commerce Équitable Local</div>
+      <h1 class="hero-main-title" style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:white; line-height:1.2; margin-bottom:16px;">
+        Acquérez <span style="background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">l'Authentique</span>
+      </h1>
+      <p style="color:rgba(255,255,255,0.8); font-size:1.1rem; line-height:1.6; max-width:600px; margin:0 auto;">
+        Commandez des créations artisanales uniques directement depuis les maîtres marocains ou réservez des journées d'immersion inoubliables.
+      </p>
+
+      <div class="store-tabs">
+        <button class="store-tab active" onclick="switchStore('boutique')">Boutique Artisanat</button>
+        <button class="store-tab" onclick="switchStore('experiences')">Réserver une Immersion</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOUTIQUE ARTISANAT -->
+  <section class="store-container active" id="store-boutique">
+    <div style="text-align:center; margin-bottom:40px;">
+      <h2 style="font-family:'Playfair Display',serif; font-size:2.2rem; margin-bottom:12px;">Créations Traditionnelles</h2>
+      <p style="color:var(--text-secondary); max-width:500px; margin:0 auto;">Maroquinerie, vêtements (djellaba, caftan) et céramiques expédiés depuis les ateliers.</p>
+    </div>
+
+    <div class="grid-4">
+      <!-- Item 1 -->
+      <div class="product-card animate-fade-up">
+        <div class="product-img-wrap">
+          <span class="product-badge">Poterie Fès</span>
+          <img src="https://images.unsplash.com/photo-1541450805218-47201bc6c06a?auto=format&fit=crop&w=600&q=80" alt="Tajine" class="product-img">
+        </div>
+        <div class="product-body">
+          <div class="product-art">Atelier Benkirane</div>
+          <h3 class="product-title">Tajine en Terre Cuite Peint</h3>
+          <div class="product-price">350 MAD <span>~35€</span></div>
+          <button class="btn-buy" onclick="alert('Ajouté au panier !')">Ajouter au panier</button>
+        </div>
+      </div>
+      <!-- Item 2 -->
+      <div class="product-card animate-fade-up" style="transition-delay: 0.1s;">
+        <div class="product-img-wrap">
+          <span class="product-badge">Tissage Souss</span>
+          <img src="https://images.unsplash.com/photo-1596796333423-e18d6e9dcab7?auto=format&fit=crop&w=600&q=80" alt="Caftan" class="product-img">
+        </div>
+        <div class="product-body">
+          <div class="product-art">Coopérative Amal</div>
+          <h3 class="product-title">Caftan Brodé Velours Vert</h3>
+          <div class="product-price">1 200 MAD <span>~120€</span></div>
+          <button class="btn-buy" onclick="alert('Ajouté au panier !')">Ajouter au panier</button>
+        </div>
+      </div>
+      <!-- Item 3 -->
+      <div class="product-card animate-fade-up" style="transition-delay: 0.2s;">
+        <div class="product-img-wrap">
+          <span class="product-badge">Tapis Atlas</span>
+          <img src="https://images.unsplash.com/photo-1620063260799-a17c2f06b986?auto=format&fit=crop&w=600&q=80" alt="Tapis Berber" class="product-img">
+        </div>
+        <div class="product-body">
+          <div class="product-art">Tisseuses de l'Atlas</div>
+          <h3 class="product-title">Tapis Beni Ourain (Laine)</h3>
+          <div class="product-price">2 500 MAD <span>~250€</span></div>
+          <button class="btn-buy" onclick="alert('Ajouté au panier !')">Ajouter au panier</button>
+        </div>
+      </div>
+      <!-- Item 4 -->
+      <div class="product-card animate-fade-up" style="transition-delay: 0.3s;">
+        <div class="product-img-wrap">
+          <span class="product-badge">Maroquinerie</span>
+          <img src="https://images.unsplash.com/photo-1621255556209-eccfcf05a679?auto=format&fit=crop&w=600&q=80" alt="Babouches" class="product-img">
+        </div>
+        <div class="product-body">
+          <div class="product-art">Tannerie Chouara</div>
+          <h3 class="product-title">Babouches Cuir Véritable</h3>
+          <div class="product-price">180 MAD <span>~18€</span></div>
+          <button class="btn-buy" onclick="alert('Ajouté au panier !')">Ajouter au panier</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RESERVATION D'EXPERIENCES -->
+  <section class="store-container" id="store-experiences">
+    <div style="text-align:center; margin-bottom:40px;">
+      <h2 style="font-family:'Playfair Display',serif; font-size:2.2rem; margin-bottom:12px;">Immersion & Activités</h2>
+      <p style="color:var(--text-secondary); max-width:500px; margin:0 auto;">Réservez des journées thématiques ou des soirées magiques auprès de nos guides et hôtes certifiés.</p>
+    </div>
+
+    <div class="grid-3">
+      <!-- Exp 1 -->
+      <div class="product-card animate-fade-up">
+        <div class="product-img-wrap">
+          <span class="product-badge exp">Atelier Manuel</span>
+          <img src="https://images.unsplash.com/photo-1542642598-639a64e1ff1d?auto=format&fit=crop&w=600&q=80" alt="Atelier" class="product-img">
+        </div>
+        <div class="product-body">
+          <div class="product-art">📍 Médina de Fès</div>
+          <h3 class="product-title">Initiation au Zellige & Céramique</h3>
+          <p style="color:var(--text-secondary); font-size:0.85rem; line-height:1.5; margin-bottom:12px; height:60px;">Passez 4 heures avec un Maâlem (Maître) artisan pour apprendre la taille des carreaux et la cuisson.</p>
+          <div class="product-price">400 MAD <span>/pers</span></div>
+          <button class="btn-buy btn-book" onclick="alert('Ouverture du calendrier de réservation...')">Réserver une date</button>
+        </div>
+      </div>
+      <!-- Exp 2 -->
+      <div class="product-card animate-fade-up" style="transition-delay: 0.1s;">
+        <div class="product-img-wrap">
+          <span class="product-badge exp">Gastronomie</span>
+          <img src="https://images.unsplash.com/photo-1533667554580-f0071da516be?auto=format&fit=crop&w=600&q=80" alt="Repas" class="product-img">
+        </div>
+        <div class="product-body">
+          <div class="product-art">📍 Marrakech - Riad Zahra</div>
+          <h3 class="product-title">Dîner Traditionnel & Musique Gnawa</h3>
+          <p style="color:var(--text-secondary); font-size:0.85rem; line-height:1.5; margin-bottom:12px; height:60px;">Dégustation d'une pastilla au pigeon et coucher de soleil sur la médina, accompagné d'un trio Gnawa live.</p>
+          <div class="product-price">650 MAD <span>/pers</span></div>
+          <button class="btn-buy btn-book" onclick="alert('Ouverture du calendrier de réservation...')">Réserver une date</button>
+        </div>
+      </div>
+      <!-- Exp 3 -->
+      <div class="product-card animate-fade-up" style="transition-delay: 0.2s;">
+        <div class="product-img-wrap">
+          <span class="product-badge exp">Guidage Exclusif</span>
+          <img src="https://images.unsplash.com/photo-1552591605-645367b93df9?auto=format&fit=crop&w=600&q=80" alt="Guide" class="product-img">
+        </div>
+        <div class="product-body">
+          <div class="product-art">📍 Essaouira</div>
+          <h3 class="product-title">Circuit Privé "Héritage Andalou"</h3>
+          <p style="color:var(--text-secondary); font-size:0.85rem; line-height:1.5; margin-bottom:12px; height:60px;">Accompagné par Youssef, historien local, pour découvrir les secrets architecturaux du port et des ruelles.</p>
+          <div class="product-price">800 MAD <span>/groupe</span></div>
+          <button class="btn-buy btn-book" onclick="alert('Ouverture du calendrier de réservation...')">Réserver une date</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:var(--bg-dark); border-top:1px solid var(--border-light); padding:40px 60px; text-align:center;">
+    <p style="color:var(--text-secondary); font-size:0.9rem;">© 2025 Sheftour — Boutique & Réservations Officielles</p>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('main-nav');
+      if(window.scrollY > 60) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    function switchStore(tab) {
+      document.querySelectorAll('.store-tab').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      document.querySelectorAll('.store-container').forEach(c => c.classList.remove('active'));
+      document.getElementById('store-' + tab).classList.add('active');
+      
+      // Trigger animations
+      document.querySelectorAll(`#store-${tab} .animate-fade-up`).forEach(el => {
+        el.classList.remove('visible');
+        setTimeout(() => el.classList.add('visible'), 50);
+      });
+    }
+
+    // First load animation
+    setTimeout(() => {
+      document.querySelectorAll('.store-container.active .animate-fade-up').forEach((el, index) => {
+        setTimeout(() => el.classList.add('visible'), index * 100);
+      });
+    }, 100);
+  </script>
+</body>
+</html>
