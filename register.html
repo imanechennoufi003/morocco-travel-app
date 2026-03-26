@@ -3,138 +3,189 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inscription — Maroc Découverte</title>
-  <meta name="description" content="Créez votre compte Maroc Découverte et explorez la richesse culturelle du Maroc.">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/auth.css">
+  <title>Inscription - XPLORIS Morocco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
+  <style>
+    /* Registration specific tweaks */
+    .form-name-row { display: flex; gap: 12px; margin-bottom: 16px; }
+    .form-name-row .input-group { margin-bottom: 0; flex: 1; }
+    
+    .pwd-strength { margin-top: 8px; margin-bottom: 16px; }
+    .pwd-strength-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 4px; }
+    .pwd-strength-fill { height: 100%; width: 0%; border-radius: 2px; transition: width 0.3s, background 0.3s; }
+    .pwd-strength-text { font-size: 0.75rem; color: var(--text-light); }
+    
+    .terms-group { margin-bottom: 24px; display: flex; align-items: flex-start; gap: 8px; }
+    .terms-group input[type="checkbox"] { margin-top: 3px; accent-color: var(--primary); }
+    .terms-text { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+    .terms-text a { color: var(--secondary); text-decoration: none; font-weight: 500; transition: color var(--transition); }
+    .terms-text a:hover { color: #fff; }
+    
+    .form-wrapper.register-wrap { max-width: 380px; }
+    .right-header { padding-bottom: 10px; }
+    .title-section { margin-bottom: 24px; }
+    .app-container { height: 760px; /* slightly taller for extra fields */ }
+    
+    .form-error { display: block; color: var(--primary); font-size: 0.74rem; margin-top: 4px; }
+    
+    @media (max-width: 900px) {
+      .app-container { height: auto; }
+    }
+  </style>
 </head>
-<body class="auth-body">
-  <div class="geo-bg">
-    <div class="geo-circle geo-circle-1"></div>
-    <div class="geo-circle geo-circle-2"></div>
-  </div>
+<body>
 
-  <a href="index.html" class="auth-back">← Retour à l'accueil</a>
-
-  <div class="auth-container">
-    <!-- LEFT PANEL -->
-    <div class="auth-panel-left">
-      <div class="arabesque-pattern"></div>
-      <div class="auth-panel-content">
-        <div class="auth-logo"></div>
-        <h1 class="auth-panel-title">Rejoignez<br><span>Notre Communauté</span></h1>
-        <p class="auth-panel-sub">Créez votre compte et plongez dans l'univers fascinant de la culture, de l'histoire et des traditions marocaines.</p>
-        <div class="auth-features">
-          <div class="auth-feature">✦ Accès illimité aux contenus</div>
-          <div class="auth-feature">✦ Chatbot IA personnalisé</div>
-          <div class="auth-feature">✦ Suivi de vos apprentissages</div>
-          <div class="auth-feature">✦ Rejoindre le Hackathon CRI</div>
+  <div class="app-container">
+    
+    <!-- LEFT PANEL: Image & Overlay -->
+    <div class="panel-left">
+      <!-- Using culture image for registration for variety -->
+      <img src="https://i.pinimg.com/1200x/4d/e5/c6/4de5c6837fc59162fb4ea40b5360e3ee.jpg" alt="Morocco Travel" class="cover-image">
+      <div class="overlay-grad"></div>
+      
+      <!-- Top nav within image -->
+      <div class="left-nav">
+        <span class="left-brand">Join Morocco Explorers</span>
+        <div class="left-actions">
+          <a href="login.html" class="outline-btn">Log In</a>
+          <a href="register.html" class="outline-btn active">Sign Up</a>
         </div>
       </div>
-      <div class="auth-decorative">
-        <div class="auth-dec-circle auth-dec-1"></div>
-        <div class="auth-dec-circle auth-dec-2"></div>
+
+      <!-- Bottom info within image -->
+      <div class="left-footer">
+        <div class="profile-pill">
+          <img src="assets/images/el_jadida.png" alt="El Jadida" class="profile-img">
+          <div class="profile-info">
+            <span class="profile-name">Explore Deeply</span>
+            <span class="profile-role">Join Our Community</span>
+          </div>
+        </div>
+        <div class="nav-arrows">
+          <button class="arrow-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="arrow-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="auth-panel-right">
-      <div class="auth-form-container">
-        <div class="auth-form-header">
-          <h2 class="auth-title">Créer un compte 🚀</h2>
-          <p class="auth-subtitle">Rejoignez notre communauté de passionnés du Maroc</p>
+    <!-- RIGHT PANEL: Form -->
+    <div class="panel-right">
+      
+      <!-- Header -->
+      <header class="right-header">
+        <!-- Xploris-style Logo -->
+        <a href="index.html" class="xploris-logo">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
+             <path d="M12 2L2 22h20L12 2z" fill="#E8413E"/>
+             <path d="M12 8l-6 12h12L12 8z" fill="#FFF"/>
+          </svg>
+          MOROCCO
+        </a>
+        <button class="lang-selector">
+          🇬🇧 EN 
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </header>
+
+      <!-- Main Register Section -->
+      <main class="form-wrapper register-wrap">
+        <div class="title-section">
+          <h1 class="main-title">Create Account</h1>
+          <p class="sub-title">Join our community to explore Morocco</p>
         </div>
 
-        <div class="auth-social">
-          <button class="social-btn" id="googleBtn">
-            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#EA4335" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"/><path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2936293 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"/><path fill="#4A90E2" d="M19.834192,20.9995801 C22.0291676,18.9520994 23.4545455,15.903626 23.4545455,12 C23.4545455,11.2909091 23.3454545,10.5272727 23.1818182,9.81818182 L12,9.81818182 L12,14.4545455 L18.4363636,14.4545455 C18.1187732,16.013626 17.2662994,17.2212117 16.0407269,18.0125889 L19.834192,20.9995801 Z"/><path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9055417 0.433833334,15.7120352 1.23746264,17.3349879 L5.27698177,14.2678769 Z"/></svg>
-            Inscription avec Google
-          </button>
-        </div>
+        <button type="button" class="google-btn" id="googleBtn">
+            <svg viewBox="0 0 24 24" width="18" height="18" class="google-icon" style="margin-right: 8px;">
+              <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0112 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115z"/>
+              <path fill="#34A853" d="M16.04 18.013C14.951 18.716 13.566 19.09 12 19.09c-3.133 0-5.78-2.013-6.723-4.823L1.237 17.335C3.193 21.294 7.265 24 12 24c2.933 0 5.735-1.043 7.834-3.001L16.04 18.013z"/>
+              <path fill="#4A90E2" d="M19.834 20.999C22.029 18.952 23.455 15.904 23.455 12c0-.709-.091-1.473-.273-2.182H12v4.637h6.436c-.271 1.559-1.124 2.766-2.396 3.558L19.834 21z"/>
+              <path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 014.909 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 000 12c0 1.906.433 3.712 1.237 5.335l4.04-3.067z"/>
+            </svg>
+            Sign up with Google
+        </button>
 
-        <div class="auth-divider"><span>ou avec email</span></div>
+        <div class="divider">
+          <span>or sign up with email</span>
+        </div>
 
         <form id="registerForm" novalidate>
           <div class="form-name-row">
-            <div class="form-group">
-              <label class="form-label" for="regFirstName">Prénom</label>
-              <div class="input-wrapper">
-                <span class="input-icon">👤</span>
-                <input type="text" id="regFirstName" class="form-input" placeholder="Ahmed" required>
-              </div>
+            <div class="input-group">
+              <input type="text" id="regFirstName" class="base-input" placeholder="First Name" required>
               <span class="form-error" id="firstNameError"></span>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="regLastName">Nom</label>
-              <div class="input-wrapper">
-                <span class="input-icon">👤</span>
-                <input type="text" id="regLastName" class="form-input" placeholder="El Fassi" required>
-              </div>
+            <div class="input-group">
+              <input type="text" id="regLastName" class="base-input" placeholder="Last Name" required>
               <span class="form-error" id="lastNameError"></span>
             </div>
           </div>
-
-          <div class="form-group">
-            <label class="form-label" for="regEmail">Adresse email</label>
-            <div class="input-wrapper">
-              <span class="input-icon">✉️</span>
-              <input type="email" id="regEmail" class="form-input" placeholder="votre@email.com" required>
-            </div>
+          
+          <div class="input-group">
+            <input type="email" id="regEmail" class="base-input" placeholder="Email Address" required>
             <span class="form-error" id="regEmailError"></span>
           </div>
-
-          <div class="form-group">
-            <label class="form-label" for="regPassword">Mot de passe</label>
-            <div class="input-wrapper">
-              <span class="input-icon">🔒</span>
-              <input type="password" id="regPassword" class="form-input" placeholder="Minimum 6 caractères" required>
-              <button type="button" class="toggle-pwd" id="togglePwd">👁️</button>
-            </div>
-            <div class="pwd-strength">
-              <div class="pwd-strength-bar">
-                <div class="pwd-strength-fill" id="pwdStrengthFill"></div>
-              </div>
-              <span class="pwd-strength-text" id="pwdStrengthText"></span>
-            </div>
+          
+          <div class="input-group" style="margin-bottom: 4px;">
+            <input type="password" id="regPassword" class="base-input" placeholder="Password (Min 6 chars)" required>
             <span class="form-error" id="regPwdError"></span>
           </div>
-
-          <div class="form-group">
-            <label class="form-label" for="regPasswordConfirm">Confirmer le mot de passe</label>
-            <div class="input-wrapper">
-              <span class="input-icon">🔒</span>
-              <input type="password" id="regPasswordConfirm" class="form-input" placeholder="Répétez le mot de passe" required>
-              <button type="button" class="toggle-pwd" id="togglePwdConfirm">👁️</button>
+          
+          <div class="pwd-strength">
+            <div class="pwd-strength-bar">
+              <div class="pwd-strength-fill" id="pwdStrengthFill"></div>
             </div>
+            <span class="pwd-strength-text" id="pwdStrengthText"></span>
+          </div>
+          
+          <div class="input-group">
+            <input type="password" id="regPasswordConfirm" class="base-input" placeholder="Confirm Password" required>
             <span class="form-error" id="regPwdConfirmError"></span>
           </div>
 
-          <div class="form-group" style="margin-bottom:24px;">
-            <label class="checkbox-label">
-              <input type="checkbox" id="agreeTerms">
-              J'accepte les <a href="#" style="color:var(--secondary);">Conditions d'utilisation</a> et la <a href="#" style="color:var(--secondary);">Politique de confidentialité</a>
-            </label>
+          <div class="terms-group">
+            <input type="checkbox" id="agreeTerms">
+            <span class="terms-text">
+              I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+            </span>
             <span class="form-error" id="termsError"></span>
           </div>
 
-          <button type="submit" class="btn btn-primary auth-submit" id="registerBtn">
-            <span id="registerBtnText">Créer mon compte</span>
-            <span id="registerBtnLoader" style="display:none">⏳</span>
+          <button type="submit" class="submit-btn" id="registerBtn">
+            <span id="registerBtnText">Create Account</span>
           </button>
+
+          <p class="signup-prompt">
+            Already have an account? <a href="login.html">Log in</a>
+          </p>
+
+          <div class="auth-success" id="registerSuccess" style="display:none; color: #22C55E; font-size: 0.85rem; text-align: center; margin-top: 10px; background: rgba(34,197,94,0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(34,197,94,0.2);">
+            ✅ Account created successfully!
+          </div>
         </form>
+      </main>
 
-        <div class="auth-switch">
-          Déjà un compte? <a href="login.html">Se connecter →</a>
-        </div>
-
-        <div class="auth-success" id="registerSuccess" style="display:none">
-          <span>✅</span> Compte créé avec succès! Bienvenue sur Maroc Découverte!
-        </div>
-      </div>
+      <!-- Footer Social Icons -->
+      <footer class="social-footer">
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+        </a>
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 2a2 2 0 110 4 2 2 0 010-4z"/></svg>
+        </a>
+      </footer>
     </div>
   </div>
 
-  <script src="js/main.js"></script>
   <script src="js/auth.js"></script>
 </body>
 </html>
