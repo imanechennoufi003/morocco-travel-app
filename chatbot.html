@@ -13,21 +13,15 @@
       flex-direction: column;
       padding-top: 80px;
     }
-
     .chatbot-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 0;
+      display: flex;
       flex: 1;
-      max-width: 1400px;
+      max-width: 1100px;
       margin: 0 auto;
       width: 100%;
       padding: 24px;
-      gap: 24px;
       height: calc(100vh - 80px);
     }
-
-    /* SIDEBAR */
     .chat-sidebar {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
@@ -70,8 +64,6 @@
       background: rgba(212,175,55,0.05);
       transform: translateX(4px);
     }
-
-    /* MAIN CHAT */
     .chat-main {
       display: flex;
       flex-direction: column;
@@ -299,17 +291,100 @@
     }
 
     .welcome-msg .welcome-icon {
-      font-size: 3rem;
+      font-size: 3.5rem;
       margin-bottom: 16px;
       display: block;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     .welcome-msg h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 600;
+      font-size: 1.4rem;
+      font-weight: 700;
       margin-bottom: 8px;
       color: var(--text-primary);
+      background: linear-gradient(135deg, #C8102E, #D4AF37);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .welcome-msg .welcome-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .welcome-feature-tag {
+      padding: 4px 12px;
+      background: rgba(212,175,55,0.08);
+      border: 1px solid rgba(212,175,55,0.2);
+      border-radius: 50px;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    .sidebar-clear-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid rgba(200,16,46,0.3);
+      border-radius: var(--radius-sm);
+      color: rgba(200,16,46,0.7);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      margin-top: 8px;
+    }
+
+    .sidebar-clear-btn:hover {
+      background: rgba(200,16,46,0.08);
+      border-color: rgba(200,16,46,0.6);
+      color: #C8102E;
+    }
+
+    .msg-bubble ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+    }
+
+    .msg-bubble li {
+      margin-bottom: 4px;
+    }
+
+    .msg-bubble table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 8px;
+      font-size: 0.82rem;
+    }
+
+    .msg-bubble th, .msg-bubble td {
+      border: 1px solid var(--border-light);
+      padding: 5px 8px;
+      text-align: left;
+    }
+
+    .msg-bubble th {
+      background: rgba(212,175,55,0.1);
+    }
+
+    .chat-counter {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      padding: 0 24px 8px;
+      text-align: right;
     }
 
     @media (max-width: 768px) {
@@ -329,42 +404,13 @@
   <nav class="navbar" id="navbar">
     <a href="index.html" class="nav-logo">
       <div class="logo-icon">🌙</div>
-      <span class="logo-text">Maroc Découverte</span>
-    </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="culture.html">Culture</a></li>
-      <li><a href="learn.html">Apprendre</a></li>
-      <li><a href="chatbot.html" class="active">Chatbot</a></li>
-      <li><a href="hackathon.html">Hackathon</a></li>
-      <li><a href="login.html" class="nav-btn">Connexion</a></li>
-    </ul>
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </nav>
 
   <div class="chatbot-page">
     <div class="chatbot-layout">
 
-      <!-- SIDEBAR -->
-      <div class="chat-sidebar">
-        <div class="chat-sidebar-header">📋 Sujets populaires</div>
-        <button class="topic-btn" onclick="askTopic('Qu\'est-ce que la culture marocaine?')">🏛️ Culture Marocaine</button>
-        <button class="topic-btn" onclick="askTopic('Parle-moi de Marrakech')">🏯 Marrakech</button>
-        <button class="topic-btn" onclick="askTopic('Qu\'est-ce qu\'El Jadida?')">🏰 El Jadida</button>
-        <button class="topic-btn" onclick="askTopic('Qu\'est-ce que le couscous marocain?')">🌾 Gastronomie</button>
-        <button class="topic-btn" onclick="askTopic('Comment apprendre l\'arabe marocain?')">📚 Apprendre l'Arabe</button>
-        <button class="topic-btn" onclick="askTopic('Qu\'est-ce que le Tamazight?')">🔤 Tamazight</button>
-        <button class="topic-btn" onclick="askTopic('Quels sont les meilleurs sites UNESCO au Maroc?')">🌍 Sites UNESCO</button>
-        <button class="topic-btn" onclick="askTopic('Raconte-moi l\'histoire du Maroc')">📜 Histoire</button>
-        <button class="topic-btn" onclick="askTopic('Quels sont les festivals marocains?')">🎪 Festivals</button>
-        <button class="topic-btn" onclick="askTopic('Comment est la musique Gnawa?')">🎵 Musique Gnawa</button>
-        <button class="topic-btn" onclick="askTopic('Parle-moi de l\'artisanat marocain')">🏺 Artisanat</button>
-        <button class="topic-btn" onclick="askTopic('Meilleurs conseils voyage au Maroc?')">✈️ Conseils Voyage</button>
 
-        <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border-light);">
-          <p style="color:var(--text-muted);font-size:0.75rem;line-height:1.6;">🤖 Notre IA répond à toutes les questions sur le Maroc, sa culture, son histoire et ses traditions.</p>
-        </div>
-      </div>
 
       <!-- CHAT MAIN -->
       <div class="chat-main">
@@ -380,20 +426,31 @@
           <div class="welcome-msg">
             <span class="welcome-icon">🌙</span>
             <h3>مرحبا بكم في المغرب!</h3>
-            <p>Je suis Atlas, votre guide virtuel sur le Maroc. Posez-moi n'importe quelle question sur la culture, l'histoire, les villes, la gastronomie ou les traditions marocaines!</p>
+            <p>Je suis <strong>Atlas</strong>, votre guide virtuel sur le Maroc. Posez-moi n'importe quelle question!</p>
+            <div class="welcome-features">
+              <span class="welcome-feature-tag">🏯 Villes</span>
+              <span class="welcome-feature-tag">🍽️ Gastronomie</span>
+              <span class="welcome-feature-tag">🎵 Musique</span>
+              <span class="welcome-feature-tag">📜 Histoire</span>
+              <span class="welcome-feature-tag">✈️ Voyage</span>
+              <span class="welcome-feature-tag">📚 Langues</span>
+            </div>
           </div>
         </div>
+        <div class="chat-counter" id="chatCounter"></div>
 
         <div class="quick-replies" id="quickReplies">
           <button class="quick-reply" onclick="askTopic('Bonjour! Que puis-tu me dire sur le Maroc?')">👋 Bonjour!</button>
           <button class="quick-reply" onclick="askTopic('Parle-moi de Marrakech')">🏯 Marrakech</button>
           <button class="quick-reply" onclick="askTopic('Qu\'est-ce que la Jemaa el-Fna?')">🎪 Jemaa el-Fna</button>
           <button class="quick-reply" onclick="askTopic('Qu\'est-ce que Tamazight?')">🔤 Tamazight</button>
+          <button class="quick-reply" onclick="askTopic('Parle-moi de la cuisine marocaine')">🍽️ Cuisine</button>
+          <button class="quick-reply" onclick="askTopic('Conseils voyage Maroc')">✈️ Voyage</button>
         </div>
 
         <div class="chat-input-area">
-          <textarea class="chat-input" id="chatInput" placeholder="Posez votre question sur le Maroc..." rows="1"></textarea>
-          <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+          <textarea class="chat-input" id="chatInput" placeholder="Posez votre question sur le Maroc... (Ex: Qu'est-ce que Marrakech?)" rows="1"></textarea>
+          <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()" title="Envoyer (Entrée)">➤</button>
         </div>
       </div>
     </div>
