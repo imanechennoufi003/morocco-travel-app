@@ -115,25 +115,30 @@
           <span>or sign up with email</span>
         </div>
 
-        <form id="registerForm" novalidate>
+        <form id="registerForm" action="backend/auth/register.php" method="POST" novalidate>
+          <!-- CSRF token injected by auth.js -->
+          <input type="hidden" name="csrf_token" id="csrfTokenReg" value="">
+
+          <div id="flashMsgReg" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:8px;font-size:.85rem;"></div>
+
           <div class="form-name-row">
             <div class="input-group">
-              <input type="text" id="regFirstName" class="base-input" placeholder="First Name" required>
+              <input type="text" id="regFirstName" name="first_name" class="base-input" placeholder="First Name" required autocomplete="given-name">
               <span class="form-error" id="firstNameError"></span>
             </div>
             <div class="input-group">
-              <input type="text" id="regLastName" class="base-input" placeholder="Last Name" required>
+              <input type="text" id="regLastName" name="last_name" class="base-input" placeholder="Last Name" required autocomplete="family-name">
               <span class="form-error" id="lastNameError"></span>
             </div>
           </div>
           
           <div class="input-group">
-            <input type="email" id="regEmail" class="base-input" placeholder="Email Address" required>
+            <input type="email" id="regEmail" name="email" class="base-input" placeholder="Email Address" required autocomplete="email">
             <span class="form-error" id="regEmailError"></span>
           </div>
           
           <div class="input-group" style="margin-bottom: 4px;">
-            <input type="password" id="regPassword" class="base-input" placeholder="Password (Min 6 chars)" required>
+            <input type="password" id="regPassword" name="password" class="base-input" placeholder="Password (Min 8 chars, include A, 1, !)" required autocomplete="new-password">
             <span class="form-error" id="regPwdError"></span>
           </div>
           
@@ -145,7 +150,7 @@
           </div>
           
           <div class="input-group">
-            <input type="password" id="regPasswordConfirm" class="base-input" placeholder="Confirm Password" required>
+            <input type="password" id="regPasswordConfirm" name="confirm_password" class="base-input" placeholder="Confirm Password" required autocomplete="new-password">
             <span class="form-error" id="regPwdConfirmError"></span>
           </div>
 

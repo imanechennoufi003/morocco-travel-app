@@ -10,10 +10,8 @@
   <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-
   <div class="app-container">
-    
-    <!-- LEFT PANEL: Image & Overlay -->
+  
     <div class="panel-left">
       <img src="https://pictures.altai-travel.com/1920x0/high-atlas-mountains-morocco-istock-3663.jpg" alt="Morocco Travel" class="cover-image">
       <div class="overlay-grad"></div>
@@ -73,24 +71,32 @@
           <p class="sub-title">Welcome to MOROCCO Explorers</p>
         </div>
 
-        <form id="loginForm" novalidate>
+        <!-- Flash messages (populated by auth.js from sessionStorage) -->
+        <div id="flashMsg" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:8px;font-size:.85rem;"></div>
+
+        <form id="loginForm" action="backend/auth/login.php" method="POST" novalidate>
+          <!-- CSRF token injected by auth.js -->
+          <input type="hidden" name="csrf_token" id="csrfToken" value="">
+
           <div class="input-group">
-            <input type="email" class="base-input" placeholder="Email" required id="emailStr">
+            <input type="email" class="base-input" placeholder="Email" required id="emailStr" name="email" autocomplete="email">
+            <span class="form-error" id="emailError"></span>
           </div>
           
           <div class="input-group">
-            <input type="password" class="base-input" placeholder="Password" required id="passStr">
+            <input type="password" class="base-input" placeholder="Password" required id="passStr" name="password" autocomplete="current-password">
+            <span class="form-error" id="passError"></span>
           </div>
           
           <div class="forgot-wrap">
-            <a href="#" class="forgot-link">Forgot password ?</a>
+            <a href="#" class="forgot-link">Forgot password?</a>
           </div>
 
           <div class="divider">
             <span>or</span>
           </div>
 
-          <button type="button" class="google-btn">
+          <button type="button" class="google-btn" onclick="alert('Google OAuth coming soon!')">
             Login with Google
             <svg viewBox="0 0 24 24" width="18" height="18" class="google-icon">
               <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0112 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115z"/>
