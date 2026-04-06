@@ -1,12 +1,4 @@
 <?php
-/**
- * XPloris – User Dashboard (Protected Page)
- * File: dashboard.php
- *
- * This is a sample protected PHP page.
- * Extend this to build your full dashboard UI.
- */
-
 require_once __DIR__ . '/backend/config/config.php';
 require_once __DIR__ . '/backend/config/db.php';
 require_once __DIR__ . '/backend/helpers/auth.php';
@@ -25,15 +17,12 @@ $userStmt = $pdo->prepare(
 $userStmt->execute([':id' => $userId]);
 $user = $userStmt->fetch();
 
-// Count bookings per status
 $statsStmt = $pdo->prepare(
     'SELECT status, COUNT(*) AS cnt FROM bookings WHERE user_id = :id GROUP BY status'
 );
 $statsStmt->execute([':id' => $userId]);
 $rawStats = $statsStmt->fetchAll();
 $stats    = array_column($rawStats, 'cnt', 'status');
-
-// Recent bookings (last 5)
 $recentStmt = $pdo->prepare(
     'SELECT b.booking_ref, b.check_in, b.check_out, b.total_price, b.status,
             d.name AS destination_name, d.city
