@@ -11,120 +11,80 @@
       padding: 160px 60px 80px;
       text-align: center;
       background: linear-gradient(180deg, rgba(8,8,8,1) 0%, rgba(18,5,8,1) 100%);
-      min-height: 520px;
+      min-height: 480px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
     }
     .parcours-hero-bg {
       position: absolute; inset:0;
       background: url('https://images.unsplash.com/photo-1533667554580-f0071da516be?auto=format&fit=crop&w=1920&q=80') center/cover;
       opacity: 0.15;
-      animation: pulseBg 10s infinite alternate;
-    }
-    @keyframes pulseBg {
-      0% { transform: scale(1); opacity: 0.15; }
-      100% { transform: scale(1.05); opacity: 0.25; }
     }
 
     /* Exp Interactives */
-    .exp-interactives { padding: 90px 60px; max-width: 1200px; margin: 0 auto; text-align: center; }
-    .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
-    .exp-card { 
-      background: rgba(30, 30, 30, 0.4); 
-      backdrop-filter: blur(10px); 
-      border: 1px solid rgba(255, 255, 255, 0.1); 
-      border-radius: 20px; 
-      padding: 50px 32px; 
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-      position: relative; 
-      overflow: hidden; 
-    }
-    .exp-card::before { 
-      content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; 
-      background:radial-gradient(circle, rgba(200,16,46,0.15) 0%, transparent 60%); 
-      opacity:0; transition:opacity 0.4s; pointer-events: none;
-    }
-    .exp-card:hover { 
-      transform: translateY(-12px) scale(1.02); 
-      border-color: rgba(200,16,46,0.5); 
-      box-shadow: 0 20px 50px rgba(200,16,46,0.2); 
-    }
-    .exp-card:hover::before { opacity:1; }
-    .exp-icon { font-size: 3.5rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); transition: transform 0.3s; }
-    .exp-card:hover .exp-icon { transform: scale(1.1) rotate(5deg); }
-    .exp-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; color: #fff; }
-    .exp-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
-    .exp-link { color: #ff6b8a; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 5px;}
-    .exp-link::after { content:'→'; transition: transform 0.3s; }
-    .exp-link:hover::after { transform: translateX(5px); }
+    .exp-interactives { padding: 80px 60px; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .exp-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); overflow: hidden; transition: var(--transition); text-align: left; display: flex; flex-direction: column; }
+    .exp-card:hover { transform: translateY(-8px); border-color: rgba(200,16,46,0.3); box-shadow: 0 16px 40px rgba(200,16,46,0.1); }
+    .exp-card-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--border-light); transition: var(--transition); }
+    .exp-card:hover .exp-card-img { filter: brightness(1.1) saturate(1.1); transform: scale(1.02); }
+    .exp-card-body { padding: 32px 24px; flex: 1; display: flex; flex-direction: column; position: relative; z-index: 2; background: var(--bg-card); }
+    .exp-icon { font-size: 2rem; margin-bottom: 20px; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+    .exp-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
+    .exp-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; flex: 1; }
+    .exp-link { color: var(--gradient-red); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-top: auto; display: inline-flex; align-items: center; gap: 8px; }
+    .exp-link:hover { color: #ff6b8a; letter-spacing: 0.5px; }
 
     /* Plans / Itinéraires */
-    .plans-section { padding: 90px 60px; background: rgba(255,255,255,0.02); }
-    .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto; }
-    .plan-card { display: flex; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 20px; overflow: hidden; transition: all 0.4s; }
-    .plan-card:hover { border-color: rgba(212,175,55,0.5); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
-    .plan-img { width: 45%; object-fit: cover; filter: brightness(0.8); transition: all 0.5s; clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%); }
-    .plan-card:hover .plan-img { filter: brightness(1.0) scale(1.05); clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%); }
-    .plan-content { padding: 32px; width: 55%; display: flex; flex-direction: column; justify-content: center; }
-    .plan-meta { font-size: 0.8rem; color: var(--secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-    .plan-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
-    .plan-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 24px; }
-    .play-plan-btn { display: inline-flex; align-items: center; gap: 8px; color: white; font-size: 0.9rem; font-weight: 600; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 50px; width: fit-content; transition: all 0.3s; }
-    .play-plan-btn:hover { background: var(--gradient-red); transform: translateX(5px); }
+    .plans-section { padding: 80px 60px; background: rgba(255,255,255,0.02); }
+    .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: 1200px; margin: 0 auto; }
+    .plan-card { display: flex; background: var(--bg-dark); border: 1px solid var(--border-light); border-radius: var(--radius-lg); overflow: hidden; transition: var(--transition); }
+    .plan-card:hover { border-color: var(--secondary); transform: translateX(4px); }
+    .plan-img { width: 40%; object-fit: cover; filter: brightness(0.7); transition: var(--transition); }
+    .plan-card:hover .plan-img { filter: brightness(0.9); }
+    .plan-content { padding: 32px 24px; width: 60%; display: flex; flex-direction: column; justify-content: center; }
+    .plan-meta { font-size: 0.75rem; color: var(--secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .plan-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+    .plan-desc { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px; }
 
     /* Reality Games */
     .game-section { padding: 100px 60px; max-width: 1000px; margin: 0 auto; text-align: center; }
     .game-console {
-      background: rgba(15, 15, 15, 0.85);
-      backdrop-filter: blur(20px);
+      background: linear-gradient(135deg, rgba(30,30,30,0.95), rgba(15,15,15,0.95));
       border: 1px solid rgba(200,16,46,0.3);
-      padding: 60px; border-radius: 24px; position: relative; overflow: hidden;
-      box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 30px rgba(200,16,46,0.05);
+      padding: 60px; border-radius: var(--radius-lg); position: relative; overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8);
     }
-    .game-console::after { content:''; position:absolute; inset:0; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity:0.04; pointer-events:none; }
-    .game-console::before { content:''; position:absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(200,16,46,0.4); filter: blur(80px); border-radius: 50%; pointer-events:none; }
+    .game-console::after { content:''; position:absolute; inset:0; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity:0.03; pointer-events:none; }
 
-    .game-step { display: none; margin-top: 20px; }
-    .game-step.active { display: block; animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .game-step { display: none; animation: fadeIn 0.4s ease; }
+    .game-step.active { display: block; }
+
+    .game-btn { background: var(--gradient-red); color: white; border: none; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.2s; margin-top: 24px; }
+    .game-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .game-btn:not(:disabled):hover { transform: scale(1.05); }
+
+    .terms-box { background: rgba(0,0,0,0.4); padding: 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; text-align: left; margin: 24px 0; font-size: 0.85rem; color: var(--text-secondary); height: 120px; overflow-y: auto; }
     
-    .game-progress { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
-    .progress-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s; }
-    .progress-dot.active { background: #ff6b8a; transform: scale(1.3); box-shadow: 0 0 10px #ff6b8a; }
+    .quiz-options { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; text-align: left; }
+    .quiz-opt { padding: 16px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; cursor: pointer; transition: var(--transition); font-weight: 500; }
+    .quiz-opt:hover { background: rgba(255,255,255,0.1); }
+    .quiz-opt.selected { background: rgba(200,16,46,0.2); border-color: #C8102E; }
 
-    .game-btn { background: linear-gradient(45deg, #C8102E, #ff3b5c); color: white; border: none; padding: 16px 36px; border-radius: 50px; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: all 0.3s; margin-top: 24px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(200,16,46,0.3); }
-    .game-btn:disabled { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; box-shadow: none; }
-    .game-btn:not(:disabled):hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 25px rgba(200,16,46,0.5); }
+    .reward-box { background: rgba(212,175,55,0.1); border: 2px dashed rgba(212,175,55,0.5); padding: 40px; border-radius: 12px; margin-top: 30px; animation: bounceIn 0.8s; }
 
-    .terms-box { background: rgba(0,0,0,0.6); padding: 24px; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; text-align: left; margin: 24px 0; font-size: 0.9rem; color: var(--text-secondary); height: 140px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
-    
-    .quiz-options { display: flex; flex-direction: column; gap: 16px; margin-top: 30px; text-align: left; }
-    .quiz-opt { padding: 18px 24px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 500; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; }
-    .quiz-opt:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); transform: translateX(5px); }
-    .quiz-opt.selected { background: rgba(200,16,46,0.15); border-color: #ff6b8a; }
-    
-    .quiz-opt.correct { background: rgba(46, 204, 113, 0.15); border-color: #2ecc71; color: #2ecc71; animation: popOpt 0.4s ease; }
-    .quiz-opt.wrong { background: rgba(231, 76, 60, 0.15); border-color: #e74c3c; color: #e74c3c; animation: shakeOpt 0.4s ease; }
-
-    .reward-box { background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05)); border: 2px dashed rgba(212,175,55,0.6); padding: 40px; border-radius: 16px; margin-top: 30px; animation: bounceIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; }
-    .reward-box::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%); opacity:0; animation: rotateLight 5s linear infinite; pointer-events: none;}
-
-    @keyframes rotateLight { 100% { transform: rotate(360deg); } }
-    @keyframes zoomIn { from{opacity:0; transform:scale(0.95) translateY(20px);} to{opacity:1; transform:scale(1) translateY(0);} }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
     @keyframes bounceIn { 0%{opacity:0;transform:scale(0.8);} 60%{opacity:1;transform:scale(1.05);} 100%{transform:scale(1);} }
-    @keyframes popOpt { 0%{transform:scale(1);} 50%{transform:scale(1.02);} 100%{transform:scale(1);} }
-    @keyframes shakeOpt { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-8px);} 50%{transform:translateX(8px);} 75%{transform:translateX(-8px);} }
 
     @media (max-width: 1024px) {
       .plans-grid, .exp-grid { grid-template-columns: 1fr; }
       .plan-card { flex-direction: column; }
-      .plan-img { width: 100%; height: 250px; clip-path: none; }
-      .plan-card:hover .plan-img { clip-path: none; }
+      .plan-img { width: 100%; height: 200px; }
       .plan-content { width: 100%; }
       .game-console { padding: 40px 24px; }
-      .exp-interactives, .plans-section, .game-section { padding-left: 24px; padding-right: 24px; }
+      .exp-interactives, .plans-section, .game-section { padding-left: 32px; padding-right: 32px; }
     }
   </style>
 </head>
@@ -171,22 +131,37 @@
 
     <div class="exp-grid">
       <div class="exp-card animate-fade-up">
-        <span class="exp-icon">🧠</span>
-        <h3 class="exp-title">Quiz Culturels</h3>
-        <p class="exp-desc">Testez vos connaissances sur chaque lieu, chaque monument et chaque tradition. Gagnez des points et débloquez des niveaux secrets.</p>
-        <a href="#games" class="exp-link">Tester mes connaissances →</a>
+        <div style="overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+          <img src="images/moroccan_artifacts_books_1775512448972.png" alt="Quiz Culturels" class="exp-card-img">
+        </div>
+        <div class="exp-card-body">
+          <span class="exp-icon">🧠</span>
+          <h3 class="exp-title">Quiz Culturels</h3>
+          <p class="exp-desc">Testez vos connaissances sur chaque lieu, chaque monument et chaque tradition. Gagnez des points et débloquez des niveaux secrets.</p>
+          <a href="#games" class="exp-link">Tester mes connaissances →</a>
+        </div>
       </div>
       <div class="exp-card animate-fade-up" style="transition-delay: 0.1s;">
-        <span class="exp-icon">🏆</span>
-        <h3 class="exp-title">Chasse au Trésor</h3>
-        <p class="exp-desc">Trouvez des récompenses cachées dans des lieux emblématiques du Maroc. Indices, énigmes et surprises à chaque étape (Réalité augmentée).</p>
-        <a href="#games" class="exp-link">Partir à l'aventure →</a>
+        <div style="overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+          <img src="images/moroccan_treasure_map_1775512252020.png" alt="Chasse au Trésor" class="exp-card-img">
+        </div>
+        <div class="exp-card-body">
+          <span class="exp-icon">🏆</span>
+          <h3 class="exp-title">Chasse au Trésor</h3>
+          <p class="exp-desc">Trouvez des récompenses cachées dans des lieux emblématiques du Maroc. Indices, énigmes et surprises à chaque étape (Réalité augmentée).</p>
+          <a href="#games" class="exp-link">Partir à l'aventure →</a>
+        </div>
       </div>
       <div class="exp-card animate-fade-up" style="transition-delay: 0.2s;">
-        <span class="exp-icon">🗺️</span>
-        <h3 class="exp-title">Parcours Historiques</h3>
-        <p class="exp-desc">Suivez des itinéraires immersifs à travers l'histoire du Maroc. Du Moyen Âge à l'indépendance, revivez chaque époque pas à pas.</p>
-        <a href="#plans" class="exp-link">Suivre un parcours →</a>
+        <div style="overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+          <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" alt="Parcours Historiques" class="exp-card-img">
+        </div>
+        <div class="exp-card-body">
+          <span class="exp-icon">🗺️</span>
+          <h3 class="exp-title">Parcours Historiques</h3>
+          <p class="exp-desc">Suivez des itinéraires immersifs à travers l'histoire du Maroc. Du Moyen Âge à l'indépendance, revivez chaque époque pas à pas.</p>
+          <a href="#plans" class="exp-link">Suivre un parcours →</a>
+        </div>
       </div>
     </div>
   </section>
@@ -199,6 +174,21 @@
     </div>
     
     <div class="plans-grid">
+      <!-- EL JADIDA FEATURED PARCOURS -->
+      <div class="plan-card animate-fade-up" style="grid-column: 1 / -1; border-color: rgba(212,175,55,0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+        <img src="assets/images/el_jadida.png" alt="Citerne Portugaise El Jadida" class="plan-img">
+        <div class="plan-content" style="padding: 40px;">
+          <div class="plan-meta" style="color: var(--secondary); font-size: 0.85rem; letter-spacing: 2px;">🛡️ HISTOIRE & PATRIMOINE • EL JADIDA</div>
+          <h3 class="plan-title" style="font-size: 2.2rem; margin-bottom: 16px;">Les Secrets de Mazagan</h3>
+          <p class="plan-desc" style="font-size: 1rem; line-height: 1.8;">Plongez dans l'histoire fascinante d'El Jadida, l'ancienne Mazagan. Explorez la forteresse en étoile construite par les Portugais au début du 16ème siècle. Marchez sur les remparts offrant une vue imprenable sur l'océan Atlantique et descendez dans la mystérieuse Citerne Portugaise, célèbre pour ses reflets envoûtants et son atmosphère cinématographique unique.</p>
+          <ul style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 32px; padding-left: 20px; line-height: 1.8;">
+            <li>Visite guidée de la Cité Fortifiée et du Bastion de l'Ange</li>
+            <li>Exploration architecturale de la Citerne Gothique</li>
+            <li>Dégustation de spécialités maritimes sur le vieux port</li>
+          </ul>
+          <a href="#games" style="display:inline-block; background: var(--gradient-gold); color: #111; padding: 14px 28px; border-radius: 50px; font-weight: 700; text-decoration: none; width: fit-content; transition: var(--transition);">Rejoindre cette aventure →</a>
+        </div>
+      </div>
       <!-- Plan 1 -->
       <div class="plan-card animate-fade-up">
         <img src="https://images.unsplash.com/photo-1552591605-645367b93df9?auto=format&fit=crop&w=600&q=80" alt="Villes impériales" class="plan-img">
@@ -206,7 +196,7 @@
           <div class="plan-meta">🗺️ 7 Jours • Culture & Histoire</div>
           <h3 class="plan-title">Le Circuit des Villes Impériales</h3>
           <p class="plan-desc">Fès, Meknès, Rabat et Marrakech. Plongez dans les médinas millénaires, les palais somptueux et l'effervescence des souks. Idéal pour un premier voyage au Maroc.</p>
-          <a href="#games" class="play-plan-btn">▶ Jouer dans ce parcours</a>
+          <a href="#games" style="color:white; font-size:0.85rem; text-decoration:none; border-bottom:1px solid; width:fit-content;">Jouer dans ce parcours →</a>
         </div>
       </div>
       <!-- Plan 2 -->
@@ -216,7 +206,7 @@
           <div class="plan-meta">🐪 5 Jours • Aventure & Nature</div>
           <h3 class="plan-title">La Route des Kasbahs & Le Désert</h3>
           <p class="plan-desc">Départ de Marrakech (Vallée du Dadès, Ouarzazate) jusqu'aux dunes de Merzouga. Bivouac sous les étoiles, lever de soleil sur l'Erg Chebbi et thé à la menthe avec les nomades.</p>
-          <a href="#games" class="play-plan-btn">▶ Jouer dans ce parcours</a>
+          <a href="#games" style="color:white; font-size:0.85rem; text-decoration:none; border-bottom:1px solid; width:fit-content;">Jouer dans ce parcours →</a>
         </div>
       </div>
       <!-- Plan 3 -->
@@ -226,7 +216,7 @@
           <div class="plan-meta">🌊 4 Jours • Détente & Surf</div>
           <h3 class="plan-title">Évasion sur la Côte Atlantique</h3>
           <p class="plan-desc">Essaouira la blanche, Agadir et Taghazout. Savourez du poisson grillé sur le port, surfez sur les meilleures vagues du continent et perdez-vous dans la Skala.</p>
-          <a href="#games" class="play-plan-btn">▶ Jouer dans ce parcours</a>
+          <a href="#games" style="color:white; font-size:0.85rem; text-decoration:none; border-bottom:1px solid; width:fit-content;">Jouer dans ce parcours →</a>
         </div>
       </div>
       <!-- Plan 4 -->
@@ -236,7 +226,7 @@
           <div class="plan-meta">⛰️ 6 Jours • Méditerranée</div>
           <h3 class="plan-title">Les Perles du Nord et du Rif</h3>
           <p class="plan-desc">Tanger la cosmopolite, Chefchaouen la ville bleue et Tétouan. Un itinéraire marqué par une architecture andalouse unique et des sommets montagneux verdoyants.</p>
-          <a href="#games" class="play-plan-btn">▶ Jouer dans ce parcours</a>
+          <a href="#games" style="color:white; font-size:0.85rem; text-decoration:none; border-bottom:1px solid; width:fit-content;">Jouer dans ce parcours →</a>
         </div>
       </div>
     </div>
@@ -251,12 +241,6 @@
 
     <div class="game-console animate-fade-up">
       
-      <div class="game-progress" id="progress-indicator">
-        <div class="progress-dot active" id="dot-1"></div>
-        <div class="progress-dot" id="dot-2"></div>
-        <div class="progress-dot" id="dot-3"></div>
-      </div>
-
       <!-- STEP 1: TERMS -->
       <div id="game-step-1" class="game-step active">
         <h3 style="font-size:1.4rem; margin-bottom:16px;">📜 Mission : Le Trésor de la Médina</h3>
@@ -282,13 +266,22 @@
       <!-- STEP 2: QUIZ -->
       <div id="game-step-2" class="game-step">
         <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:12px;">Énigme #1 : La Porte Céleste</h3>
-        <p style="color:rgba(255,255,255,0.8); line-height:1.6;">"Je protège la ville impériale du vent marin. Mes remparts ont repoussé les pirates, mais ont accueilli les poètes d'Andalousie. Mon nom signifie *La Belle*."</p>
+        <p style="color:rgba(255,255,255,0.8); line-height:1.6; margin-bottom:16px;">"Je protège la ville impériale du vent marin. Mes remparts ont repoussé les pirates, mais ont accueilli les poètes d'Andalousie. Mon nom signifie *La Belle*."</p>
         
+        <div style="margin-bottom: 24px; border-radius: 12px; overflow: hidden; border: 2px solid rgba(200,16,46,0.3); position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+          <img src="images/moroccan_door_clue_1775512307447.png" alt="Indice de la porte" style="width: 100%; height: 260px; object-fit: cover; display: block; filter: saturate(1.1) contrast(1.1);">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent); padding: 16px;">
+            <span style="font-size: 0.8rem; color: #ffb4a2; letter-spacing: 1px; text-transform: uppercase; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+              <span style="background: rgba(200,16,46,0.3); padding: 4px 8px; border-radius: 4px;">🔎 Indice Visuel</span>
+            </span>
+          </div>
+        </div>
+
         <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectOpt(this, false)"><span>A. Bab Boujloud (Fès)</span><span class="quiz-icon"></span></div>
-          <div class="quiz-opt" onclick="selectOpt(this, true)"><span>B. Bab Mansour (Meknès)</span><span class="quiz-icon"></span></div>
-          <div class="quiz-opt" onclick="selectOpt(this, false)"><span>C. Bab Agnaou (Marrakech)</span><span class="quiz-icon"></span></div>
-          <div class="quiz-opt" onclick="selectOpt(this, false)"><span>D. Kasbah des Oudayas (Rabat)</span><span class="quiz-icon"></span></div>
+          <div class="quiz-opt" onclick="selectOpt(this, false)">A. Bab Boujloud (Fès)</div>
+          <div class="quiz-opt" onclick="selectOpt(this, true)">B. Bab Mansour (Meknès)</div>
+          <div class="quiz-opt" onclick="selectOpt(this, false)">C. Bab Agnaou (Marrakech)</div>
+          <div class="quiz-opt" onclick="selectOpt(this, false)">D. Kasbah des Oudayas (Rabat)</div>
         </div>
 
         <button id="submit-quiz" class="game-btn" disabled onclick="checkAnswer()">Valider la réponse</button>
@@ -333,53 +326,24 @@
 
     // Game Logic
     let isCorrect = false;
-    let selectedElement = null;
 
     function nextStep(step) {
       document.querySelectorAll('.game-step').forEach(s => s.classList.remove('active'));
       document.getElementById('game-step-' + step).classList.add('active');
-      
-      // Update progress dots
-      document.querySelectorAll('.progress-dot').forEach((dot, index) => {
-        if(index < step) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      });
     }
 
     function selectOpt(element, correct) {
-      document.querySelectorAll('.quiz-opt').forEach(o => {
-        o.classList.remove('selected', 'correct', 'wrong');
-        o.querySelector('.quiz-icon').textContent = '';
-      });
+      document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
       element.classList.add('selected');
       isCorrect = correct;
-      selectedElement = element;
       document.getElementById('submit-quiz').disabled = false;
     }
 
     function checkAnswer() {
-      const btn = document.getElementById('submit-quiz');
       if(isCorrect) {
-        selectedElement.classList.add('correct');
-        selectedElement.querySelector('.quiz-icon').textContent = '✅';
-        btn.innerHTML = 'Bravo ! Chargement...';
-        btn.disabled = true;
-        setTimeout(() => {
-          nextStep(3);
-        }, 1200);
+        nextStep(3);
       } else {
-        selectedElement.classList.add('wrong');
-        selectedElement.querySelector('.quiz-icon').textContent = '❌';
-        btn.innerHTML = 'Oups, réessayez !';
-        setTimeout(() => {
-          btn.innerHTML = 'Valider la réponse';
-          selectedElement.classList.remove('wrong', 'selected');
-          selectedElement.querySelector('.quiz-icon').textContent = '';
-          btn.disabled = true;
-        }, 800);
+        alert("Ce n'est pas tout à fait ça... Lisez bien l'indice !");
       }
     }
   </script>
