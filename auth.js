@@ -1,19 +1,4 @@
-/**
- * XPloris – Client-side Auth Bridge
- * File: js/auth.js
- *
- * Handles:
- *  - Client-side form validation before submit
- *  - CSRF token management (fetched from PHP endpoint)
- *  - Flash message display (from URL params on redirect back)
- *  - Password strength meter (registration)
- */
-
 'use strict';
-
-/* ─────────────────────────────────────────────────────────
-   Utility helpers
-   ───────────────────────────────────────────────────────── */
 const $  = (id) => document.getElementById(id);
 const qs = (sel, root = document) => root.querySelector(sel);
 
@@ -31,8 +16,6 @@ function showFlash(el, msg, isOk = false) {
     el.style.color       = isOk ? '#22c55e'               : '#ff6b6b';
     el.style.border      = isOk ? '1px solid rgba(34,197,94,.3)' : '1px solid rgba(232,65,62,.3)';
 }
-
-/** Set an inline error below a field. */
 function setError(el, msg) {
     if (!el) return;
     el.textContent = msg;
@@ -43,15 +26,6 @@ function setError(el, msg) {
 function clearError(el) {
     if (el) el.textContent = '';
 }
-
-/* ─────────────────────────────────────────────────────────
-   CSRF Token
-   ───────────────────────────────────────────────────────── */
-
-/**
- * Fetch a CSRF token from the PHP session endpoint and inject it
- * into all hidden CSRF inputs on this page.
- */
 async function loadCsrfToken() {
     try {
         const res  = await fetch('backend/api/csrf_token.php');
@@ -100,10 +74,10 @@ function initPasswordStrength() {
 
         const levels = [
             { pct: '0%',   color: 'transparent', label: '' },
-            { pct: '25%',  color: '#ef4444',      label: '❌ Weak' },
-            { pct: '50%',  color: '#f97316',      label: '⚠️ Fair' },
-            { pct: '75%',  color: '#eab308',      label: '🔶 Good' },
-            { pct: '100%', color: '#22c55e',      label: '✅ Strong' },
+            { pct: '25%',  color: '#ef4444',      label: ' Weak' },
+            { pct: '50%',  color: '#f97316',      label: ' Fair' },
+            { pct: '75%',  color: '#eab308',      label: ' Good' },
+            { pct: '100%', color: '#22c55e',      label: ' Strong' },
         ];
         const level  = levels[score];
         bar.style.width      = level.pct;
@@ -206,10 +180,6 @@ function initRegisterForm() {
         if (!ok) e.preventDefault();
     });
 }
-
-/* ─────────────────────────────────────────────────────────
-   Bootstrap
-   ───────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', async () => {
     await loadCsrfToken();
     readUrlFlash();
