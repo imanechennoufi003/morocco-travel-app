@@ -84,12 +84,62 @@
 
     @keyframes fadeIn { from{opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);} }
 
+    /* BOOK CARDS */
+    .book-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden; text-align: left;
+      transition: var(--transition);
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    .book-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 8px; height: 100%;
+      background: linear-gradient(180deg, #c8102e, #8b0000);
+      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+    }
+    .book-card:hover { transform: translateY(-8px) rotate(0.5deg); border-color: rgba(212,175,55,0.5); box-shadow: 0 20px 50px rgba(0,0,0,0.6), -4px 8px 20px rgba(200,16,46,0.2); }
+
+    .book-img-wrap { overflow: hidden; position: relative; height: 300px; }
+    .book-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.88); transition: 0.5s; }
+    .book-card:hover .book-img { filter: brightness(1.05); transform: scale(1.04); }
+
+    .book-badge { position: absolute; top: 14px; right: 14px; background: rgba(8,8,8,0.85); backdrop-filter: blur(6px); border: 1px solid rgba(212,175,55,0.5); color: var(--secondary); padding: 4px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; z-index: 2; }
+
+    .book-body { padding: 22px 22px 22px 30px; flex: 1; display: flex; flex-direction: column; }
+    .book-author { font-size: 0.72rem; color: var(--secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 1.2px; margin-bottom: 6px; }
+    .book-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 8px; line-height: 1.4; }
+    .book-excerpt { color: var(--text-secondary); font-size: 0.82rem; line-height: 1.6; margin-bottom: 14px; flex: 1; }
+    .book-stars { color: #D4AF37; font-size: 0.95rem; margin-bottom: 12px; letter-spacing: 2px; }
+    .book-price { font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .book-price-old { text-decoration: line-through; color: var(--text-secondary); font-size: 0.85rem; font-weight: 400; }
+
+    .btn-read { display: block; width: 100%; padding: 11px; text-align: center;
+      background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.4);
+      border-radius: 50px; color: var(--secondary); font-weight: 600; font-size: 0.88rem;
+      cursor: pointer; transition: var(--transition); }
+    .btn-read:hover { background: var(--gradient-gold); border-color: transparent; color: var(--bg-dark); }
+
+    .books-intro-banner {
+      background: linear-gradient(135deg, rgba(200,16,46,0.08), rgba(212,175,55,0.08));
+      border: 1px solid rgba(212,175,55,0.2); border-radius: 16px;
+      padding: 28px 36px; margin-bottom: 48px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .books-intro-banner .bi-icon { font-size: 3.5rem; line-height: 1; }
+    .books-intro-banner h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: white; margin-bottom: 6px; }
+    .books-intro-banner p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin: 0; }
+
     @media (max-width: 1024px) {
       .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); }
       .store-container { padding: 60px 32px; }
     }
     @media (max-width: 768px) {
       .grid-4, .grid-3 { grid-template-columns: 1fr; }
+      .books-intro-banner { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
@@ -129,6 +179,7 @@
       <div class="store-tabs">
         <button class="store-tab active" onclick="switchStore('boutique')">Boutique Artisanat</button>
         <button class="store-tab" onclick="switchStore('experiences')">Réserver une Immersion</button>
+        <button class="store-tab" onclick="switchStore('livres')">📚 Livres Marocains</button>
       </div>
     </div>
   </section>
@@ -247,6 +298,91 @@
           <button class="btn-buy btn-book" onclick="alert('Ouverture du calendrier de réservation...')">Réserver une date</button>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- LIVRES MAROCAINS -->
+  <section class="store-container" id="store-livres">
+    <div style="text-align:center; margin-bottom:40px;">
+      <h2 style="font-family:'Playfair Display',serif; font-size:2.2rem; margin-bottom:12px;">Littérature Marocaine</h2>
+      <p style="color:var(--text-secondary); max-width:560px; margin:0 auto;">Plongez dans l'âme du Maroc à travers ses œuvres littéraires incontournables — des voix qui ont façonné l'identité culturelle du royaume.</p>
+    </div>
+
+    <div class="books-intro-banner animate-fade-up">
+      <div class="bi-icon">📖</div>
+      <div>
+        <h3>La Boîte à Merveilles & au-delà</h3>
+        <p>Notre sélection regroupe les chefs-d'œuvre de la littérature marocaine francophone et arabophone — auteurs classiques
+        et voix contemporaines — pour accompagner votre voyage dans l'Histoire et l'imaginaire du Maroc.</p>
+      </div>
+    </div>
+
+    <div class="grid-4">
+
+      <!-- Livre 1 — La Boîte à Merveilles -->
+      <div class="book-card animate-fade-up">
+        <div class="book-img-wrap">
+          <span class="book-badge">Classique Marocain</span>
+          <img src="images/boite_a_merveilles.png" alt="La Boîte à Merveilles" class="book-img">
+        </div>
+        <div class="book-body">
+          <div class="book-author">Ahmed Sefrioui</div>
+          <h3 class="book-title">La Boîte à Merveilles</h3>
+          <p class="book-excerpt">Récit autobiographique dans la médina de Fès des années 1930 — une enfance entre mystère, superstition et la magie du quotidien marocain.</p>
+          <div class="book-stars">★★★★★</div>
+          <div class="book-price">120 MAD <span class="book-price-old">150 MAD</span></div>
+          <button class="btn-read" onclick="alert('Ajouté au panier !')">Commander</button>
+        </div>
+      </div>
+
+      <!-- Livre 2 — Le Passé Simple -->
+      <div class="book-card animate-fade-up" style="transition-delay:0.1s;">
+        <div class="book-img-wrap">
+          <span class="book-badge">Roman Phare</span>
+          <img src="images/passe_simple_chraibi.png" alt="Le Passé Simple" class="book-img">
+        </div>
+        <div class="book-body">
+          <div class="book-author">Driss Chraïbi</div>
+          <h3 class="book-title">Le Passé Simple</h3>
+          <p class="book-excerpt">Roman-choc de la littérature maghrébine, portrait sans concession d'une famille marocaine écartelée entre tradition et modernité.</p>
+          <div class="book-stars">★★★★★</div>
+          <div class="book-price">130 MAD</div>
+          <button class="btn-read" onclick="alert('Ajouté au panier !')">Commander</button>
+        </div>
+      </div>
+
+      <!-- Livre 3 — Cette Aveuglante Absence de Lumière -->
+      <div class="book-card animate-fade-up" style="transition-delay:0.2s;">
+        <div class="book-img-wrap">
+          <span class="book-badge">Prix Impac Dublin</span>
+          <img src="images/absence_de_lumiere.png" alt="Cette Aveuglante Absence de Lumière" class="book-img">
+        </div>
+        <div class="book-body">
+          <div class="book-author">Tahar Ben Jelloun</div>
+          <h3 class="book-title">Cette Aveuglante Absence de Lumière</h3>
+          <p class="book-excerpt">Inspiré des survivants du bagne de Derb Moulay Cherif, un témoignage bouleversant sur l'enfermement et la résistance humaine.</p>
+          <div class="book-stars">★★★★★</div>
+          <div class="book-price">145 MAD</div>
+          <button class="btn-read" onclick="alert('Ajouté au panier !')">Commander</button>
+        </div>
+      </div>
+
+      <!-- Livre 4 — Les Nuits de Tanger -->
+      <div class="book-card animate-fade-up" style="transition-delay:0.3s;">
+        <div class="book-img-wrap">
+          <span class="book-badge">Littérature Tangéroise</span>
+          <img src="images/les_nuits_de_tanger.png" alt="Les Nuits de Tanger" class="book-img">
+        </div>
+        <div class="book-body">
+          <div class="book-author">Mohammed Mrabet</div>
+          <h3 class="book-title">Les Nuits de Tanger</h3>
+          <p class="book-excerpt">Contes et nouvelles de la ville du Détroit, entre légendes du port, fantômes de la Kasbah et modernité cosmopolite de Tanger.</p>
+          <div class="book-stars">★★★★☆</div>
+          <div class="book-price">110 MAD</div>
+          <button class="btn-read" onclick="alert('Ajouté au panier !')">Commander</button>
+        </div>
+      </div>
+
     </div>
   </section>
 
