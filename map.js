@@ -1,6 +1,3 @@
-// ==========================================
-// MOROCCO MAP - Interactive Leaflet Map
-// ==========================================
 
 function initMoroccoMap() {
   const mapEl = document.getElementById('map-container');
@@ -13,14 +10,11 @@ function initMoroccoMap() {
     attributionControl: false,
   });
 
-  // Dark tile layer
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap contributors © CARTO',
     subdomains: 'abcd',
     maxZoom: 19
   }).addTo(map);
-
-  // Custom icon factory
   function createIcon(emoji, color = '#C8102E') {
     return L.divIcon({
       html: `<div style="

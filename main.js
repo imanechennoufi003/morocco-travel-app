@@ -1,7 +1,4 @@
-// ==========================================
-// MOROCCO TRAVEL APP - MAIN JS
-// ==========================================
-
+                         
 document.addEventListener('DOMContentLoaded', () => {
 
   // --- NAVBAR SCROLL ---
@@ -11,8 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 50);
     });
   }
-
-  // --- HAMBURGER MENU ---
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
   if (hamburger && navLinks) {
@@ -42,8 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
       heroBg.style.transform = `scale(1) translateY(${scrolled * 0.3}px)`;
     });
   }
-
-  // --- SCROLL ANIMATIONS ---
   const animEls = document.querySelectorAll('.animate-fade-up');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -55,8 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.1 });
 
   animEls.forEach(el => observer.observe(el));
-
-  // --- ACTIVE NAV LINK ---
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(a => {
     const href = a.getAttribute('href');
@@ -64,8 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
       a.classList.add('active');
     }
   });
-
-  // --- COUNTER ANIMATION ---
   const counters = document.querySelectorAll('[data-count]');
   const counterObs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -88,8 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.5 });
   counters.forEach(c => counterObs.observe(c));
-
-  // --- SMOOTH SCROLL ---
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
@@ -99,8 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  // --- RIPPLE EFFECT ON BUTTONS ---
   document.querySelectorAll('.btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
       const ripple = document.createElement('span');
@@ -121,8 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ripple.addEventListener('animationend', () => ripple.remove());
     });
   });
-
-  // --- ADD RIPPLE CSS ---
   const style = document.createElement('style');
   style.textContent = `
     @keyframes rippleAnim {
